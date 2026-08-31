@@ -1,0 +1,59 @@
+Created At: 2026-07-14T07:14:49Z
+Completed At: 2026-07-14T07:14:50Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 1200 to 1250
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1200:                         <span>Applied: {appliedCoupon.code}</span>
+1201:                         <span className="block text-xs font-semibold text-[#0c7a35]/80">({appliedCoupon.discountPercentage}% OFF)</span>
+1202:                       </div>
+1203:                       <button onClick={removeCoupon} className="text-red-500 font-bold hover:text-red-700">Remove</button>
+1204:                     </div>
+1205:                   ) : (
+1206:                     <div className="flex gap-2">
+1207:                       <input
+1208:                         type="text"
+1209:                         placeholder="Enter coupon code"
+1210:                         value={couponInput}
+1211:                         onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+1212:                         className="h-10 flex-1 rounded-xl border border-black/10 px-3 text-sm font-semibold outline-none focus:border-[#21170f]"
+1213:                       />
+1214:                       <button
+1215:                         onClick={handleApplyCoupon}
+1216:                         className="h-10 rounded-xl bg-[#21170f] px-4 text-xs font-black text-white hover:bg-[#3c3028]"
+1217:                       >
+1218:                         Apply
+1219:                       </button>
+1220:                     </div>
+1221:                   )}
+1222:                 </div>
+1223: 
+1224:                 <div className="rounded-2xl bg-white p-4 shadow-sm">
+1225:                   <div className="mb-3 flex items-center gap-2">
+1226:                     <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#e9f8ef] text-[#0c7a35]">
+1227:                       <ShoppingBag className="h-4 w-4" />
+1228:                     </span>
+1229:                     <p className="font-black text-[#21170f]">Bill details</p>
+1230:                   </div>
+1231:                   <div className="space-y-2 text-sm font-semibold text-[#6f6258]">
+1232:                     <div className="flex justify-between">
+1233:                       <span>Item total</span>
+1234:                       <span className="text-[#21170f]">{currency}{totalAmount}</span>
+1235:                     </div>
+1236:                     {cartSavings > 0 && (
+1237:                       <div className="flex justify-between text-[#0c7a35]">
+1238:                         <span>Product discount</span>
+1239:                         <span>-{currency}{cartSavings}</span>
+1240:                       </div>
+1241:                     )}
+1242:                     {discountAmount > 0 && (
+1243:                       <div className="flex justify-between text-[#0c7a35]">
+1244:                         <span>Coupon discount ({appliedCoupon?.discountPercentage}%)</span>
+1245:                         <span>-{currency}{discountAmount}</span>
+1246:                       </div>
+1247:                     )}
+1248:                     <div className="flex justify-between">
+1249:                       <span>Delivery charge</span>
+1250:                       <span className={deliveryCharge > 0 ? 'text-[#21170f]' : 'text-[#0c7a35]'}>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

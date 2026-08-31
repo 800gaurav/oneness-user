@@ -1,0 +1,31 @@
+Created At: 2026-07-14T10:57:43Z
+Completed At: 2026-07-14T10:57:44Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1492
+Total Bytes: 78528
+Showing lines 1470 to 1492
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1470:                     <span className={deliveryCharge > 0 ? 'text-gray-900' : 'text-[#0c7a35]'}>{deliveryCharge > 0 ? `${currency}${deliveryCharge}` : 'FREE'}</span>
+1471:                   </div>
+1472:                 </div>
+1473:                 <div className="mt-3 flex items-center justify-between border-t pt-3 text-lg font-black">
+1474:                   <span>Total Amount</span>
+1475:                   <span>{currency}{finalAmount}</span>
+1476:                 </div>
+1477:               </div>
+1478: 
+1479:               <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#21170f] py-4 font-black text-white hover:bg-[#3c3028]">
+1480:                 <Check className="h-5 w-5" />
+1481:                 Place Order
+1482:               </button>
+1483:             </form>
+1484:           </div>
+1485:         </div>
+1486:       )}
+1487:     </div>
+1488:   );
+1489: };
+1490: 
+1491: export default Store;
+1492: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,62 @@
+Created At: 2026-07-14T11:29:58Z
+Completed At: 2026-07-14T11:29:58Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1480
+Total Bytes: 78437
+Showing lines 720 to 860
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+720:       </header>
+721: 
+722:       <main className={`mx-auto max-w-7xl ${cart.length > 0 ? 'pb-28' : 'pb-12'}`}>
+723:         {activeView === 'store' ? (
+724:           <>
+725:             <section className="px-4 pt-5 sm:px-6">
+726:               <div className="relative h-[180px] sm:h-[280px] md:h-[360px] overflow-hidden rounded-[28px] bg-[#25180f] shadow-2xl shadow-[#3d2b1f]/15">
+727:                 {activeBanners.map((banner, index) => {
+728:                   const isActive = index === activeBanner;
+729:                   return (
+730:                     <div
+731:                       key={banner._id || index}
+732:                       className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+733:                         isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+734:                       }`}
+735:                     >
+736:                       <img
+737:                         src={banner.image}
+738:                         alt={`Bakery Banner ${index + 1}`}
+739:                         className="h-full w-full object-fill"
+740:                       />
+741:                     </div>
+742:                   );
+743:                 })}
+744:               </div>
+745:                       <div className="min-w-0">
+746:                         <h3 className="line-clamp-2 text-lg font-black leading-snug text-[#21170f] sm:text-xl">{product.name}</h3>
+747:                         <div className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold text-[#6f6258]">
+748:                           <span className="inline-flex items-center gap
+<truncated 5668 bytes>
+site') colorClass = "bg-[#eef2ff] text-[#4f46e5] hover:bg-[#4f46e5] hover:text-white border border-[#c7d2fe]";
+838:                 if (link.type === 'email') colorClass = "bg-[#fef2f2] text-[#dc2626] hover:bg-[#dc2626] hover:text-white border border-[#fecaca]";
+839:                 if (link.type === 'reviews') colorClass = "bg-[#fefce8] text-[#ca8a04] hover:bg-[#ca8a04] hover:text-white border border-[#fef08a]";
+840:                 if (link.type === 'install') colorClass = "bg-[#faf5ff] text-[#7c3aed] hover:bg-[#7c3aed] hover:text-white border border-[#e9d5ff]";
+841: 
+842:                 return (
+843:                   <div key={`${link.type}-${index}`} className="group relative flex items-center justify-end">
+844:                     {/* Tooltip Label */}
+845:                     <span className="absolute right-14 scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 bg-[#21170f] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded-lg shadow-xl transition-all duration-200 pointer-events-none whitespace-nowrap">
+846:                       {link.label || link.type}
+847:                     </span>
+848:                     {/* Sub Button Circle */}
+849:                     <button
+850:                       onClick={() => {
+851:                         openQuickLink(link);
+852:                         setShowQuickLinks(false);
+853:                       }}
+854:                       className={`flex h-12 w-12 items-center justify-center rounded-full shadow-md transition-all duration-300 transform scale-90 hover:scale-105 hover:-translate-y-0.5 ${colorClass}`}
+855:                       aria-label={link.label || link.type}
+856:                     >
+857:                       <Icon className="h-5 w-5" />
+858:                     </button>
+859:                   </div>
+860:                 );
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

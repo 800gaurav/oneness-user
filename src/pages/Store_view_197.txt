@@ -1,0 +1,47 @@
+Created At: 2026-07-11T18:17:55Z
+Completed At: 2026-07-11T18:17:55Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1408
+Total Bytes: 73818
+Showing lines 1290 to 1345
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1290:                     <span className="flex items-center gap-2 text-sm font-black">Full Name {fieldMarker('name')}</span>
+1291:                     <div className="relative">
+1292:                       <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+1293:                       <input required={isFieldRequired('name')} value={orderForm.customerName} onChange={(e) => updateForm('customerName', e.target.value)} className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-4 outline-none focus:ring-2 focus:ring-rose-400" placeholder="Your name" />
+1294:                     </div>
+1295:                   </label>
+1296:                 )}
+1297:                 {showField('phone') && (
+1298:                   <label className="space-y-2">
+1299:                     <span className="flex items-center gap-2 text-sm font-black">Mobile Number {fieldMarker('phone')}</span>
+1300:                     <div className="relative">
+1301:                       <Phone className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+1302:                       <input type="tel" required={isFieldRequired('phone')} value={orderForm.phone} onChange={(e) => updateForm('phone', e.target.value)} onBlur={fetchCustomerProfile} className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-4 outline-none focus:ring-2 focus:ring-rose-400" placeholder="+91 98765 43210" />
+1303:                     </div>
+1304:                   </label>
+1305:                 )}
+1306:                 {showField('email') && (
+1307:             
+<truncated 1858 bytes>
+sName="text-sm font-black text-[#0c7a35]">Saved customer dates loaded</p>
+1327:                     <div className="mt-2 flex flex-wrap gap-2 text-xs font-bold text-[#0c7a35]">
+1328:                       {hasSavedDob && <span className="rounded-full bg-white px-3 py-1">DOB saved</span>}
+1329:                       {hasSavedAnniversary && <span className="rounded-full bg-white px-3 py-1">Anniversary saved</span>}
+1330:                       {hasSavedSpecialDate && <span className="rounded-full bg-white px-3 py-1">Special date saved</span>}
+1331:                     </div>
+1332:                   </div>
+1333:                 )}
+1334:                 {showField('dob') && !hasSavedDob && (
+1335:                   <label className="space-y-2">
+1336:                     <span className="flex items-center gap-2 text-sm font-black">Date of Birth {fieldMarker('dob')}</span>
+1337:                     <input type="date" required={isFieldRequired('dob')} value={orderForm.dob} onChange={(e) => updateForm('dob', e.target.value)} className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 outline-none focus:ring-2 focus:ring-rose-400" />
+1338:                   </label>
+1339:                 )}
+1340:                 {showField('anniversaryDate') && !hasSavedAnniversary && (
+1341:                   <label className="space-y-2">
+1342:                     <span className="flex items-center gap-2 text-sm font-black">Anniversary Date {fieldMarker('anniversaryDate')}</span>
+1343:                     <input type="date" required={isFieldRequired('anniversaryDate')} value={orderForm.anniversaryDate} onChange={(e) => updateForm('anniversaryDate', e.target.value)} className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 outline-none focus:ring-2 focus:ring-rose-400" />
+1344:                   </label>
+1345:                 )}
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

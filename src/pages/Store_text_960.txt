@@ -1,0 +1,23 @@
+Created At: 2026-07-14T11:22:21Z
+Completed At: 2026-07-14T11:22:22Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1635
+Total Bytes: 88187
+Showing lines 21 to 35
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+21:   Minus,
+22:   Phone,
+23:   Plus,
+24:   Search,
+25:   ShoppingBag,
+26:   ShoppingCart,
+27:   Smartphone,
+28:   Sparkles,
+29:   Star,
+30:   Timer,
+31:   Truck,
+32:   User,
+33:   X
+34: } from 'lucide-react';
+35: import toast from 'react-hot-toast';
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,34 @@
+Created At: 2026-07-14T09:58:36Z
+Completed At: 2026-07-14T09:58:36Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1482
+Total Bytes: 78518
+Showing lines 670 to 695
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+670:               Orders
+671:               {totalQuantity > 0 && <span className="ml-1 rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+672:             </button>
+673:           </div>
+674:         </div>
+675:       </header>
+676: 
+677:       <main className={`mx-auto max-w-7xl ${cart.length > 0 ? 'pb-28' : 'pb-12'}`}>
+678:         <section className="px-4 pt-5 sm:px-6">
+679:           <div className="relative h-[180px] sm:h-[280px] md:h-[360px] overflow-hidden rounded-[28px] bg-[#25180f] shadow-2xl shadow-[#3d2b1f]/15">
+680:             {activeBanners.map((banner, index) => {
+681:               const isActive = index === activeBanner;
+682:               return (
+683:                 <div
+684:                   key={banner._id || index}
+685:                   className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+686:                     isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+687:                   }`}
+688:                 >
+689:                   <img
+690:                     src={banner.image}
+691:                     alt={`Bakery Banner ${index + 1}`}
+692:                     className="h-full w-full object-cover"
+693:                   />
+694:                 </div>
+695:               );
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

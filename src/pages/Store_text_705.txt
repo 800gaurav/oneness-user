@@ -1,0 +1,61 @@
+Created At: 2026-07-14T09:40:29Z
+Completed At: 2026-07-14T09:40:30Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1448
+Total Bytes: 76546
+Showing lines 940 to 1020
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+940:                 {getProductImages(selectedProduct).length > 1 && (
+941:                   <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+942:                     {getProductImages(selectedProduct).map((image, index) => (
+943:                       <button key={`${image}-${index}`} onClick={() => setActiveImage(image)} className={`h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 ${activeImage === image ? 'border-[#e63946]' : 'border-transparent'}`}>
+944:                         <img src={image} alt={`${selectedProduct.name} ${index + 1}`} className="h-full w-full object-cover" />
+945:                       </button>
+946:                     ))}
+947:                   </div>
+948:                 )}
+949:               </div>
+950: 
+951:               <div className="flex flex-col">
+952:                 <p className="text-sm font-black text-[#92602f]">{selectedProduct.category}</p>
+953:                 <h2 className="mt-1 text-3xl font-black leading-tight text-[#21170f]">{selectedProduct.name}</h2>
+954:                 <div className="mt-3 flex flex-wrap items-center gap-2 text-sm font-bold text-[#6f6258]">
+955:                   <span className="inline-flex items-center gap-1 rounded-full bg-[#f6f0e8] px-3 py-1">
+956:                     <Star className="h-4 w-4 fill-[#119744] text-[#119744]" />
+957:                     4.8
+958:                   </span>
+959:                   <span>{formatWeight(selectedProduct)}</span>
+960:                   <span>Fresh daily</span>
+961:                 </div>
+962:                 <p className="mt-4 text-sm l
+<truncated 2747 bytes>
+2:                           </div>
+993:                           {variantItem ? renderCartControl(selectedProduct, variant) : (
+994:                             <button onClick={() => addToCart(selectedProduct, variant)} className="h-11 rounded-xl border border-[#e63946] bg-white px-5 font-black text-[#e63946] shadow-sm">Add</button>
+995:                           )}
+996:                         </div>
+997:                       );
+998:                     }) : (
+999:                       <div className="flex items-center justify-between gap-3 rounded-2xl border border-black/5 bg-white p-3 shadow-sm">
+1000:                         <div>
+1001:                           <p className="font-black text-[#21170f]">{formatWeight(selectedProduct)}</p>
+1002:                           <div className="mt-1 flex items-center gap-2">
+1003:                             <span className="text-lg font-black text-[#21170f]">{currency}{selectedProduct.price}</span>
+1004:                             {selectedProduct.originalPrice > selectedProduct.price && <span className="text-sm font-bold text-[#9d8371] line-through">{currency}{selectedProduct.originalPrice}</span>}
+1005:                           </div>
+1006:                         </div>
+1007:                         {renderCartControl(selectedProduct)}
+1008:                       </div>
+1009:                     )}
+1010:                   </div>
+1011:                 </div>
+1012:               </div>
+1013:             </div>
+1014:           </div>
+1015:         </div>
+1016:       )}
+1017: 
+1018:       {variantProduct && (
+1019:         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 backdrop-blur-sm" onClick={() => setVariantProduct(null)}>
+1020:           <div className="w-full max-w-lg rounded-t-3xl bg-white p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,71 @@
+Created At: 2026-07-14T11:29:03Z
+Completed At: 2026-07-14T11:29:03Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1637
+Total Bytes: 88348
+Showing lines 1320 to 1420
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1320:                             <span className={`rounded-full border px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider ${statusBadge}`}>
+1321:                               {order.status.replace('_', ' ')}
+1322:                             </span>
+1323:                           </div>
+1324:                           
+1325:                           <div className="space-y-1.5">
+1326:                             {order.items.map((item, idx) => (
+1327:                               <div key={idx} className="flex justify-between items-center text-xs font-semibold text-[#21170f]">
+1328:                                 <span>{item.name} <span className="text-gray-400">x{item.quantity}</span></span>
+1329:                                 <span className="text-gray-500">{currency}{item.price * item.quantity}</span>
+1330:                               </div>
+1331:                             ))}
+1332:                           </div>
+1333: 
+1334:                           <div className="flex items-center justify-between border-t border-black/[0.03] pt-2.5 text-xs font-black">
+1335:                             <span className="text-gray-400">Total Paid</span>
+1336:                             <span className="text-[#92602f] text-sm">{currency}{order.totalAmount}</span>
+1337:                           </div>
+1338:                         </div>
+1339:                       );
+1340:                     })}
+1341:                   </div>
+1342:                 )}
+1343:               </div>
+1344:             </div>
+1345:           </div>
+1346:         </div>
+1347:       )}
+
+<truncated 3225 bytes>
+        </div>
+1389:               ))}
+1390:             </div>
+1391: 
+1392:             {cart.length > 0 && (
+1393:               <div className="border-t bg-[#f7f2ec] p-4">
+1394:                 {deliveryCharge > 0 ? (
+1395:                   <div className="mb-3 rounded-2xl bg-[#fff7e6] px-4 py-3 text-sm font-bold text-[#8a5a00]">
+1396:                     Add {currency}{freeDeliveryBalance} more to unlock free delivery
+1397:                   </div>
+1398:                 ) : (
+1399:                   <div className="mb-3 rounded-2xl bg-[#e9f8ef] px-4 py-3 text-sm font-bold text-[#0c7a35]">
+1400:                     Free delivery unlocked
+1401:                   </div>
+1402:                 )}
+1403: 
+1404:                 {/* Coupon Code Section */}
+1405:                 <div className="mb-3 rounded-2xl bg-white p-4 shadow-sm">
+1406:                   <div className="flex items-center gap-2 mb-2">
+1407:                     <BadgePercent className="h-5 w-5 text-[#e63946]" />
+1408:                     <p className="font-black text-[#21170f]">Apply Coupon</p>
+1409:                   </div>
+1410:                   {appliedCoupon ? (
+1411:                     <div className="flex items-center justify-between rounded-xl bg-[#e9f8ef] px-3 py-2 text-sm font-bold text-[#0c7a35]">
+1412:                       <div>
+1413:                         <span>Applied: {appliedCoupon.code}</span>
+1414:                         <span className="block text-xs font-semibold text-[#0c7a35]/80">({appliedCoupon.discountPercentage}% OFF)</span>
+1415:                       </div>
+1416:                       <button onClick={removeCoupon} className="text-red-500 font-bold hover:text-red-700">Remove</button>
+1417:                     </div>
+1418:                   ) : (
+1419:                     <div className="flex gap-2">
+1420:                       <input
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

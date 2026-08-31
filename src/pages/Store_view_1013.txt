@@ -1,0 +1,39 @@
+Created At: 2026-07-14T11:29:06Z
+Completed At: 2026-07-14T11:29:06Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1637
+Total Bytes: 88348
+Showing lines 1240 to 1270
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1240:                           <span className="block truncate text-xs font-black text-[#21170f]">{link.label || link.type}</span>
+1241:                           <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-[#6f6258] mt-0.5">{link.type || 'link'}</span>
+1242:                         </span>
+1243:                         <ChevronRight className="h-4.5 w-4.5 text-[#9d8371]" />
+1244:                       </button>
+1245:                     );
+1246:                   }) : (
+1247:                     <div className="rounded-2xl border border-dashed border-black/10 bg-[#f7f2ec] p-4 text-center text-xs font-semibold text-[#6f6258]">
+1248:                       No active contact links available.
+1249:                     </div>
+1250:                   )}
+1251:                 </div>
+1252:               </div>
+1253:             </div>
+1254:           </div>
+1255:         </div>
+1256:       )}
+1257: 
+1258:       {showOrdersHistory && (
+1259:         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/55 p-0 backdrop-blur-sm sm:items-start sm:p-4 sm:pt-20" onClick={() => setShowOrdersHistory(false)}>
+1260:           <div className="w-full max-w-md overflow-hidden rounded-t-[32px] bg-white shadow-2xl sm:rounded-[32px]" onClick={(e) => e.stopPropagation()}>
+1261:             <div className="relative bg-gradient-to-br from-[#2b1a10] via-[#21170f] to-[#3a281c] px-5 pb-5 pt-5 text-white">
+1262:               <button onClick={() => setShowOrdersHistory(false)} className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors z-10" aria-label="Close history">
+1263:                 <X className="h-5 w-5" />
+1264:               </button>
+1265:               <div className="flex items-center gap-3 pr-10">
+1266:                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-[#ffd6a5] border border-white/5">
+1267:                   <History className="h-6 w-6" />
+1268:                 </span>
+1269:                 <div>
+1270:                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffd6a5]">Order Center</p>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

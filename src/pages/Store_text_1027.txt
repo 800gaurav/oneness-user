@@ -1,0 +1,68 @@
+Created At: 2026-07-14T11:29:25Z
+Completed At: 2026-07-14T11:29:25Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1548
+Total Bytes: 82536
+Showing lines 860 to 948
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+860:         {totalQuantity > 0 && <span className="rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+861:       </button>
+862: 
+863:       {cart.length > 0 && !showCart && !showCheckout && !selectedProduct && !variantProduct && (
+864:         <div className="fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
+865:           <button
+866:             onClick={() => setShowCart(true)}
+867:             className="flex w-[min(92vw,430px)] items-center justify-between gap-4 rounded-2xl bg-[#0c7a35] p-3 text-left text-white shadow-2xl shadow-[#0c7a35]/30 ring-1 ring-white/20"
+868:           >
+869:             <div className="flex min-w-0 items-center gap-3">
+870:               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
+871:                 <ShoppingBag className="h-5 w-5" />
+872:               </span>
+873:               <span className="min-w-0">
+874:                 <span className="block truncate text-sm font-black">{totalQuantity} item{totalQuantity > 1 ? 's' : ''} in cart</span>
+875:                 <span className="block truncate text-xs font-semibold text-white/80">
+876:                   {deliveryCharge > 0 ? `Add ${currency}${freeDeliveryBalance} more for free delivery` : cartSavings > 0 ? `You saved ${currency}${cartSavings}` : 'Free delivery unlocked'}
+877:                 </span>
+878:               </span>
+879:             </div>
+880:             <div className="flex shrink-0 items-center gap-2">
+881:               <span className="text-right">
+882:                 <span className="block text-xs
+<truncated 2375 bytes>
+   <span className="absolute right-14 scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 bg-[#21170f] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded-lg shadow-xl transition-all duration-200 pointer-events-none whitespace-nowrap">
+914:                       {link.label || link.type}
+915:                     </span>
+916:                     {/* Sub Button Circle */}
+917:                     <button
+918:                       onClick={() => {
+919:                         openQuickLink(link);
+920:                         setShowQuickLinks(false);
+921:                       }}
+922:                       className={`flex h-12 w-12 items-center justify-center rounded-full shadow-md transition-all duration-300 transform scale-90 hover:scale-105 hover:-translate-y-0.5 ${colorClass}`}
+923:                       aria-label={link.label || link.type}
+924:                     >
+925:                       <Icon className="h-5 w-5" />
+926:                     </button>
+927:                   </div>
+928:                 );
+929:               })}
+930:             </div>
+931:           )}
+932: 
+933:           {/* Trigger Button - Grid Icon */}
+934:           <button
+935:             onClick={() => setShowQuickLinks(prev => !prev)}
+936:             className="flex h-14 w-14 items-center justify-center rounded-full bg-[#21170f] text-white shadow-xl hover:bg-[#3c3028] transition-all duration-300 hover:scale-105"
+937:             style={{ boxShadow: '0 8px 30px rgba(33,23,15,0.3)' }}
+938:             aria-label="Toggle contact buttons"
+939:           >
+940:             {showQuickLinks ? (
+941:               <X className="h-5 w-5" />
+942:             ) : (
+943:               <LayoutGrid className="h-5 w-5 animate-pulse" />
+944:             )}
+945:           </button>
+946:         </div>
+947:       )}
+948: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

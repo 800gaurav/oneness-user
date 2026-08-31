@@ -1,0 +1,21 @@
+Created At: 2026-07-14T10:57:11Z
+Completed At: 2026-07-14T10:57:11Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1479
+Total Bytes: 78207
+Showing lines 130 to 142
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+130:   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+131:   const [isStandaloneApp, setIsStandaloneApp] = useState(false);
+132:   const [selectedProduct, setSelectedProduct] = useState(null);
+133:   const [variantProduct, setVariantProduct] = useState(null);
+134:   const [activeImage, setActiveImage] = useState('');
+135:   const [activeBanner, setActiveBanner] = useState(0);
+136:   const [couponInput, setCouponInput] = useState('');
+137:   const [appliedCoupon, setAppliedCoupon] = useState(null);
+138:   const [orderForm, setOrderForm] = useState({
+139:     customerName: '',
+140:     phone: '',
+141:     email: '',
+142:     address: '',
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

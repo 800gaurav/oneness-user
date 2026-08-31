@@ -1,0 +1,16 @@
+{
+  "short_name": "SweetBakery",
+  "name": "Sweet Bakery Online Store",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#5C3A21",
+  "display": "standalone",
+  "orientation": "portrait"
+}

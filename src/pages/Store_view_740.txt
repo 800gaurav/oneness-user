@@ -1,0 +1,29 @@
+Created At: 2026-07-14T09:50:42Z
+Completed At: 2026-07-14T09:50:42Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1502
+Total Bytes: 80125
+Showing lines 220 to 240
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+220:       appleIcon.rel = 'apple-touch-icon';
+221:       document.head.appendChild(appleIcon);
+222:     }
+223:     appleIcon.href = appIcon;
+224: 
+225:     return () => URL.revokeObjectURL(manifestUrl);
+226:   }, [settings.appIcon, settings.appName, settings.bakeryName, settings.logo]);
+227: 
+228:   const activeBanners = useMemo(
+229:     () => (settings.offerBanners || []).filter(banner => banner?.isActive !== false && (banner.image || banner.title)),
+230:     [settings.offerBanners]
+231:   );
+232: 
+233:   useEffect(() => {
+234:     if (activeBanners.length <= 1) return undefined;
+235:     const timer = setInterval(() => {
+236:       setActiveBanner(prev => (prev + 1) % activeBanners.length);
+237:     }, 4500);
+238:     return () => clearInterval(timer);
+239:   }, [activeBanners.length]);
+240: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

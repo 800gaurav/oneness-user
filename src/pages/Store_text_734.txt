@@ -1,0 +1,29 @@
+Created At: 2026-07-14T09:50:33Z
+Completed At: 2026-07-14T09:50:33Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 565 to 585
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+565:       document.getElementById('store-search')?.focus();
+566:     }, 450);
+567:   };
+568: 
+569:   const quickLinks = (settings.quickLinks || []).filter(link => link.isActive !== false);
+570:   const firstProductImage = products.find(product => product.image)?.image;
+571:   const heroBanner = activeBanners[activeBanner] || {
+572:     title: 'Fresh bakery favourites delivered today',
+573:     subtitle: 'Premium cakes, pastries, cookies and breads baked in small batches.',
+574:     image: firstProductImage
+575:   };
+576:   const bestSellers = products.slice(0, 3);
+577:   const categoryList = categories.length > 1 ? categories : ['all', 'Cakes', 'Pastries', 'Breads', 'Cookies', 'Desserts'];
+578: 
+579:   const quickIcon = (type) => {
+580:     const icons = {
+581:       whatsapp: MessageCircle,
+582:       instagram: Instagram,
+583:       facebook: Facebook,
+584:       website: Globe2,
+585:       phone: Phone,
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

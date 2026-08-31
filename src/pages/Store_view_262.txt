@@ -1,0 +1,25 @@
+Created At: 2026-07-11T18:24:04Z
+Completed At: 2026-07-11T18:24:04Z
+File Path: `file:///C:/Users/gaurav%20sharma/.gemini/antigravity/brain/387b4995-5056-4cf4-8ad8-56ac8c56dac2/walkthrough.md`
+Total Lines: 42
+Total Bytes: 4004
+Showing lines 20 to 36
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+20: - **Single-Use Verification ([campaignController.js](file:///d:/projects/whata%27app/backend/src/controllers/campaignController.js))**: Implemented a public `/api/campaigns/validate-coupon` API route that matches the coupon code and checks the `StoreOrder` model to ensure this customer (by phone number suffix) hasn't used this coupon code previously.
+21: - **E-Commerce Store checkout integration ([Store.jsx](file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx))**: Added a Coupon code input field in the Cart summary card. The discount percentage is dynamically fetched from the campaign, subtracted from the total, and saved inside the Order details when placing the order.
+22: 
+23: ### 4. CRM Integration & Synchronization
+24: - **Customer Checkout Sync ([storeOrderController.js](file:///d:/projects/whata%27app/backend/src/controllers/storeOrderController.js))**:
+25:   - Automatically queries the customer collection using the last 10 digits of their phone number when an order is submitted.
+26:   - If a customer is found, updates their latest email, address, and special dates (birthday/anniversary), then updates the `lastOrder` timestamp.
+27:   - If no customer exists, creates a new profile under the system's admin user so they immediately appear in the CRM list.
+28: - **CRM Metrics Updates**:
+29:   - Created an `updateCustomerStats` helper that aggregates a customer's completed/delivered orders count and total money spent.
+30:   - Integrated this helper into the `updateOrderStatus` controller, so the customer's CRM profile automatically stays in perfect sync as orders move to **Completed** or **Delivered**.
+31: 
+32: ---
+33: 
+34: ## Verification Results
+35: 
+36: We verified the modifications programmatically on the system:
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,18 @@
+Created At: 2026-07-14T09:50:36Z
+Completed At: 2026-07-14T09:50:36Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 103 to 112
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+103: const toDateInput = (value) => {
+104:   if (!value) return '';
+105:   const date = new Date(value);
+106:   if (Number.isNaN(date.getTime())) return '';
+107:   return date.toISOString().split('T')[0];
+108: };
+109: 
+110: const Store = () => {
+111:   const [products, setProducts] = useState([]);
+112:   const [settings, setSettings] = useState(defaultSettings);
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

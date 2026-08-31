@@ -1,0 +1,28 @@
+Created At: 2026-07-14T11:22:19Z
+Completed At: 2026-07-14T11:22:19Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1635
+Total Bytes: 88187
+Showing lines 1 to 20
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useEffect, useMemo, useState } from 'react';
+2: import {
+3:   BadgePercent,
+4:   CakeSlice,
+5:   Calendar,
+6:   Check,
+7:   ChevronRight,
+8:   Download,
+9:   Edit3,
+10:   ExternalLink,
+11:   Facebook,
+12:   Flame,
+13:   Globe2,
+14:   Heart,
+15:   Instagram,
+16:   LayoutGrid,
+17:   Mail,
+18:   MapPin,
+19:   Menu,
+20:   MessageCircle,
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

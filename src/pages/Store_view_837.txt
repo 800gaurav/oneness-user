@@ -1,0 +1,39 @@
+Created At: 2026-07-14T10:57:30Z
+Completed At: 2026-07-14T10:57:30Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1486
+Total Bytes: 78394
+Showing lines 415 to 445
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+415:         setDeferredInstallPrompt(null);
+416:       }
+417:       return;
+418:     }
+419: 
+420:     toast('Browser menu se "Add to Home Screen" choose karein. App name/icon settings se use hoga.');
+421:   };
+422: 
+423:   const handleApplyCoupon = async () => {
+424:     const code = couponInput.trim();
+425:     if (!code) {
+426:       toast.error('Please enter a coupon code');
+427:       return;
+428:     }
+429: 
+430:     try {
+431:       const phone = orderForm.phone || '';
+432:       const { data } = await axios.get(`${API_URL}/campaigns/validate-coupon`, {
+433:         params: { code, phone }
+434:       });
+435:       
+436:       if (data.valid) {
+437:         setAppliedCoupon({
+438:           code: data.couponCode,
+439:           discountPercentage: data.discountPercentage
+440:         });
+441:         toast.success(`Coupon applied! ${data.discountPercentage}% discount added.`);
+442:       }
+443:     } catch (error) {
+444:       toast.error(error.response?.data?.message || 'Invalid coupon code');
+445:     }
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

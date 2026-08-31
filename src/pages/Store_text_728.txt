@@ -1,0 +1,39 @@
+Created At: 2026-07-14T09:50:20Z
+Completed At: 2026-07-14T09:50:21Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 705 to 735
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+705:                   </button>
+706:                 </div>
+707:               </div>
+708:             </div>
+709:           </div>
+710: 
+711:         </section>
+712: 
+713:         <section id="products" className="px-4 pt-8 sm:px-6">
+714:           <div className="sticky top-0 z-20 -mx-4 border-y border-black/5 bg-[#f7f2ec]/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6">
+715:             <div className="grid gap-4 lg:grid-cols-[360px_1fr] lg:items-center">
+716:               <div className="relative">
+717:                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6f6258]" />
+718:                 <input
+719:                   type="text"
+720:                   id="store-search"
+721:                   placeholder="Search cakes, breads, cookies..."
+722:                   value={searchTerm}
+723:                   onChange={(e) => setSearchTerm(e.target.value)}
+724:                   className="h-13 w-full rounded-2xl border border-black/10 bg-white py-4 pl-12 pr-4 text-base font-semibold text-[#21170f] shadow-sm outline-none focus:border-[#21170f] focus:ring-4 focus:ring-black/5"
+725:                 />
+726:               </div>
+727:               <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
+728:                 {categoryList.map(category => {
+729:                   const categoryMeta = categoryStyles[category] || { label: category, icon: CakeSlice };
+730:                   const Icon = categoryMeta.icon;
+731:                   const active = filterCategory === category;
+732:                   return (
+733:                     <button
+734:                       key={category}
+735:                       onClick={() => setFilterCategory(category)}
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

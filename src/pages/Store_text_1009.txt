@@ -1,0 +1,64 @@
+Created At: 2026-07-14T11:28:58Z
+Completed At: 2026-07-14T11:28:59Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1637
+Total Bytes: 88348
+Showing lines 710 to 765
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+710:             <button onClick={scrollToProducts} className="hidden h-11 rounded-full px-4 text-sm font-bold text-[#32251b] hover:bg-black/5 md:block">
+711:               Menu
+712:             </button>
+713:             <button onClick={() => setShowCart(true)} className="relative hidden h-11 items-center gap-2 rounded-full bg-[#21170f] px-5 text-sm font-black text-white shadow-lg shadow-black/10 md:flex">
+714:               <ShoppingBag className="h-4 w-4" />
+715:               Orders
+716:               {totalQuantity > 0 && <span className="ml-1 rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+717:             </button>
+718:           </div>
+719:         </div>
+720:       </header>
+721: 
+722:       <main className={`mx-auto max-w-7xl ${cart.length > 0 ? 'pb-28' : 'pb-12'}`}>
+723:         <section className="px-4 pt-5 sm:px-6">
+724:           <div className="relative h-[180px] sm:h-[280px] md:h-[360px] overflow-hidden rounded-[28px] bg-[#25180f] shadow-2xl shadow-[#3d2b1f]/15">
+725:             {activeBanners.map((banner, index) => {
+726:               const isActive = index === activeBanner;
+727:               return (
+728:                 <div
+729:                   key={banner._id || index}
+730:                   className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+731:                     isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+732:                   }`}
+733:                 >
+734:                   <img
+735:                     src={banner.image}
+736:                     alt={`Bakery Banner ${index + 1}`}
+737:                     className="h-full w-full object-fill"
+738:                   />
+739:                 </div>
+740:               );
+741:             })}
+742:           </div>
+743:         </section>
+744: 
+745:         <section id="products" className="px-4 pt-2 sm:px-6">
+746:           <div className="sticky top-0 z-20 -mx-4 border-y border-black/5 bg-[#f7f2ec]/95 px-4 py-2 backdrop-blur sm:-mx-6 sm:px-6">
+747:             <div className="grid gap-4 lg:grid-cols-[360px_1fr] lg:items-center">
+748:               <div className="relative">
+749:                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6f6258]" />
+750:                 <input
+751:                   type="text"
+752:                   id="store-search"
+753:                   placeholder="Search cakes, breads, cookies..."
+754:                   value={searchTerm}
+755:                   onChange={(e) => setSearchTerm(e.target.value)}
+756:                   className="h-12 w-full rounded-xl border border-black/10 bg-white py-3 pl-12 pr-4 text-base font-semibold text-[#21170f] shadow-sm outline-none focus:border-[#21170f] focus:ring-4 focus:ring-black/5"
+757:                 />
+758:               </div>
+759:               <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+760:                 {categoryList.map(category => {
+761:                   const categoryMeta = categoryStyles[category] || { label: category, icon: CakeSlice };
+762:                   const Icon = categoryMeta.icon;
+763:                   const active = filterCategory === category;
+764:                   return (
+765:                     <button
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

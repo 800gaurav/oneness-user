@@ -1,0 +1,74 @@
+Created At: 2026-07-14T10:57:34Z
+Completed At: 2026-07-14T10:57:35Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1489
+Total Bytes: 78461
+Showing lines 450 to 515
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+450: 
+451:   const removeCoupon = () => {
+452:     setAppliedCoupon(null);
+453:     setCouponInput('');
+454:     toast.success('Coupon removed');
+455:   };
+456: 
+457:   const handleCheckout = async (e) => {
+458:     e.preventDefault();
+459:     if (!cart.length) return;
+460: 
+461:     try {
+462:       const orderData = {
+463:         ...orderForm,
+464:         items: cart.map(item => ({
+465:           product: item.productId || item._id,
+466:           name: item.variantLabel ? `${item.name} (${item.variantLabel})` : item.name,
+467:           price: item.price,
+468:           quantity: item.quantity,
+469:           weight: item.weight,
+470:           weightUnit: item.weightUnit
+471:         })),
+472:         totalAmount: finalAmount,
+473:         subtotal: totalAmount,
+474:         deliveryCharge,
+475:         couponCode: appliedCoupon ? appliedCoupon.code : undefined,
+476:         discountAmount: discountAmount
+477:       };
+478: 
+479:       await axios.post(`${API_URL}/store-orders`, orderData);
+480:       const profileToSave = {
+481:         customerName: orderForm.customerName,
+482:         phone: orderForm.phone,
+483:         email: orderForm.email,
+484:         address: orderForm.address,
+485:         dob: orderForm.dob,
+486:         anniversaryDate: orderForm.anniversaryDate,
+487:         specialDate: orderForm.specialDate,
+488:         specialDateDescription: orderForm.specialDateDescription
+489:       };
+490:       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profileToSave));
+491:       setSavedCustomerProfile(profileToSave);
+492:       toast.success('Order placed successfully! We will contact you soon.');
+493:       setCart([]);
+494:       setShowCheckout(false);
+495:       setShowCart(false);
+496:       setAppliedCoupon(null);
+497:       setCouponInput('');
+498:       setOrderForm({
+499:         customerName: '',
+500:         phone: '',
+501:         email: '',
+502:         address: '',
+503:         deliveryDate: '',
+504:         dob: '',
+505:         anniversaryDate: '',
+506:         specialDate: '',
+507:         specialDateDescription: '',
+508:         notes: ''
+509:       });
+510:     } catch (error) {
+511:       toast.error(error.response?.data?.message || 'Failed to place order');
+512:     }
+513:   };
+514: 
+515:   const updateForm = (key, value) => {
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,106 @@
+Created At: 2026-07-11T18:09:11Z
+Completed At: 2026-07-11T18:09:11Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1331
+Total Bytes: 70440
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useEffect, useMemo, useState } from 'react';
+2: import {
+3:   BadgePercent,
+4:   CakeSlice,
+5:   Calendar,
+6:   Check,
+7:   ChevronRight,
+8:   Download,
+9:   Edit3,
+10:   ExternalLink,
+11:   Facebook,
+12:   Flame,
+13:   Globe2,
+14:   Heart,
+15:   Instagram,
+16:   Mail,
+17:   MapPin,
+18:   Menu,
+19:   MessageCircle,
+20:   Minus,
+21:   Phone,
+22:   Plus,
+23:   Search,
+24:   ShoppingBag,
+25:   ShoppingCart,
+26:   Smartphone,
+27:   Sparkles,
+28:   Star,
+29:   Timer,
+30:   Truck,
+31:   User,
+32:   X
+33: } from 'lucide-react';
+34: import toast from 'react-hot-toast';
+35: import axios from 'axios';
+36: 
+37: const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+38: 
+39: const checkoutOptions = [
+40:   { key: 'name', requiredByDefault: true },
+41:   { key: 'phone', requiredByDefault: true },
+42:   { key: 'email' },
+43:   { key: 'address', requiredByDefault: true },
+44:   { key: 'deliveryDate', requiredByDefault: true },
+45:   { key: 'dob' },
+46:   { key: 'anniversaryDate' },
+47:   { key: 'specialDate' },
+48:   { key: 'specialDateDescription' },
+49:   { key: 'orderNotes' }
+50: ];
+51: 
+52: const defaultCheckoutFields = checkoutOptions.reduce((acc, item) => ({
+53:   ...acc,
+54:   [item.key]: { visible: true, required: Boolean(item.requiredByDefault) }
+55: }), {});
+56: 
+57: const normalizeCheckoutFields = (fields = {}) => checkoutOptions.reduce((acc, item) => {
+58:   const saved = fields?.[item.key];
+59:   if (typeof saved === 'boolean') {
+60:     acc[item.key] = { visible: saved, required: saved && Boolean(item.requiredByDefault) };
+61:     return acc;
+62
+<truncated 35342 bytes>
+   <p className="text-xs font-bold text-[#119744]">No preservatives</p>
+767:                       </div>
+768:                       {renderCartControl(product)}
+769:                     </div>
+770:                   </div>
+771:                 </article>
+772:               ))}
+773:             </div>
+774:           ) : (
+775:             <div className="mt-5 rounded-[24px] border border-black/5 bg-white py-16 text-center shadow-sm">
+776:               <CakeSlice className="mx-auto mb-4 h-16 w-16 text-[#d6bdab]" />
+777:               <p className="font-black text-[#21170f]">No items found</p>
+778:               <p className="text-sm text-[#6f6258]">Try another search or category.</p>
+779:             </div>
+780:           )}
+781:         </section>
+782:       </main>
+783: 
+784:       <button
+785:         onClick={() => setShowCart(true)}
+786:         className={`fixed bottom-6 right-6 z-30 h-14 items-center gap-3 rounded-2xl bg-[#21170f] px-5 font-black text-white shadow-2xl shadow-black/20 ${cart.length > 0 ? 'hidden' : 'hidden md:flex'}`}
+787:         aria-label="Quick cart"
+788:       >
+789:         <ShoppingCart className="h-5 w-5" />
+790:         Cart
+791:         {totalQuantity > 0 && <span className="rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+792:       </button>
+793: 
+794:       {cart.length > 0 && !showCart && !showCheckout && !selectedProduct && !variantProduct && (
+795:         <div className="fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
+796:           <button
+797:             onClick={() => setShowCart(true)}
+798:             className="flex w-[min(92vw,430px)] items-center justify-between gap-4 rounded-2xl bg-[#0c7a35] p-3 text-left text-white shadow-2xl shadow-[#0c7a35]/30 ring-1 ring-white/20"
+799:           >
+800:             <div className="flex min-w-0 items-center gap-3">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,59 @@
+Created At: 2026-07-11T18:17:39Z
+Completed At: 2026-07-11T18:17:39Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1369
+Total Bytes: 71689
+Showing lines 1180 to 1230
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1180:               <div className="border-t bg-[#f7f2ec] p-4">
+1181:                 {deliveryCharge > 0 ? (
+1182:                   <div className="mb-3 rounded-2xl bg-[#fff7e6] px-4 py-3 text-sm font-bold text-[#8a5a00]">
+1183:                     Add {currency}{freeDeliveryBalance} more to unlock free delivery
+1184:                   </div>
+1185:                 ) : (
+1186:                   <div className="mb-3 rounded-2xl bg-[#e9f8ef] px-4 py-3 text-sm font-bold text-[#0c7a35]">
+1187:                     Free delivery unlocked
+1188:                   </div>
+1189:                 )}
+1190: 
+1191:                 <div className="rounded-2xl bg-white p-4 shadow-sm">
+1192:                   <div className="mb-3 flex items-center gap-2">
+1193:                     <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#e9f8ef] text-[#0c7a35]">
+1194:                       <ShoppingBag className="h-4 w-4" />
+1195:                     </span>
+1196:                     <p className="font-black text-[#21170f]">Bill details</p>
+1197:                   </div>
+1198:                   <div className="space-y-2 text-sm font-semibold text-[#6f6258]">
+1199:                     <div className="flex justify-between">
+1200:                       <span>Item total</span>
+1201:                       <span className="text-[#21170f]">{currency}{totalAmount}</span>
+1202:                     </div>
+1203:                     {cartSavings > 0 && (
+1204:                       <div className="flex justify-between text-[#0c7a35]">
+1205:                         <span>Product discount</span>
+1206:                         <span>-{currency}{cartSavings}</span>
+1207:                       </div>
+1208:                     )}
+1209:                     <div className="flex justify-between">
+1210:                       <span>Delivery charge</span>
+1211:                       <span className={deliveryCharge > 0 ? 'text-[#21170f]' : 'text-[#0c7a35]'}>
+1212:                         {deliveryCharge > 0 ? `${currency}${deliveryCharge}` : 'FREE'}
+1213:                       </span>
+1214:                     </div>
+1215:                   </div>
+1216:                   <div className="mt-4 border-t border-dashed pt-3">
+1217:                     <div className="flex items-center justify-between">
+1218:                       <span className="font-black text-[#21170f]">To pay</span>
+1219:                       <span className="text-2xl font-black text-[#21170f]">{currency}{finalAmount}</span>
+1220:                     </div>
+1221:                   </div>
+1222:                 </div>
+1223: 
+1224:                 <button onClick={() => { setShowCart(false); setShowCheckout(true); }} className="mt-3 flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-[#0c7a35] py-4 font-black text-white shadow-lg shadow-[#0c7a35]/20 hover:bg-[#09692c]">
+1225:                   Checkout <ChevronRight className="h-5 w-5" />
+1226:                 </button>
+1227:               </div>
+1228:             )}
+1229:           </aside>
+1230:         </>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

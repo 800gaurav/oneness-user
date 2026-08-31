@@ -1,0 +1,24 @@
+Created At: 2026-07-14T09:50:27Z
+Completed At: 2026-07-14T09:50:27Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 220 to 235
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+220: 
+221:   const activeBanners = useMemo(
+222:     () => (settings.offerBanners || []).filter(banner => banner?.isActive !== false && (banner.image || banner.title)),
+223:     [settings.offerBanners]
+224:   );
+225: 
+226:   useEffect(() => {
+227:     if (activeBanners.length <= 1) return undefined;
+228:     const timer = setInterval(() => {
+229:       setActiveBanner(prev => (prev + 1) % activeBanners.length);
+230:     }, 4500);
+231:     return () => clearInterval(timer);
+232:   }, [activeBanners.length]);
+233: 
+234:   useEffect(() => {
+235:     if (showCheckout && savedCustomerProfile) {
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

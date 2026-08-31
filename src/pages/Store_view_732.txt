@@ -1,0 +1,34 @@
+Created At: 2026-07-14T09:50:29Z
+Completed At: 2026-07-14T09:50:29Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 85 to 110
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+85: const CUSTOMER_TOKEN_KEY = 'bakeryStoreCustomerToken';
+86: const DISMISSED_FIELDS_KEY = 'bakeryStoreDismissedProfileFields';
+87: 
+88: const categoryStyles = {
+89:   all: { label: 'All', icon: CakeSlice },
+90:   Cakes: { label: 'Cakes', icon: CakeSlice },
+91:   Pastries: { label: 'Pastries', icon: Sparkles },
+92:   Breads: { label: 'Breads', icon: Flame },
+93:   Cookies: { label: 'Cookies', icon: Star },
+94:   Desserts: { label: 'Desserts', icon: Heart },
+95:   Snacks: { label: 'Snacks', icon: ShoppingBag }
+96: };
+97: 
+98: const formatWeight = (product) => {
+99:   const weight = [product.weight, product.weightUnit].filter(Boolean).join(' ').trim();
+100:   return weight || 'Fresh batch';
+101: };
+102: 
+103: const toDateInput = (value) => {
+104:   if (!value) return '';
+105:   const date = new Date(value);
+106:   if (Number.isNaN(date.getTime())) return '';
+107:   return date.toISOString().split('T')[0];
+108: };
+109: 
+110: const Store = () => {
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

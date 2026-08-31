@@ -1,0 +1,88 @@
+Created At: 2026-07-14T10:57:04Z
+Completed At: 2026-07-14T10:57:04Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1479
+Total Bytes: 78207
+Showing lines 351 to 430
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+351:     setSelectedProduct(product);
+352:     setActiveImage(getDisplayImage(product) || '');
+353:     try {
+354:       const { data } = await axios.get(`${API_URL}/products/${product._id}`);
+355:       setSelectedProduct(data);
+356:       setActiveImage(getDisplayImage(data) || '');
+357:     } catch {
+358:       // The card already has enough data to keep the product sheet usable.
+359:     }
+360:   };
+361: 
+362:   const updateQuantity = (cartKey, delta) => {
+363:     setCart(prev => prev
+364:       .map(item => item.cartKey === cartKey ? { ...item, quantity: item.quantity + delta } : item)
+365:       .filter(item => item.quantity > 0));
+366:   };
+367: 
+368:   const removeFromCart = (cartKey) => {
+369:     setCart(prev => prev.filter(item => item.cartKey !== cartKey));
+370:     toast.success('Cart se remove ho gaya');
+371:   };
+372: 
+373:   const persistCustomerSession = (profile, token) => {
+374:     if (profile) {
+375:       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profile));
+376:       setSavedCustomerProfile(profile);
+377:     }
+378:     if (token) {
+379:       localStorage.setItem(CUSTOMER_TOKEN_KEY, token);
+380:       setCustomerToken(token);
+381:     }
+382:   };
+383: 
+384:   const dismissProfileField = (key) => {
+385:     setDismissedProfileFields(prev => {
+386:       const next = { ...prev, [key]: true };
+387:       localStorage.setItem(DISMISSED_FIELDS_KEY, JSON.stringify(next));
+388:       return next;
+389:     });
+390:   };
+391: 
+392:   const useNewAddress = () => {
+393:     updateForm('address', '');
+394:     toast.success('New address add kar sakte ho');
+395:   };
+396: 
+397:   const installStoreApp = async () => {
+398:     if (isStandaloneApp) {
+399:       toast.success('App already installed hai');
+400:       return;
+401:     }
+402: 
+403:     if (deferredInstallPrompt) {
+404:       deferredInstallPrompt.prompt();
+405:       const choice = await deferredInstallPrompt.userChoice;
+406:       if (choice.outcome === 'accepted') {
+407:         toast.success('App home screen par add ho gaya');
+408:         setDeferredInstallPrompt(null);
+409:       }
+410:       return;
+411:     }
+412: 
+413:     toast('Browser menu se "Add to Home Screen" choose karein. App name/icon settings se use hoga.');
+414:   };
+415: 
+416:   const handleApplyCoupon = async () => {
+417:     const code = couponInput.trim();
+418:     if (!code) {
+419:       toast.error('Please enter a coupon code');
+420:       return;
+421:     }
+422: 
+423:     try {
+424:       const phone = orderForm.phone || '';
+425:       const { data } = await axios.get(`${API_URL}/campaigns/validate-coupon`, {
+426:         params: { code, phone }
+427:       });
+428:       
+429:       if (data.valid) {
+430:         setAppliedCoupon({
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

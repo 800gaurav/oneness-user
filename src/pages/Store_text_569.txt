@@ -1,0 +1,89 @@
+Created At: 2026-07-14T07:15:08Z
+Completed At: 2026-07-14T07:15:08Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 500 to 600
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+500: 
+501:   const applyCustomerProfile = (profile, notify = true) => {
+502:     if (!profile) return;
+503:     setSavedCustomerProfile(profile);
+504:     setOrderForm(prev => ({
+505:       ...prev,
+506:       customerName: prev.customerName || profile.customerName || '',
+507:       phone: prev.phone || profile.phone || '',
+508:       email: prev.email || profile.email || '',
+509:       address: prev.address || profile.address || '',
+510:       dob: prev.dob || toDateInput(profile.dob),
+511:       anniversaryDate: prev.anniversaryDate || toDateInput(profile.anniversaryDate),
+512:       specialDate: prev.specialDate || toDateInput(profile.specialDate),
+513:       specialDateDescription: prev.specialDateDescription || profile.specialDateDescription || ''
+514:     }));
+515:     if (notify) toast.success('Saved delivery details loaded');
+516:   };
+517: 
+518:   const fetchCustomerProfile = async () => {
+519:     const phone = orderForm.phone.trim();
+520:     const email = orderForm.email.trim();
+521:     if (phone.replace(/\D/g, '').length < 10 && !email) return;
+522: 
+523:     try {
+524:       const { data } = await axios.get(`${API_URL}/store-orders/customer-profile`, {
+525:         params: { phone, email }
+526:       });
+527:       if (data.data) {
+528:         localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(data.data));
+529:         applyCustomerProfile(data.data);
+530:       }
+531:     } catch {
+532:       // Autofill should never block checkout.
+533:     }
+534:   };
+535: 
+536:   const openQuickLink = (link) => {
+537:     if (link.type === 'install') {
+538:       inst
+<truncated 976 bytes>
+search')?.focus();
+561:     }, 450);
+562:   };
+563: 
+564:   const quickLinks = (settings.quickLinks || []).filter(link => (
+565:     link.isActive !== false
+566:     && (link.url || link.type === 'install' || (link.type === 'phone' && settings.phone) || (link.type === 'email' && settings.email))
+567:   ));
+568:   const firstProductImage = products.find(product => product.image)?.image;
+569:   const heroBanner = activeBanners[activeBanner] || {
+570:     title: 'Fresh bakery favourites delivered today',
+571:     subtitle: 'Premium cakes, pastries, cookies and breads baked in small batches.',
+572:     image: firstProductImage
+573:   };
+574:   const bestSellers = products.slice(0, 3);
+575:   const categoryList = categories.length > 1 ? categories : ['all', 'Cakes', 'Pastries', 'Breads', 'Cookies', 'Desserts'];
+576: 
+577:   const quickIcon = (type) => {
+578:     const icons = {
+579:       whatsapp: MessageCircle,
+580:       instagram: Instagram,
+581:       facebook: Facebook,
+582:       website: Globe2,
+583:       phone: Phone,
+584:       email: Mail,
+585:       reviews: Star,
+586:       install: Download,
+587:       custom: ExternalLink
+588:     };
+589:     return icons[type] || ExternalLink;
+590:   };
+591: 
+592:   const renderCartControl = (product, variant = null) => {
+593:     const item = getCartItem(product, variant);
+594:     if (item) {
+595:       return (
+596:         <div className="flex h-11 items-center overflow-hidden rounded-xl border border-[#e63946] bg-[#fff4f4] font-black text-[#e63946]">
+597:           <button onClick={(e) => { e.stopPropagation(); updateQuantity(item.cartKey, -1); }} className="flex h-full w-10 items-center justify-center" aria-label="Decrease quantity">
+598:             <Minus className="h-4 w-4" />
+599:           </button>
+600:           <span className="min-w-8 text-center">{item.quantity}</span>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

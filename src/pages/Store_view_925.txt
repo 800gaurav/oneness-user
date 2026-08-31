@@ -1,0 +1,54 @@
+Created At: 2026-07-14T11:13:09Z
+Completed At: 2026-07-14T11:13:10Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1532
+Total Bytes: 82046
+Showing lines 1120 to 1235
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1120:         </div>
+1121:       )}
+1122: 
+1123:       {showProfile && (
+1124:         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/55 p-0 backdrop-blur-sm sm:items-start sm:p-4 sm:pt-20" onClick={() => setShowProfile(false)}>
+1125:           <div className="w-full max-w-md overflow-hidden rounded-t-[32px] bg-white shadow-2xl sm:rounded-[32px]" onClick={(e) => e.stopPropagation()}>
+1126:             <div className="relative bg-gradient-to-br from-[#2b1a10] via-[#21170f] to-[#3a281c] px-5 pb-6 pt-5 text-white">
+1127:               <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-white/20 sm:hidden" />
+1128:               <button onClick={() => setShowProfile(false)} className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors z-10" aria-label="Close profile">
+1129:                 <X className="h-5 w-5" />
+1130:               </button>
+1131:               <div className="flex items-center gap-4 pr-10">
+1132:                 {settings.logo ? (
+1133:                   <img src={settings.logo} alt={settings.bakeryName} className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" />
+1134:                 ) : (
+1135:                   <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-[#ffd6a5] border border-white/5">
+1136:                     <CakeSlice className="h-8 w-8 animate-pulse" />
+1137:                   </span>
+1138:                 )}
+1139:                 <div className="min-w-0">
+1140:           
+<truncated 6021 bytes>
+: 'bg-purple-50 text-purple-600 border-purple-100/50', hover: 'hover:bg-purple-100/40' },
+1213:                       custom: { bg: 'bg-gray-50 text-gray-600 border-gray-100/50', hover: 'hover:bg-gray-100/40' }
+1214:                     };
+1215:                     const color = linkColors[link.type] || linkColors.custom;
+1216:                     return (
+1217:                       <button
+1218:                         key={`${link.type}-profile-${index}`}
+1219:                         onClick={() => openQuickLink(link)}
+1220:                         className={`flex w-full items-center gap-3 rounded-2xl border border-black/[0.04] bg-white p-2.5 text-left font-bold text-[#21170f] shadow-sm transition-all duration-200 hover:-translate-y-0.5 ${color.hover}`}
+1221:                       >
+1222:                         <span className={`flex h-10 w-10 items-center justify-center rounded-xl border ${color.bg}`}>
+1223:                           <Icon className="h-4.5 w-4.5" />
+1224:                         </span>
+1225:                         <span className="min-w-0 flex-1">
+1226:                           <span className="block truncate text-xs font-black text-[#21170f]">{link.label || link.type}</span>
+1227:                           <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-[#6f6258] mt-0.5">{link.type || 'link'}</span>
+1228:                         </span>
+1229:                         <ChevronRight className="h-4.5 w-4.5 text-[#9d8371]" />
+1230:                       </button>
+1231:                     );
+1232:                   }) : (
+1233:                     <div className="rounded-2xl border border-dashed border-black/10 bg-[#f7f2ec] p-4 text-center text-xs font-semibold text-[#6f6258]">
+1234:                       No active contact links available.
+1235:                     </div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

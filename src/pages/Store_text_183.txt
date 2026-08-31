@@ -1,0 +1,64 @@
+Created At: 2026-07-11T18:17:32Z
+Completed At: 2026-07-11T18:17:32Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1334
+Total Bytes: 70697
+Showing lines 405 to 460
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+405:     toast('Browser menu se "Add to Home Screen" choose karein. App name/icon settings se use hoga.');
+406:   };
+407: 
+408:   const handleCheckout = async (e) => {
+409:     e.preventDefault();
+410:     if (!cart.length) return;
+411: 
+412:     try {
+413:       const orderData = {
+414:         ...orderForm,
+415:         items: cart.map(item => ({
+416:           product: item.productId || item._id,
+417:           name: item.variantLabel ? `${item.name} (${item.variantLabel})` : item.name,
+418:           price: item.price,
+419:           quantity: item.quantity,
+420:           weight: item.weight,
+421:           weightUnit: item.weightUnit
+422:         })),
+423:         totalAmount: finalAmount,
+424:         subtotal: totalAmount,
+425:         deliveryCharge
+426:       };
+427: 
+428:       await axios.post(`${API_URL}/store-orders`, orderData);
+429:       const profileToSave = {
+430:         customerName: orderForm.customerName,
+431:         phone: orderForm.phone,
+432:         email: orderForm.email,
+433:         address: orderForm.address,
+434:         dob: orderForm.dob,
+435:         anniversaryDate: orderForm.anniversaryDate,
+436:         specialDate: orderForm.specialDate,
+437:         specialDateDescription: orderForm.specialDateDescription
+438:       };
+439:       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profileToSave));
+440:       setSavedCustomerProfile(profileToSave);
+441:       toast.success('Order placed successfully! We will contact you soon.');
+442:       setCart([]);
+443:       setShowCheckout(false);
+444:       setShowCart(false);
+445:       setOrderForm({
+446:         customerName: '',
+447:         phone: '',
+448:         email: '',
+449:         address: '',
+450:         deliveryDate: '',
+451:         dob: '',
+452:         anniversaryDate: '',
+453:         specialDate: '',
+454:         specialDateDescription: '',
+455:         notes: ''
+456:       });
+457:     } catch (error) {
+458:       toast.error(error.response?.data?.message || 'Failed to place order');
+459:     }
+460:   };
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

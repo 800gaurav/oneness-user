@@ -1,0 +1,101 @@
+Created At: 2026-07-14T07:14:31Z
+Completed At: 2026-07-14T07:14:32Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 150 to 250
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+150:       try {
+151:         setDismissedProfileFields(JSON.parse(storedDismissedFields));
+152:       } catch {
+153:         localStorage.removeItem(DISMISSED_FIELDS_KEY);
+154:       }
+155:     }
+156:     if (storedProfile) {
+157:       try {
+158:         applyCustomerProfile(JSON.parse(storedProfile), false);
+159:       } catch {
+160:         localStorage.removeItem(SAVED_CUSTOMER_KEY);
+161:       }
+162:     }
+163:   }, []);
+164: 
+165:   useEffect(() => {
+166:     const standalone = window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
+167:     setIsStandaloneApp(standalone);
+168: 
+169:     const handleBeforeInstallPrompt = (event) => {
+170:       event.preventDefault();
+171:       setDeferredInstallPrompt(event);
+172:     };
+173: 
+174:     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+175:     if ('serviceWorker' in navigator) {
+176:       navigator.serviceWorker.register('/sw.js').catch(() => {});
+177:     }
+178: 
+179:     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+180:   }, []);
+181: 
+182:   useEffect(() => {
+183:     const appName = settings.appName || settings.bakeryName || 'Sweet Bakery';
+184:     const appIcon = settings.appIcon || settings.logo || '/vite.svg';
+185:     document.title = appName;
+186: 
+187:     const manifest = {
+188:       name: appName,
+189:       short_name: appName.slice(0, 12),
+190:       start_url: '/store',
+191:       scope: '/',
+192:       display: 'standalone',
+193:       background_color: '#fffdf9',
+194:       theme_color
+<truncated 666 bytes>
+l = 'manifest';
+205:       document.head.appendChild(manifestLink);
+206:     }
+207:     manifestLink.href = manifestUrl;
+208: 
+209:     let appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
+210:     if (!appleIcon) {
+211:       appleIcon = document.createElement('link');
+212:       appleIcon.rel = 'apple-touch-icon';
+213:       document.head.appendChild(appleIcon);
+214:     }
+215:     appleIcon.href = appIcon;
+216: 
+217:     return () => URL.revokeObjectURL(manifestUrl);
+218:   }, [settings.appIcon, settings.appName, settings.bakeryName, settings.logo]);
+219: 
+220:   const activeBanners = useMemo(
+221:     () => (settings.offerBanners || []).filter(banner => banner?.isActive !== false && (banner.image || banner.title)),
+222:     [settings.offerBanners]
+223:   );
+224: 
+225:   useEffect(() => {
+226:     if (activeBanners.length <= 1) return undefined;
+227:     const timer = setInterval(() => {
+228:       setActiveBanner(prev => (prev + 1) % activeBanners.length);
+229:     }, 4500);
+230:     return () => clearInterval(timer);
+231:   }, [activeBanners.length]);
+232: 
+233:   useEffect(() => {
+234:     if (showCheckout && savedCustomerProfile) {
+235:       applyCustomerProfile(savedCustomerProfile, false);
+236:     }
+237:   }, [showCheckout, savedCustomerProfile]);
+238: 
+239:   const fetchStoreData = async () => {
+240:     try {
+241:       const [productResponse, settingsResponse] = await Promise.all([
+242:         axios.get(`${API_URL}/products`),
+243:         axios.get(`${API_URL}/settings/public`).catch(() => ({ data: { data: defaultSettings } }))
+244:       ]);
+245: 
+246:       setProducts(productResponse.data.filter(product => product.inStock));
+247:       const publicSettings = settingsResponse.data.data || defaultSettings;
+248:       setSettings({
+249:         ...defaultSettings,
+250:         ...publicSettings,
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

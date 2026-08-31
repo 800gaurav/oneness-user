@@ -1,0 +1,44 @@
+Created At: 2026-07-14T10:57:17Z
+Completed At: 2026-07-14T10:57:18Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1480
+Total Bytes: 78260
+Showing lines 240 to 275
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+240:   }, [activeBanners.length]);
+241: 
+242:   useEffect(() => {
+243:     if (showCheckout && savedCustomerProfile) {
+244:       applyCustomerProfile(savedCustomerProfile, false);
+245:     }
+246:   }, [showCheckout, savedCustomerProfile]);
+247: 
+248:   const fetchStoreData = async () => {
+249:     try {
+250:       const [productResponse, settingsResponse] = await Promise.all([
+251:         axios.get(`${API_URL}/products`),
+252:         axios.get(`${API_URL}/settings/public`).catch(() => ({ data: { data: defaultSettings } }))
+253:       ]);
+254: 
+255:       setProducts(productResponse.data.filter(product => product.inStock));
+256:       const publicSettings = settingsResponse.data.data || defaultSettings;
+257:       setSettings({
+258:         ...defaultSettings,
+259:         ...publicSettings,
+260:         offerBanners: publicSettings.offerBanners || [],
+261:         quickLinks: publicSettings.quickLinks || [],
+262:         checkoutFields: normalizeCheckoutFields(publicSettings.checkoutFields)
+263:       });
+264:     } catch {
+265:       toast.error('Store load nahi ho paya');
+266:     }
+267:   };
+268: 
+269:   const categories = useMemo(() => ['all', ...new Set(products.map(product => product.category).filter(Boolean))], [products]);
+270:   const checkoutFields = normalizeCheckoutFields(settings.checkoutFields);
+271:   const showField = (key) => checkoutFields[key]?.visible !== false;
+272:   const isFieldRequired = (key) => showField(key) && checkoutFields[key]?.required === true;
+273:   const fieldMarker = (key) => isFieldRequired(key) ? <span className="text-[#e63946]">*</span> : <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-black uppercase text-gray-500">Optional</span>;
+274:   const currency = settings.currency || 'Rs.';
+275:   const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

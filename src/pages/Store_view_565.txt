@@ -1,0 +1,59 @@
+Created At: 2026-07-14T07:15:03Z
+Completed At: 2026-07-14T07:15:03Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 600 to 700
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+600:           <span className="min-w-8 text-center">{item.quantity}</span>
+601:           <button onClick={(e) => { e.stopPropagation(); updateQuantity(item.cartKey, 1); }} className="flex h-full w-10 items-center justify-center" aria-label="Increase quantity">
+602:             <Plus className="h-4 w-4" />
+603:           </button>
+604:         </div>
+605:       );
+606:     }
+607: 
+608:     return (
+609:       <button onClick={(e) => { e.stopPropagation(); handleAddClick(product); }} className="flex h-11 items-center gap-2 rounded-xl border border-[#e63946] bg-white px-4 font-black text-[#e63946] shadow-sm hover:bg-[#e63946] hover:text-white">
+610:         <Plus className="h-4 w-4" />
+611:         Add
+612:       </button>
+613:     );
+614:   };
+615: 
+616:   return (
+617:     <div className="min-h-screen bg-[#f7f2ec] text-[#1f1b16]" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
+618:       <header className="border-b border-black/5 bg-[#fffdf9]/95 backdrop-blur-xl">
+619:         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+620:           <div className="flex min-w-0 items-center gap-3">
+621:             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="min-w-0 text-left" aria-label="Go to home">
+622:               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#92602f]">
+623:                 <MapPin className="h-4 w-4 shrink-0" />
+624:                 <span className="truncate normal-case tracking-normal text-[#6f6258]">{settings
+<truncated 3290 bytes>
+15">
+677:             {heroBanner.image ? (
+678:               <img src={heroBanner.image} alt={heroBanner.title || 'Bakery offer'} className="absolute inset-0 h-full w-full object-cover" />
+679:             ) : (
+680:               <div className="absolute inset-0 bg-[linear-gradient(135deg,#2b1a10,#9b4d22_55%,#ffd166)]" />
+681:             )}
+682:             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/5" />
+683:             <div className="relative flex h-full min-h-[360px] flex-col justify-between p-6 sm:p-8">
+684:               <div className="flex flex-wrap gap-2">
+685:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-black text-[#24170e]">
+686:                   <BadgePercent className="h-4 w-4 text-[#e63946]" />
+687:                   Premium bakery
+688:                 </span>
+689:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+690:                   <Timer className="h-4 w-4" />
+691:                   45-60 min
+692:                 </span>
+693:               </div>
+694:               <div className="max-w-xl">
+695:                 <h2 className="text-4xl font-black leading-tight sm:text-6xl">{heroBanner.title || 'Fresh bakery favourites'}</h2>
+696:                 <p className="mt-3 max-w-lg text-base font-medium text-white/85 sm:text-lg">{heroBanner.subtitle || 'Premium cakes, pastries, cookies and breads baked in small batches.'}</p>
+697:                 <div className="mt-6 flex flex-wrap gap-3">
+698:                   <button onClick={scrollToProducts} className="h-12 rounded-full bg-[#e63946] px-6 font-black text-white shadow-lg shadow-black/20">
+699:                     Order Now
+700:                   </button>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

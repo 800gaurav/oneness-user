@@ -1,0 +1,44 @@
+Created At: 2026-07-14T11:20:10Z
+Completed At: 2026-07-14T11:20:10Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1635
+Total Bytes: 88187
+Showing lines 640 to 675
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+640:           </button>
+641:           <span className="min-w-8 text-center">{item.quantity}</span>
+642:           <button onClick={(e) => { e.stopPropagation(); updateQuantity(item.cartKey, 1); }} className="flex h-full w-10 items-center justify-center" aria-label="Increase quantity">
+643:             <Plus className="h-4 w-4" />
+644:           </button>
+645:         </div>
+646:       );
+647:     }
+648: 
+649:     return (
+650:       <button onClick={(e) => { e.stopPropagation(); handleAddClick(product); }} className="flex h-11 items-center gap-2 rounded-xl border border-[#e63946] bg-white px-4 font-black text-[#e63946] shadow-sm hover:bg-[#e63946] hover:text-white">
+651:         <Plus className="h-4 w-4" />
+652:         Add
+653:       </button>
+654:     );
+655:   };
+656: 
+657:   return (
+658:     <div className="min-h-screen bg-[#f7f2ec] text-[#1f1b16]" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
+659:       <header className="border-b border-black/5 bg-[#fffdf9]/95 backdrop-blur-xl">
+660:         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+661:           <div className="flex min-w-0 items-center gap-3">
+662:             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="min-w-0 text-left" aria-label="Go to home">
+663:               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#92602f]">
+664:                 <MapPin className="h-4 w-4 shrink-0" />
+665:                 <span className="truncate normal-case tracking-normal text-[#6f6258]">{settings.address || 'Fresh delivery near you'}</span>
+666:               </div>
+667:               <div className="mt-1 flex items-center gap-3">
+668:               {settings.logo ? (
+669:                 <img src={settings.logo} alt={settings.bakeryName} className="h-10 w-10 rounded-xl border border-black/10 bg-white object-contain p-1" />
+670:               ) : (
+671:                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#26170c] text-[#ffd6a5]">
+672:                   <CakeSlice className="h-5 w-5" />
+673:                 </span>
+674:               )}
+675:               <h1 className="truncate text-xl font-black text-[#21170f] sm:text-2xl">{settings.bakeryName || 'The Artisan Bakery'}</h1>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

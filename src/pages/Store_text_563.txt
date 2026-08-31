@@ -1,0 +1,65 @@
+Created At: 2026-07-14T07:15:01Z
+Completed At: 2026-07-14T07:15:01Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 700 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+700:                   </button>
+701:                   <button onClick={() => setShowCart(true)} className="h-12 rounded-full bg-white px-6 font-black text-[#21170f]">
+702:                     View Cart
+703:                   </button>
+704:                 </div>
+705:               </div>
+706:             </div>
+707:           </div>
+708: 
+709:         </section>
+710: 
+711:         <section id="products" className="px-4 pt-8 sm:px-6">
+712:           <div className="sticky top-0 z-20 -mx-4 border-y border-black/5 bg-[#f7f2ec]/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6">
+713:             <div className="grid gap-4 lg:grid-cols-[360px_1fr] lg:items-center">
+714:               <div className="relative">
+715:                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6f6258]" />
+716:                 <input
+717:                   type="text"
+718:                   id="store-search"
+719:                   placeholder="Search cakes, breads, cookies..."
+720:                   value={searchTerm}
+721:                   onChange={(e) => setSearchTerm(e.target.value)}
+722:                   className="h-13 w-full rounded-2xl border border-black/10 bg-white py-4 pl-12 pr-4 text-base font-semibold text-[#21170f] shadow-sm outline-none focus:border-[#21170f] focus:ring-4 focus:ring-black/5"
+723:                 />
+724:               </div>
+725:               <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
+726:                 {categoryList.map(category => {
+727:                   const categoryMeta = categoryStyles[category] || { label: cate
+<truncated 3136 bytes>
+>
+774:                     )}
+775:                     {product.category && (
+776:                       <span className="absolute left-2 top-2 max-w-[calc(100%-1rem)] truncate rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-black text-[#21170f] shadow-sm">{product.category}</span>
+777:                     )}
+778:                   </div>
+779: 
+780:                   <div className="flex min-w-0 flex-col py-1 pr-1">
+781:                     <div className="flex items-start justify-between gap-3">
+782:                       <div className="min-w-0">
+783:                         <h3 className="line-clamp-2 text-lg font-black leading-snug text-[#21170f] sm:text-xl">{product.name}</h3>
+784:                         <div className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold text-[#6f6258]">
+785:                           <span className="inline-flex items-center gap-1 rounded-full bg-[#f6f0e8] px-2 py-1">
+786:                             <Star className="h-3.5 w-3.5 fill-[#119744] text-[#119744]" />
+787:                             4.8
+788:                           </span>
+789:                           <span>{formatWeight(product)}</span>
+790:                           <span>Fresh daily</span>
+791:                         </div>
+792:                       </div>
+793:                       <button className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff1f1] text-[#e63946] sm:flex" aria-label="Save item">
+794:                         <Heart className="h-4 w-4" />
+795:                       </button>
+796:                     </div>
+797: 
+798:                     <p className="mt-2 line-clamp-2 text-sm leading-5 text-[#6f6258]">{product.description || 'Freshly baked item from our bakery.'}</p>
+799: 
+800:                     <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

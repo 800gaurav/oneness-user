@@ -1,0 +1,60 @@
+Created At: 2026-07-14T09:58:30Z
+Completed At: 2026-07-14T09:58:31Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1482
+Total Bytes: 78518
+Showing lines 705 to 765
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+705:                 <input
+706:                   type="text"
+707:                   id="store-search"
+708:                   placeholder="Search cakes, breads, cookies..."
+709:                   value={searchTerm}
+710:                   onChange={(e) => setSearchTerm(e.target.value)}
+711:                   className="h-13 w-full rounded-2xl border border-black/10 bg-white py-4 pl-12 pr-4 text-base font-semibold text-[#21170f] shadow-sm outline-none focus:border-[#21170f] focus:ring-4 focus:ring-black/5"
+712:                 />
+713:               </div>
+714:               <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
+715:                 {categoryList.map(category => {
+716:                   const categoryMeta = categoryStyles[category] || { label: category, icon: CakeSlice };
+717:                   const Icon = categoryMeta.icon;
+718:                   const active = filterCategory === category;
+719:                   return (
+720:                     <button
+721:                       key={category}
+722:                       onClick={() => setFilterCategory(category)}
+723:                       className={`flex h-12 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-black ${active ? 'border-[#21170f] bg-[#21170f] text-white shadow-lg shadow-black/10' : 'border-black/10 bg-white text-[#3c3028] hover:border-[#21170f]/30'}`}
+724:                     >
+725:                       <Icon className="h-4 w-4" />
+726:                       {categoryMeta.label}
+727:                     </button>
+728:                   );
+729:                 })}
+730
+<truncated 744 bytes>
+ text-[#3c3028] shadow-sm">Pure veg options</span>
+742:             </div>
+743:           </div>
+744: 
+745:           {filteredProducts.length > 0 ? (
+746:             <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
+747:               {filteredProducts.map(product => (
+748:                 <article
+749:                   key={product._id}
+750:                   onClick={() => openProduct(product)}
+751:                   className="group grid cursor-pointer grid-cols-[150px_1fr] gap-4 rounded-[22px] border border-black/5 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/[0.06] sm:grid-cols-[210px_1fr]"
+752:                 >
+753:                   <div className="relative min-h-40 overflow-hidden rounded-2xl bg-[#f1e4d8]">
+754:                     {getDisplayImage(product) ? (
+755:                       <img src={getDisplayImage(product)} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+756:                     ) : (
+757:                       <div className="flex h-full w-full items-center justify-center text-[#9d8371]"><CakeSlice className="h-12 w-12" /></div>
+758:                     )}
+759:                     {getDiscount(product.price, product.originalPrice) > 0 && (
+760:                       <span className="absolute bottom-2 left-2 rounded-full bg-[#e63946] px-2.5 py-1 text-[11px] font-black text-white shadow">
+761:                         {getDiscount(product.price, product.originalPrice)}% OFF
+762:                       </span>
+763:                     )}
+764:                     {product.category && (
+765:                       <span className="absolute left-2 top-2 max-w-[calc(100%-1rem)] truncate rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-black text-[#21170f] shadow-sm">{product.category}</span>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

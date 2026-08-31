@@ -1,0 +1,110 @@
+Created At: 2026-07-14T07:15:05Z
+Completed At: 2026-07-14T07:15:06Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 350 to 500
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+350:       // The card already has enough data to keep the product sheet usable.
+351:     }
+352:   };
+353: 
+354:   const updateQuantity = (cartKey, delta) => {
+355:     setCart(prev => prev
+356:       .map(item => item.cartKey === cartKey ? { ...item, quantity: item.quantity + delta } : item)
+357:       .filter(item => item.quantity > 0));
+358:   };
+359: 
+360:   const removeFromCart = (cartKey) => {
+361:     setCart(prev => prev.filter(item => item.cartKey !== cartKey));
+362:     toast.success('Cart se remove ho gaya');
+363:   };
+364: 
+365:   const persistCustomerSession = (profile, token) => {
+366:     if (profile) {
+367:       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profile));
+368:       setSavedCustomerProfile(profile);
+369:     }
+370:     if (token) {
+371:       localStorage.setItem(CUSTOMER_TOKEN_KEY, token);
+372:       setCustomerToken(token);
+373:     }
+374:   };
+375: 
+376:   const dismissProfileField = (key) => {
+377:     setDismissedProfileFields(prev => {
+378:       const next = { ...prev, [key]: true };
+379:       localStorage.setItem(DISMISSED_FIELDS_KEY, JSON.stringify(next));
+380:       return next;
+381:     });
+382:   };
+383: 
+384:   const useNewAddress = () => {
+385:     updateForm('address', '');
+386:     toast.success('New address add kar sakte ho');
+387:   };
+388: 
+389:   const installStoreApp = async () => {
+390:     if (isStandaloneApp) {
+391:       toast.success('App already installed hai');
+392:       return;
+393:     }
+394: 
+395:     if (deferredInstallPrompt) {
+396:       deferredInstallPrompt.prompt();
+397:       const choice = await 
+<truncated 1714 bytes>
+e,
+449:           price: item.price,
+450:           quantity: item.quantity,
+451:           weight: item.weight,
+452:           weightUnit: item.weightUnit
+453:         })),
+454:         totalAmount: finalAmount,
+455:         subtotal: totalAmount,
+456:         deliveryCharge,
+457:         couponCode: appliedCoupon ? appliedCoupon.code : undefined,
+458:         discountAmount: discountAmount
+459:       };
+460: 
+461:       await axios.post(`${API_URL}/store-orders`, orderData);
+462:       const profileToSave = {
+463:         customerName: orderForm.customerName,
+464:         phone: orderForm.phone,
+465:         email: orderForm.email,
+466:         address: orderForm.address,
+467:         dob: orderForm.dob,
+468:         anniversaryDate: orderForm.anniversaryDate,
+469:         specialDate: orderForm.specialDate,
+470:         specialDateDescription: orderForm.specialDateDescription
+471:       };
+472:       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profileToSave));
+473:       setSavedCustomerProfile(profileToSave);
+474:       toast.success('Order placed successfully! We will contact you soon.');
+475:       setCart([]);
+476:       setShowCheckout(false);
+477:       setShowCart(false);
+478:       setAppliedCoupon(null);
+479:       setCouponInput('');
+480:       setOrderForm({
+481:         customerName: '',
+482:         phone: '',
+483:         email: '',
+484:         address: '',
+485:         deliveryDate: '',
+486:         dob: '',
+487:         anniversaryDate: '',
+488:         specialDate: '',
+489:         specialDateDescription: '',
+490:         notes: ''
+491:       });
+492:     } catch (error) {
+493:       toast.error(error.response?.data?.message || 'Failed to place order');
+494:     }
+495:   };
+496: 
+497:   const updateForm = (key, value) => {
+498:     setOrderForm(prev => ({ ...prev, [key]: value }));
+499:   };
+500: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

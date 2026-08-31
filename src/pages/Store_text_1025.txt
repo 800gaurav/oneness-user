@@ -1,0 +1,49 @@
+Created At: 2026-07-14T11:29:22Z
+Completed At: 2026-07-14T11:29:22Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1548
+Total Bytes: 82536
+Showing lines 900 to 980
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+900:                 let colorClass = "bg-white text-gray-700 hover:bg-[#21170f] hover:text-white border border-gray-200";
+901:                 if (link.type === 'whatsapp') colorClass = "bg-[#e8f8ef] text-[#119744] hover:bg-[#119744] hover:text-white border border-[#c4ebd3]";
+902:                 if (link.type === 'phone') colorClass = "bg-[#e6f6f6] text-[#0d9488] hover:bg-[#0d9488] hover:text-white border border-[#cbebe9]";
+903:                 if (link.type === 'instagram') colorClass = "bg-[#fdf0f5] text-[#db2777] hover:bg-[#db2777] hover:text-white border border-[#fbcfe8]";
+904:                 if (link.type === 'facebook') colorClass = "bg-[#ebf3fe] text-[#2563eb] hover:bg-[#2563eb] hover:text-white border border-[#bfdbfe]";
+905:                 if (link.type === 'website') colorClass = "bg-[#eef2ff] text-[#4f46e5] hover:bg-[#4f46e5] hover:text-white border border-[#c7d2fe]";
+906:                 if (link.type === 'email') colorClass = "bg-[#fef2f2] text-[#dc2626] hover:bg-[#dc2626] hover:text-white border border-[#fecaca]";
+907:                 if (link.type === 'reviews') colorClass = "bg-[#fefce8] text-[#ca8a04] hover:bg-[#ca8a04] hover:text-white border border-[#fef08a]";
+908:                 if (link.type === 'install') colorClass = "bg-[#faf5ff] text-[#7c3aed] hover:bg-[#7c3aed] hover:text-white border border-[#e9d5ff]";
+909: 
+910:                 return (
+911:                   <div key={`${link.type}-${index}`} className="group relative flex items-center justify-end">
+912:                     {/* Tooltip Label */}
+913:                     <span className="absolu
+<truncated 2473 bytes>
+ {activeImage ? (
+956:                     <img src={activeImage} alt={selectedProduct.name} className="h-full w-full object-cover" />
+957:                   ) : (
+958:                     <div className="flex h-full w-full items-center justify-center text-[#9d8371]"><CakeSlice className="h-16 w-16" /></div>
+959:                   )}
+960:                   <button onClick={() => setSelectedProduct(null)} className="absolute right-3 top-3 rounded-full bg-white/90 p-2 text-[#21170f] shadow z-10" aria-label="Close product">
+961:                     <X className="h-5 w-5" />
+962:                   </button>
+963:                   {getDiscount(selectedProduct.price, selectedProduct.originalPrice) > 0 && (
+964:                     <span className="absolute left-3 top-3 rounded-full bg-[#e63946] px-3 py-1.5 text-xs font-black text-white shadow">
+965:                       {getDiscount(selectedProduct.price, selectedProduct.originalPrice)}% OFF
+966:                     </span>
+967:                   )}
+968:                 </div>
+969:                 {getProductImages(selectedProduct).length > 1 && (
+970:                   <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+971:                     {getProductImages(selectedProduct).map((image, index) => (
+972:                       <button key={`${image}-${index}`} onClick={() => setActiveImage(image)} className={`h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 ${activeImage === image ? 'border-[#e63946]' : 'border-transparent'}`}>
+973:                         <img src={image} alt={`${selectedProduct.name} ${index + 1}`} className="h-full w-full object-cover" />
+974:                       </button>
+975:                     ))}
+976:                   </div>
+977:                 )}
+978:               </div>
+979: 
+980:               <div className="flex flex-col">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

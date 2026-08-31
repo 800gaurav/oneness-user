@@ -1,0 +1,66 @@
+Created At: 2026-07-14T11:04:38Z
+Completed At: 2026-07-14T11:04:38Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1502
+Total Bytes: 79260
+Showing lines 1120 to 1210
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1120:                 )}
+1121:                 <div className="min-w-0">
+1122:                   <p className="text-xs font-black uppercase tracking-[0.18em] text-[#ffd6a5]">Store profile</p>
+1123:                   <h2 className="mt-1 truncate text-2xl font-black">{settings.bakeryName || 'The Artisan Bakery'}</h2>
+1124:                   <p className="mt-1 line-clamp-2 text-sm font-semibold text-white/70">{settings.address || 'Fresh bakery delivery near you'}</p>
+1125:                 </div>
+1126:               </div>
+1127: 
+1128:               <div className="mt-5 grid grid-cols-3 gap-2">
+1129:                 <div className="rounded-2xl bg-white/10 p-3">
+1130:                   <p className="text-lg font-black">4.8</p>
+1131:                   <p className="text-[11px] font-bold text-white/65">Rating</p>
+1132:                 </div>
+1133:                 <div className="rounded-2xl bg-white/10 p-3">
+1134:                   <p className="text-lg font-black">45-60</p>
+1135:                   <p className="text-[11px] font-bold text-white/65">Mins</p>
+1136:                 </div>
+1137:                 <div className="rounded-2xl bg-white/10 p-3">
+1138:                   <p className="text-lg font-black">{products.length}</p>
+1139:                   <p className="text-[11px] font-bold text-white/65">Items</p>
+1140:                 </div>
+1141:               </div>
+1142:             </div>
+1143: 
+1144:             <div className="p-5">
+1145:               <div className="grid grid-cols-2 gap-3">
+1146:                 <button onClick={() => { setShowProfile(false); focusSearch(
+<truncated 2507 bytes>
+<span className="text-xs font-bold text-[#6f6258]">{quickLinks.length} links</span>}
+1182:                 </div>
+1183:                 <div className="grid gap-2">
+1184:                   {quickLinks.length > 0 ? quickLinks.map((link, index) => {
+1185:                     const Icon = quickIcon(link.type);
+1186:                     return (
+1187:                       <button
+1188:                         key={`${link.type}-profile-${index}`}
+1189:                         onClick={() => openQuickLink(link)}
+1190:                         className="flex w-full items-center gap-3 rounded-2xl border border-black/5 bg-white p-3 text-left font-bold text-[#21170f] shadow-sm hover:bg-[#f7f2ec]"
+1191:                       >
+1192:                         <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#f7f2ec] text-[#21170f]">
+1193:                           <Icon className="h-5 w-5" />
+1194:                         </span>
+1195:                         <span className="min-w-0 flex-1">
+1196:                           <span className="block truncate">{link.label || link.type}</span>
+1197:                           <span className="block truncate text-xs font-semibold capitalize text-[#6f6258]">{link.type || 'link'}</span>
+1198:                         </span>
+1199:                         <ChevronRight className="h-5 w-5 text-[#9d8371]" />
+1200:                       </button>
+1201:                     );
+1202:                   }) : (
+1203:                     <div className="rounded-2xl bg-[#f7f2ec] p-4 text-sm font-semibold text-[#6f6258]">
+1204:                       Admin settings se WhatsApp, phone, Instagram ya website links add kar sakte ho.
+1205:                     </div>
+1206:                   )}
+1207:                 </div>
+1208:               </div>
+1209:             </div>
+1210:           </div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

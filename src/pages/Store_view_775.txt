@@ -1,0 +1,61 @@
+Created At: 2026-07-14T09:58:44Z
+Completed At: 2026-07-14T09:58:44Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1482
+Total Bytes: 78517
+Showing lines 698 to 750
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+698:         </section>
+699: 
+700:         <section id="products" className="px-4 pt-8 sm:px-6">
+701:           <div className="sticky top-0 z-20 -mx-4 border-y border-black/5 bg-[#f7f2ec]/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6">
+702:             <div className="grid gap-4 lg:grid-cols-[360px_1fr] lg:items-center">
+703:               <div className="relative">
+704:                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6f6258]" />
+705:                 <input
+706:                   type="text"
+707:                   id="store-search"
+708:                   placeholder="Search cakes, breads, cookies..."
+709:                   value={searchTerm}
+710:                   onChange={(e) => setSearchTerm(e.target.value)}
+711:                   className="h-13 w-full rounded-2xl border border-black/10 bg-white py-4 pl-12 pr-4 text-base font-semibold text-[#21170f] shadow-sm outline-none focus:border-[#21170f] focus:ring-4 focus:ring-black/5"
+712:                 />
+713:               </div>
+714:               <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
+715:                 {categoryList.map(category => {
+716:                   const categoryMeta = categoryStyles[category] || { label: category, icon: CakeSlice };
+717:                   const Icon = categoryMeta.icon;
+718:                   const active = filterCategory === category;
+719:                   return (
+720:                     <button
+721:                       key={category}
+722:                       onClick={() => setFilterCategory(category)}
+723:                       className={`flex h-12 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-black ${active ? 'border-[#21170f] bg-[#21170f] text-white shadow-lg shadow-black/10' : 'border-black/10 bg-white text-[#3c3028] hover:border-[#21170f]/30'}`}
+724:                     >
+725:                       <Icon className="h-4 w-4" />
+726:                       {categoryMeta.label}
+727:                     </button>
+728:                   );
+729:                 })}
+730:               </div>
+731:             </div>
+732:           </div>
+733: 
+734:           <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
+735:             <div>
+736:               <p className="text-sm font-bold text-[#92602f]">{filteredProducts.length} items available</p>
+737:               <h2 className="text-3xl font-black text-[#21170f]">{filterCategory === 'all' ? 'Fresh bakery menu' : filterCategory}</h2>
+738:             </div>
+739:             <div className="hidden items-center gap-2 md:flex">
+740:               <span className="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#3c3028] shadow-sm">4.8 rated</span>
+741:               <span className="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#3c3028] shadow-sm">Pure veg options</span>
+742:             </div>
+743:           </div>
+744: 
+745:           {filteredProducts.length > 0 ? (
+746:             <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
+747:               {filteredProducts.map(product => (
+748:                 <article
+749:                   key={product._id}
+750:                   onClick={() => openProduct(product)}
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

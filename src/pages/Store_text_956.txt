@@ -1,0 +1,38 @@
+Created At: 2026-07-14T11:22:13Z
+Completed At: 2026-07-14T11:22:14Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1635
+Total Bytes: 88187
+Showing lines 676 to 705
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+676:               </div>
+677:             </button>
+678:           </div>
+679: 
+680:           <div className="flex items-center gap-2">
+681:             <button
+682:               onClick={focusSearch}
+683:               className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#21170f] shadow-sm hover:bg-[#f7f2ec]"
+684:               aria-label="Search menu"
+685:             >
+686:               <Search className="h-5 w-5" />
+687:             </button>
+688:             <button
+689:               onClick={() => setShowCart(true)}
+690:               className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#21170f] shadow-sm hover:bg-[#f7f2ec] md:hidden"
+691:               aria-label="Open orders"
+692:             >
+693:               <ShoppingBag className="h-5 w-5" />
+694:               {totalQuantity > 0 && <span className="absolute -right-1 -top-1 min-w-5 rounded-full bg-[#e63946] px-1 text-center text-[10px] font-black text-white">{totalQuantity}</span>}
+695:             </button>
+696:             <button
+697:               onClick={() => setShowProfile(true)}
+698:               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-[#21170f] shadow-sm hover:bg-[#f7f2ec]"
+699:               aria-label="Open profile and contact options"
+700:             >
+701:               <User className="h-5 w-5" />
+702:             </button>
+703:             <button onClick={scrollToProducts} className="hidden h-11 rounded-full px-4 text-sm font-bold text-[#32251b] hover:bg-black/5 md:block">
+704:               Menu
+705:             </button>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

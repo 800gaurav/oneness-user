@@ -1,0 +1,63 @@
+Created At: 2026-07-14T07:14:52Z
+Completed At: 2026-07-14T07:14:52Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 1050 to 1200
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1050:               <div className="mt-5 grid grid-cols-3 gap-2">
+1051:                 <div className="rounded-2xl bg-white/10 p-3">
+1052:                   <p className="text-lg font-black">4.8</p>
+1053:                   <p className="text-[11px] font-bold text-white/65">Rating</p>
+1054:                 </div>
+1055:                 <div className="rounded-2xl bg-white/10 p-3">
+1056:                   <p className="text-lg font-black">45-60</p>
+1057:                   <p className="text-[11px] font-bold text-white/65">Mins</p>
+1058:                 </div>
+1059:                 <div className="rounded-2xl bg-white/10 p-3">
+1060:                   <p className="text-lg font-black">{products.length}</p>
+1061:                   <p className="text-[11px] font-bold text-white/65">Items</p>
+1062:                 </div>
+1063:               </div>
+1064:             </div>
+1065: 
+1066:             <div className="p-5">
+1067:               <div className="grid grid-cols-2 gap-3">
+1068:                 <button onClick={() => { setShowProfile(false); focusSearch(); }} className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-[#f7f2ec] font-black text-[#21170f] shadow-sm">
+1069:                   <Search className="h-5 w-5" />
+1070:                   Search Menu
+1071:                 </button>
+1072:                 <button onClick={() => { setShowProfile(false); setShowCart(true); }} className="relative flex h-14 items-center justify-center gap-2 rounded-2xl bg-[#0c7a35] font-black text-white shadow-lg shadow-[#0c7a35]/20">
+1073:                   <ShoppingBag className="h-
+<truncated 6638 bytes>
+   <button onClick={() => updateQuantity(item.cartKey, 1)} className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100" aria-label="Increase quantity"><Plus className="h-4 w-4" /></button>
+1172:                       <button onClick={() => removeFromCart(item.cartKey)} className="ml-auto p-2 text-red-600" aria-label="Remove item"><X className="h-5 w-5" /></button>
+1173:                     </div>
+1174:                   </div>
+1175:                 </div>
+1176:               ))}
+1177:             </div>
+1178: 
+1179:             {cart.length > 0 && (
+1180:               <div className="border-t bg-[#f7f2ec] p-4">
+1181:                 {deliveryCharge > 0 ? (
+1182:                   <div className="mb-3 rounded-2xl bg-[#fff7e6] px-4 py-3 text-sm font-bold text-[#8a5a00]">
+1183:                     Add {currency}{freeDeliveryBalance} more to unlock free delivery
+1184:                   </div>
+1185:                 ) : (
+1186:                   <div className="mb-3 rounded-2xl bg-[#e9f8ef] px-4 py-3 text-sm font-bold text-[#0c7a35]">
+1187:                     Free delivery unlocked
+1188:                   </div>
+1189:                 )}
+1190: 
+1191:                 {/* Coupon Code Section */}
+1192:                 <div className="mb-3 rounded-2xl bg-white p-4 shadow-sm">
+1193:                   <div className="flex items-center gap-2 mb-2">
+1194:                     <BadgePercent className="h-5 w-5 text-[#e63946]" />
+1195:                     <p className="font-black text-[#21170f]">Apply Coupon</p>
+1196:                   </div>
+1197:                   {appliedCoupon ? (
+1198:                     <div className="flex items-center justify-between rounded-xl bg-[#e9f8ef] px-3 py-2 text-sm font-bold text-[#0c7a35]">
+1199:                       <div>
+1200:                         <span>Applied: {appliedCoupon.code}</span>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

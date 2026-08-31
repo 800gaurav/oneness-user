@@ -1,0 +1,34 @@
+Created At: 2026-07-14T11:13:21Z
+Completed At: 2026-07-14T11:13:21Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1539
+Total Bytes: 82189
+Showing lines 1220 to 1245
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1220:                       custom: { bg: 'bg-gray-50 text-gray-600 border-gray-100/50', hover: 'hover:bg-gray-100/40' }
+1221:                     };
+1222:                     const color = linkColors[link.type] || linkColors.custom;
+1223:                     return (
+1224:                       <button
+1225:                         key={`${link.type}-profile-${index}`}
+1226:                         onClick={() => openQuickLink(link)}
+1227:                         className={`flex w-full items-center gap-3 rounded-2xl border border-black/[0.04] bg-white p-2.5 text-left font-bold text-[#21170f] shadow-sm transition-all duration-200 hover:-translate-y-0.5 ${color.hover}`}
+1228:                       >
+1229:                         <span className={`flex h-10 w-10 items-center justify-center rounded-xl border ${color.bg}`}>
+1230:                           <Icon className="h-4.5 w-4.5" />
+1231:                         </span>
+1232:                         <span className="min-w-0 flex-1">
+1233:                           <span className="block truncate text-xs font-black text-[#21170f]">{link.label || link.type}</span>
+1234:                           <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-[#6f6258] mt-0.5">{link.type || 'link'}</span>
+1235:                         </span>
+1236:                         <ChevronRight className="h-4.5 w-4.5 text-[#9d8371]" />
+1237:                       </button>
+1238:                     );
+1239:                   }) : (
+1240:                     <div className="rounded-2xl border border-dashed border-black/10 bg-[#f7f2ec] p-4 text-center text-xs font-semibold text-[#6f6258]">
+1241:                       No active contact links available.
+1242:                     </div>
+1243:                   )}
+1244:                 </div>
+1245:               </div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

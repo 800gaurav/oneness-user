@@ -1,0 +1,108 @@
+Created At: 2026-07-14T07:14:28Z
+Completed At: 2026-07-14T07:14:28Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 1 to 100
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useEffect, useMemo, useState } from 'react';
+2: import {
+3:   BadgePercent,
+4:   CakeSlice,
+5:   Calendar,
+6:   Check,
+7:   ChevronRight,
+8:   Download,
+9:   Edit3,
+10:   ExternalLink,
+11:   Facebook,
+12:   Flame,
+13:   Globe2,
+14:   Heart,
+15:   Instagram,
+16:   Mail,
+17:   MapPin,
+18:   Menu,
+19:   MessageCircle,
+20:   Minus,
+21:   Phone,
+22:   Plus,
+23:   Search,
+24:   ShoppingBag,
+25:   ShoppingCart,
+26:   Smartphone,
+27:   Sparkles,
+28:   Star,
+29:   Timer,
+30:   Truck,
+31:   User,
+32:   X
+33: } from 'lucide-react';
+34: import toast from 'react-hot-toast';
+35: import axios from 'axios';
+36: 
+37: const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+38: 
+39: const checkoutOptions = [
+40:   { key: 'name', requiredByDefault: true },
+41:   { key: 'phone', requiredByDefault: true },
+42:   { key: 'email' },
+43:   { key: 'address', requiredByDefault: true },
+44:   { key: 'deliveryDate', requiredByDefault: true },
+45:   { key: 'dob' },
+46:   { key: 'anniversaryDate' },
+47:   { key: 'specialDate' },
+48:   { key: 'specialDateDescription' },
+49:   { key: 'orderNotes' }
+50: ];
+51: 
+52: const defaultCheckoutFields = checkoutOptions.reduce((acc, item) => ({
+53:   ...acc,
+54:   [item.key]: { visible: true, required: Boolean(item.requiredByDefault) }
+55: }), {});
+56: 
+57: const normalizeCheckoutFields = (fields = {}) => checkoutOptions.reduce((acc, item) => {
+58:   const saved = fields?.[item.key];
+59:   if (typeof saved === 'boolean') {
+60:     acc[item.key] = { visible: saved, required: saved && Boolean(item.requiredByDefault) };
+61:     return acc;
+62:   }
+63: 
+64:   acc[item.key] = {
+65:     visible: saved?.visible !== false,
+66:     required: saved?.required === true
+67:   };
+68:   return acc;
+69: }, {});
+70: 
+71: const defaultSettings = {
+72:   bakeryName: 'Sweet Bakery',
+73:   appName: 'Sweet Bakery',
+74:   appIcon: '',
+75:   currency: 'Rs.',
+76:   offerBanners: [],
+77:   quickLinks: [],
+78:   checkoutFields: defaultCheckoutFields
+79: };
+80: 
+81: const FREE_DELIVERY_MINIMUM = 499;
+82: const DELIVERY_CHARGE = 35;
+83: const SAVED_CUSTOMER_KEY = 'bakeryStoreCustomerProfile';
+84: const CUSTOMER_TOKEN_KEY = 'bakeryStoreCustomerToken';
+85: const DISMISSED_FIELDS_KEY = 'bakeryStoreDismissedProfileFields';
+86: 
+87: const categoryStyles = {
+88:   all: { label: 'All', icon: CakeSlice },
+89:   Cakes: { label: 'Cakes', icon: CakeSlice },
+90:   Pastries: { label: 'Pastries', icon: Sparkles },
+91:   Breads: { label: 'Breads', icon: Flame },
+92:   Cookies: { label: 'Cookies', icon: Star },
+93:   Desserts: { label: 'Desserts', icon: Heart },
+94:   Snacks: { label: 'Snacks', icon: ShoppingBag }
+95: };
+96: 
+97: const formatWeight = (product) => {
+98:   const weight = [product.weight, product.weightUnit].filter(Boolean).join(' ').trim();
+99:   return weight || 'Fresh batch';
+100: };
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

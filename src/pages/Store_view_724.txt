@@ -1,0 +1,34 @@
+Created At: 2026-07-14T09:50:13Z
+Completed At: 2026-07-14T09:50:13Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 690 to 715
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+690:                 </span>
+691:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+692:                   <Timer className="h-4 w-4" />
+693:                   45-60 min
+694:                 </span>
+695:               </div>
+696:               <div className="max-w-xl">
+697:                 <h2 className="text-4xl font-black leading-tight sm:text-6xl">{heroBanner.title || 'Fresh bakery favourites'}</h2>
+698:                 <p className="mt-3 max-w-lg text-base font-medium text-white/85 sm:text-lg">{heroBanner.subtitle || 'Premium cakes, pastries, cookies and breads baked in small batches.'}</p>
+699:                 <div className="mt-6 flex flex-wrap gap-3">
+700:                   <button onClick={scrollToProducts} className="h-12 rounded-full bg-[#e63946] px-6 font-black text-white shadow-lg shadow-black/20">
+701:                     Order Now
+702:                   </button>
+703:                   <button onClick={() => setShowCart(true)} className="h-12 rounded-full bg-white px-6 font-black text-[#21170f]">
+704:                     View Cart
+705:                   </button>
+706:                 </div>
+707:               </div>
+708:             </div>
+709:           </div>
+710: 
+711:         </section>
+712: 
+713:         <section id="products" className="px-4 pt-8 sm:px-6">
+714:           <div className="sticky top-0 z-20 -mx-4 border-y border-black/5 bg-[#f7f2ec]/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6">
+715:             <div className="grid gap-4 lg:grid-cols-[360px_1fr] lg:items-center">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

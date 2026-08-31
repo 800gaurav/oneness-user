@@ -1,0 +1,79 @@
+Created At: 2026-07-14T10:56:54Z
+Completed At: 2026-07-14T10:56:54Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1479
+Total Bytes: 78207
+Showing lines 110 to 180
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+110: const defaultBanners = [
+111:   { image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1200&auto=format&fit=crop' },
+112:   { image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop' },
+113:   { image: 'https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop' },
+114:   { image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1200&auto=format&fit=crop' }
+115: ];
+116: 
+117: const Store = () => {
+118:   const [products, setProducts] = useState([]);
+119:   const [settings, setSettings] = useState(defaultSettings);
+120:   const [cart, setCart] = useState([]);
+121:   const [searchTerm, setSearchTerm] = useState('');
+122:   const [filterCategory, setFilterCategory] = useState('all');
+123:   const [showCart, setShowCart] = useState(false);
+124:   const [showCheckout, setShowCheckout] = useState(false);
+125:   const [showQuickLinks, setShowQuickLinks] = useState(false);
+126:   const [showProfile, setShowProfile] = useState(false);
+127:   const [savedCustomerProfile, setSavedCustomerProfile] = useState(null);
+128:   const [customerToken, setCustomerToken] = useState('');
+129:   const [dismissedProfileFields, setDismissedProfileFields] = useState({});
+130:   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+131:   const [isStandaloneApp, setIsStandaloneApp] = useState(false);
+132:   const [selectedProduct, setSelectedProduct] = useState(null);
+133:   const [variantProduct, setVariantProduct] = useState(null);
+134:   const [activeImage, setActiveImage] = useState('');
+135:   const [activeBanner, setActiveBanner] = useState(0);
+136:   const [couponInput, setCouponInput] = useState('');
+137:   const [appliedCoupon, setAppliedCoupon] = useState(null);
+138:   const [orderForm, setOrderForm] = useState({
+139:     customerName: '',
+140:     phone: '',
+141:     email: '',
+142:     address: '',
+143:     deliveryDate: '',
+144:     dob: '',
+145:     anniversaryDate: '',
+146:     specialDate: '',
+147:     specialDateDescription: '',
+148:     notes: ''
+149:   });
+150: 
+151:   useEffect(() => {
+152:     fetchStoreData();
+153:     const storedProfile = localStorage.getItem(SAVED_CUSTOMER_KEY);
+154:     const storedToken = localStorage.getItem(CUSTOMER_TOKEN_KEY);
+155:     const storedDismissedFields = localStorage.getItem(DISMISSED_FIELDS_KEY);
+156:     if (storedToken) setCustomerToken(storedToken);
+157:     if (storedDismissedFields) {
+158:       try {
+159:         setDismissedProfileFields(JSON.parse(storedDismissedFields));
+160:       } catch {
+161:         localStorage.removeItem(DISMISSED_FIELDS_KEY);
+162:       }
+163:     }
+164:     if (storedProfile) {
+165:       try {
+166:         applyCustomerProfile(JSON.parse(storedProfile), false);
+167:       } catch {
+168:         localStorage.removeItem(SAVED_CUSTOMER_KEY);
+169:       }
+170:     }
+171:   }, []);
+172: 
+173:   useEffect(() => {
+174:     const standalone = window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
+175:     setIsStandaloneApp(standalone);
+176: 
+177:     const handleBeforeInstallPrompt = (event) => {
+178:       event.preventDefault();
+179:       setDeferredInstallPrompt(event);
+180:     };
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

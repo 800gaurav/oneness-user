@@ -1,0 +1,88 @@
+Created At: 2026-07-14T10:56:58Z
+Completed At: 2026-07-14T10:56:58Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1479
+Total Bytes: 78207
+Showing lines 181 to 260
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+181: 
+182:     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+183:     if ('serviceWorker' in navigator) {
+184:       navigator.serviceWorker.register('/sw.js').catch(() => {});
+185:     }
+186: 
+187:     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+188:   }, []);
+189: 
+190:   useEffect(() => {
+191:     const appName = settings.appName || settings.bakeryName || 'Sweet Bakery';
+192:     const appIcon = settings.appIcon || settings.logo || '/vite.svg';
+193:     document.title = appName;
+194: 
+195:     const manifest = {
+196:       name: appName,
+197:       short_name: appName.slice(0, 12),
+198:       start_url: '/store',
+199:       scope: '/',
+200:       display: 'standalone',
+201:       background_color: '#fffdf9',
+202:       theme_color: '#21170f',
+203:       icons: [
+204:         { src: appIcon, sizes: '192x192', type: appIcon.startsWith('data:image/png') ? 'image/png' : 'image/png', purpose: 'any maskable' },
+205:         { src: appIcon, sizes: '512x512', type: appIcon.startsWith('data:image/png') ? 'image/png' : 'image/png', purpose: 'any maskable' }
+206:       ]
+207:     };
+208:     const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
+209:     let manifestLink = document.querySelector('link[rel="manifest"]');
+210:     if (!manifestLink) {
+211:       manifestLink = document.createElement('link');
+212:       manifestLink.rel = 'manifest';
+213:       document.head.appendChild(manifestLink);
+214:     }
+215:     manifestLink.href = manifestU
+<truncated 67 bytes>
+="apple-touch-icon"]');
+218:     if (!appleIcon) {
+219:       appleIcon = document.createElement('link');
+220:       appleIcon.rel = 'apple-touch-icon';
+221:       document.head.appendChild(appleIcon);
+222:     }
+223:     appleIcon.href = appIcon;
+224: 
+225:     return () => URL.revokeObjectURL(manifestUrl);
+226:   }, [settings.appIcon, settings.appName, settings.bakeryName, settings.logo]);
+227: 
+228:   const activeBanners = useMemo(() => {
+229:     const configured = (settings.offerBanners || []).filter(banner => banner?.isActive !== false && banner.image);
+230:     return configured.length > 0 ? configured : defaultBanners;
+231:   }, [settings.offerBanners]);
+232: 
+233:   useEffect(() => {
+234:     if (activeBanners.length <= 1) return undefined;
+235:     const timer = setInterval(() => {
+236:       setActiveBanner(prev => (prev + 1) % activeBanners.length);
+237:     }, 4500);
+238:     return () => clearInterval(timer);
+239:   }, [activeBanners.length]);
+240: 
+241:   useEffect(() => {
+242:     if (showCheckout && savedCustomerProfile) {
+243:       applyCustomerProfile(savedCustomerProfile, false);
+244:     }
+245:   }, [showCheckout, savedCustomerProfile]);
+246: 
+247:   const fetchStoreData = async () => {
+248:     try {
+249:       const [productResponse, settingsResponse] = await Promise.all([
+250:         axios.get(`${API_URL}/products`),
+251:         axios.get(`${API_URL}/settings/public`).catch(() => ({ data: { data: defaultSettings } }))
+252:       ]);
+253: 
+254:       setProducts(productResponse.data.filter(product => product.inStock));
+255:       const publicSettings = settingsResponse.data.data || defaultSettings;
+256:       setSettings({
+257:         ...defaultSettings,
+258:         ...publicSettings,
+259:         offerBanners: publicSettings.offerBanners || [],
+260:         quickLinks: publicSettings.quickLinks || [],
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

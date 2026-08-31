@@ -1,0 +1,63 @@
+Created At: 2026-07-14T09:40:11Z
+Completed At: 2026-07-14T09:40:12Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1448
+Total Bytes: 76546
+Showing lines 880 to 950
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+880: 
+881:                 return (
+882:                   <div key={`${link.type}-${index}`} className="group relative flex items-center justify-end">
+883:                     {/* Tooltip Label */}
+884:                     <span className="absolute right-14 scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 bg-[#21170f] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded-lg shadow-xl transition-all duration-200 pointer-events-none whitespace-nowrap">
+885:                       {link.label || link.type}
+886:                     </span>
+887:                     {/* Sub Button Circle */}
+888:                     <button
+889:                       onClick={() => {
+890:                         openQuickLink(link);
+891:                         setShowQuickLinks(false);
+892:                       }}
+893:                       className={`flex h-12 w-12 items-center justify-center rounded-full shadow-md transition-all duration-300 transform scale-90 hover:scale-105 hover:-translate-y-0.5 ${colorClass}`}
+894:                       aria-label={link.label || link.type}
+895:                     >
+896:                       <Icon className="h-5 w-5" />
+897:                     </button>
+898:                   </div>
+899:                 );
+900:               })}
+901:             </div>
+902:           )}
+903: 
+904:           {/* Trigger Button - Grid Icon */}
+905:           <button
+906:             onClick={() => setShowQuickLinks(prev => !prev)}
+907:             className="flex h-14 w-14 items-center justify-center rounded-full bg-[#21170f] text
+<truncated 1031 bytes>
+hidden rounded-3xl bg-[#f1e4d8]">
+926:                   {activeImage ? (
+927:                     <img src={activeImage} alt={selectedProduct.name} className="h-full w-full object-cover" />
+928:                   ) : (
+929:                     <div className="flex h-full w-full items-center justify-center text-[#9d8371]"><CakeSlice className="h-16 w-16" /></div>
+930:                   )}
+931:                   <button onClick={() => setSelectedProduct(null)} className="absolute right-3 top-3 rounded-full bg-white/90 p-2 text-[#21170f] shadow" aria-label="Close product">
+932:                     <X className="h-5 w-5" />
+933:                   </button>
+934:                   {getDiscount(selectedProduct.price, selectedProduct.originalPrice) > 0 && (
+935:                     <span className="absolute left-3 top-3 rounded-full bg-[#e63946] px-3 py-1.5 text-xs font-black text-white shadow">
+936:                       {getDiscount(selectedProduct.price, selectedProduct.originalPrice)}% OFF
+937:                     </span>
+938:                   )}
+939:                 </div>
+940:                 {getProductImages(selectedProduct).length > 1 && (
+941:                   <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+942:                     {getProductImages(selectedProduct).map((image, index) => (
+943:                       <button key={`${image}-${index}`} onClick={() => setActiveImage(image)} className={`h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 ${activeImage === image ? 'border-[#e63946]' : 'border-transparent'}`}>
+944:                         <img src={image} alt={`${selectedProduct.name} ${index + 1}`} className="h-full w-full object-cover" />
+945:                       </button>
+946:                     ))}
+947:                   </div>
+948:                 )}
+949:               </div>
+950: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

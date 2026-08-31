@@ -1,0 +1,59 @@
+Created At: 2026-07-14T11:22:49Z
+Completed At: 2026-07-14T11:22:49Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1642
+Total Bytes: 88547
+Showing lines 1260 to 1345
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1260:                             className={`flex w-full items-center gap-3 rounded-2xl border border-black/[0.04] bg-white p-2.5 text-left font-bold text-[#21170f] shadow-sm transition-all duration-200 hover:-translate-y-0.5 ${color.hover}`}
+1261:                           >
+1262:                             <span className={`flex h-10 w-10 items-center justify-center rounded-xl border ${color.bg}`}>
+1263:                               <Icon className="h-4.5 w-4.5" />
+1264:                             </span>
+1265:                             <span className="min-w-0 flex-1">
+1266:                               <span className="block truncate text-xs font-black text-[#21170f]">{link.label || link.type}</span>
+1267:                               <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-[#6f6258] mt-0.5">{link.type || 'link'}</span>
+1268:                             </span>
+1269:                             <ChevronRight className="h-4.5 w-4.5 text-[#9d8371]" />
+1270:                           </button>
+1271:                         );
+1272:                       }) : (
+1273:                         <div className="rounded-2xl border border-dashed border-black/10 bg-[#f7f2ec] p-4 text-center text-xs font-semibold text-[#6f6258]">
+1274:                           No active contact links available.
+1275:                         </div>
+1276:                       )}
+1277:                     </div>
+1278:                   </div>
+1279:                 </>
+1280:               ) : (
+1281:                 <div className="space-y-4">
+1282: 
+<truncated 2900 bytes>
+b border-black/[0.03] pb-2.5">
+1320:                               <div>
+1321:                                 <p className="text-[9px] font-black uppercase tracking-wider text-gray-400">Order Placed</p>
+1322:                                 <p className="text-xs font-bold text-[#6f6258] mt-0.5">{orderDate}</p>
+1323:                               </div>
+1324:                               <span className={`rounded-full border px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider ${statusBadge}`}>
+1325:                                 {order.status.replace('_', ' ')}
+1326:                               </span>
+1327:                             </div>
+1328:                             
+1329:                             <div className="space-y-1.5">
+1330:                               {order.items.map((item, idx) => (
+1331:                                 <div key={idx} className="flex justify-between items-center text-xs font-semibold text-[#21170f]">
+1332:                                   <span>{item.name} <span className="text-gray-400">x{item.quantity}</span></span>
+1333:                                   <span className="text-gray-500">{currency}{item.price * item.quantity}</span>
+1334:                                 </div>
+1335:                               ))}
+1336:                             </div>
+1337: 
+1338:                             <div className="flex items-center justify-between border-t border-black/[0.03] pt-2.5 text-xs font-black">
+1339:                               <span className="text-gray-400">Total Paid</span>
+1340:                               <span className="text-[#92602f] text-sm">{currency}{order.totalAmount}</span>
+1341:                             </div>
+1342:                           </div>
+1343:                         );
+1344:                       })}
+1345:                     </div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

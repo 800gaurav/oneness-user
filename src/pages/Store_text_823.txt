@@ -1,0 +1,98 @@
+Created At: 2026-07-14T10:57:06Z
+Completed At: 2026-07-14T10:57:06Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1479
+Total Bytes: 78207
+Showing lines 431 to 520
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+431:           code: data.couponCode,
+432:           discountPercentage: data.discountPercentage
+433:         });
+434:         toast.success(`Coupon applied! ${data.discountPercentage}% discount added.`);
+435:       }
+436:     } catch (error) {
+437:       toast.error(error.response?.data?.message || 'Invalid coupon code');
+438:     }
+439:   };
+440: 
+441:   const removeCoupon = () => {
+442:     setAppliedCoupon(null);
+443:     setCouponInput('');
+444:     toast.success('Coupon removed');
+445:   };
+446: 
+447:   const handleCheckout = async (e) => {
+448:     e.preventDefault();
+449:     if (!cart.length) return;
+450: 
+451:     try {
+452:       const orderData = {
+453:         ...orderForm,
+454:         items: cart.map(item => ({
+455:           product: item.productId || item._id,
+456:           name: item.variantLabel ? `${item.name} (${item.variantLabel})` : item.name,
+457:           price: item.price,
+458:           quantity: item.quantity,
+459:           weight: item.weight,
+460:           weightUnit: item.weightUnit
+461:         })),
+462:         totalAmount: finalAmount,
+463:         subtotal: totalAmount,
+464:         deliveryCharge,
+465:         couponCode: appliedCoupon ? appliedCoupon.code : undefined,
+466:         discountAmount: discountAmount
+467:       };
+468: 
+469:       await axios.post(`${API_URL}/store-orders`, orderData);
+470:       const profileToSave = {
+471:         customerName: orderForm.customerName,
+472:         phone: orderForm.phone,
+473:         email: orderForm.email,
+474:         address: orderForm.address,
+475:         dob: orderForm.dob,
+476:         anniversaryDate: orderForm.anniversaryDate,
+477:         specialDate: orderForm.specialDate,
+478:         specialDateDescription: orderForm.specialDateDescription
+479:       };
+480:       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profileToSave));
+481:       setSavedCustomerProfile(profileToSave);
+482:       toast.success('Order placed successfully! We will contact you soon.');
+483:       setCart([]);
+484:       setShowCheckout(false);
+485:       setShowCart(false);
+486:       setAppliedCoupon(null);
+487:       setCouponInput('');
+488:       setOrderForm({
+489:         customerName: '',
+490:         phone: '',
+491:         email: '',
+492:         address: '',
+493:         deliveryDate: '',
+494:         dob: '',
+495:         anniversaryDate: '',
+496:         specialDate: '',
+497:         specialDateDescription: '',
+498:         notes: ''
+499:       });
+500:     } catch (error) {
+501:       toast.error(error.response?.data?.message || 'Failed to place order');
+502:     }
+503:   };
+504: 
+505:   const updateForm = (key, value) => {
+506:     setOrderForm(prev => ({ ...prev, [key]: value }));
+507:   };
+508: 
+509:   const applyCustomerProfile = (profile, notify = true) => {
+510:     if (!profile) return;
+511:     setSavedCustomerProfile(profile);
+512:     setOrderForm(prev => ({
+513:       ...prev,
+514:       customerName: prev.customerName || profile.customerName || '',
+515:       phone: prev.phone || profile.phone || '',
+516:       email: prev.email || profile.email || '',
+517:       address: prev.address || profile.address || '',
+518:       dob: prev.dob || toDateInput(profile.dob),
+519:       anniversaryDate: prev.anniversaryDate || toDateInput(profile.anniversaryDate),
+520:       specialDate: prev.specialDate || toDateInput(profile.specialDate),
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

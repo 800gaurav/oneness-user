@@ -1,0 +1,44 @@
+Created At: 2026-07-14T09:50:17Z
+Completed At: 2026-07-14T09:50:17Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1495
+Total Bytes: 79660
+Showing lines 660 to 695
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+660:               aria-label="Open profile and contact options"
+661:             >
+662:               <User className="h-5 w-5" />
+663:             </button>
+664:             <button onClick={scrollToProducts} className="hidden h-11 rounded-full px-4 text-sm font-bold text-[#32251b] hover:bg-black/5 md:block">
+665:               Menu
+666:             </button>
+667:             <button onClick={() => setShowCart(true)} className="relative hidden h-11 items-center gap-2 rounded-full bg-[#21170f] px-5 text-sm font-black text-white shadow-lg shadow-black/10 md:flex">
+668:               <ShoppingBag className="h-4 w-4" />
+669:               Orders
+670:               {totalQuantity > 0 && <span className="ml-1 rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+671:             </button>
+672:           </div>
+673:         </div>
+674:       </header>
+675: 
+676:       <main className={`mx-auto max-w-7xl ${cart.length > 0 ? 'pb-28' : 'pb-12'}`}>
+677:         <section className="grid gap-5 px-4 pt-5 sm:px-6 lg:grid-cols-[1.35fr_0.65fr]">
+678:           <div className="relative min-h-[360px] overflow-hidden rounded-[28px] bg-[#25180f] text-white shadow-2xl shadow-[#3d2b1f]/15">
+679:             {heroBanner.image ? (
+680:               <img src={heroBanner.image} alt={heroBanner.title || 'Bakery offer'} className="absolute inset-0 h-full w-full object-cover" />
+681:             ) : (
+682:               <div className="absolute inset-0 bg-[linear-gradient(135deg,#2b1a10,#9b4d22_55%,#ffd166)]" />
+683:             )}
+684:             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/5" />
+685:             <div className="relative flex h-full min-h-[360px] flex-col justify-between p-6 sm:p-8">
+686:               <div className="flex flex-wrap gap-2">
+687:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-black text-[#24170e]">
+688:                   <BadgePercent className="h-4 w-4 text-[#e63946]" />
+689:                   Premium bakery
+690:                 </span>
+691:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+692:                   <Timer className="h-4 w-4" />
+693:                   45-60 min
+694:                 </span>
+695:               </div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

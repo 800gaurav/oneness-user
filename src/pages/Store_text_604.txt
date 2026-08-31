@@ -1,0 +1,63 @@
+Created At: 2026-07-14T07:34:38Z
+Completed At: 2026-07-14T07:34:38Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1468
+Total Bytes: 77421
+Showing lines 850 to 910
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+850:             <div className="flex shrink-0 items-center gap-2">
+851:               <span className="text-right">
+852:                 <span className="block text-xs font-bold text-white/75">Pay</span>
+853:                 <span className="block text-lg font-black">{currency}{finalAmount}</span>
+854:               </span>
+855:               <ChevronRight className="h-5 w-5" />
+856:             </div>
+857:           </button>
+858:         </div>
+859:       )}
+860: 
+861:       {quickLinks.length > 0 && (
+862:         <div className="fixed bottom-24 right-4 z-40 flex flex-col items-end gap-3 select-none">
+863:           {showQuickLinks && (
+864:             <div className="w-[280px] sm:w-[310px] overflow-hidden rounded-2xl border border-black/5 bg-white shadow-2xl transition-all duration-300">
+865:               {/* Header */}
+866:               <div className="bg-gradient-to-r from-[#21170f] to-[#3c3028] p-4 text-white flex items-center justify-between">
+867:                 <div>
+868:                   <h4 className="font-black text-xs tracking-wider uppercase">Support Dashboard</h4>
+869:                   <p className="text-[10px] text-white/70 font-semibold mt-0.5">Quick links to contact us</p>
+870:                 </div>
+871:                 <button
+872:                   onClick={() => setShowQuickLinks(false)}
+873:                   className="rounded-lg p-1 hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+874:                 >
+875:                   <X className="h-4 w-4" />
+876:                 </button>
+877:               </div>
+878: 
+879:       
+<truncated 607 bytes>
+r border-teal-100/50";
+888:                   if (link.type === 'instagram') colorClass = "bg-pink-50 text-pink-600 border border-pink-100/50";
+889:                   if (link.type === 'facebook') colorClass = "bg-blue-50 text-blue-600 border border-blue-100/50";
+890:                   if (link.type === 'website') colorClass = "bg-indigo-50 text-indigo-600 border border-indigo-100/50";
+891:                   if (link.type === 'email') colorClass = "bg-red-50 text-red-600 border border-red-100/50";
+892:                   if (link.type === 'reviews') colorClass = "bg-yellow-50 text-yellow-600 border border-yellow-100/50";
+893:                   if (link.type === 'install') colorClass = "bg-purple-50 text-purple-600 border border-purple-100/50";
+894: 
+895:                   return (
+896:                     <button
+897:                       key={`${link.type}-${index}`}
+898:                       onClick={() => {
+899:                         openQuickLink(link);
+900:                         setShowQuickLinks(false);
+901:                       }}
+902:                       className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-[#f7f2ec] text-left transition-all duration-200 group"
+903:                     >
+904:                       <span className={`flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-lg ${colorClass} transition-transform group-hover:scale-105`}>
+905:                         <Icon className="h-4 w-4" />
+906:                       </span>
+907:                       <span className="min-w-0 flex-1">
+908:                         <span className="block text-xs font-black text-[#21170f] truncate">{link.label || link.type}</span>
+909:                         <span className="block text-[9px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">{link.type}</span>
+910:                       </span>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

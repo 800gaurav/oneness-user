@@ -1,0 +1,46 @@
+Created At: 2026-07-14T11:04:42Z
+Completed At: 2026-07-14T11:04:43Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1502
+Total Bytes: 79260
+Showing lines 578 to 615
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+578:   const scrollToProducts = () => {
+579:     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+580:   };
+581: 
+582:   const focusSearch = () => {
+583:     scrollToProducts();
+584:     window.setTimeout(() => {
+585:       document.getElementById('store-search')?.focus();
+586:     }, 450);
+587:   };
+588: 
+589:   const quickLinks = (settings.quickLinks || []).filter(link => link.isActive !== false);
+590:   const bestSellers = products.slice(0, 3);
+591:   const categoryList = categories.length > 1 ? categories : ['all', 'Cakes', 'Pastries', 'Breads', 'Cookies', 'Desserts'];
+592: 
+593:   const quickIcon = (type) => {
+594:     const icons = {
+595:       whatsapp: MessageCircle,
+596:       instagram: Instagram,
+597:       facebook: Facebook,
+598:       website: Globe2,
+599:       phone: Phone,
+600:       email: Mail,
+601:       reviews: Star,
+602:       install: Download,
+603:       custom: ExternalLink
+604:     };
+605:     return icons[type] || ExternalLink;
+606:   };
+607: 
+608:   const renderCartControl = (product, variant = null) => {
+609:     const item = getCartItem(product, variant);
+610:     if (item) {
+611:       return (
+612:         <div className="flex h-11 items-center overflow-hidden rounded-xl border border-[#e63946] bg-[#fff4f4] font-black text-[#e63946]">
+613:           <button onClick={(e) => { e.stopPropagation(); updateQuantity(item.cartKey, -1); }} className="flex h-full w-10 items-center justify-center" aria-label="Decrease quantity">
+614:             <Minus className="h-4 w-4" />
+615:           </button>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

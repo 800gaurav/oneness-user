@@ -1,0 +1,54 @@
+Created At: 2026-07-14T07:41:56Z
+Completed At: 2026-07-14T07:41:57Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1447
+Total Bytes: 76582
+Showing lines 530 to 575
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+530:         applyCustomerProfile(data.data);
+531:       }
+532:     } catch {
+533:       // Autofill should never block checkout.
+534:     }
+535:   };
+536: 
+537:   const openQuickLink = (link) => {
+538:     if (link.type === 'install') {
+539:       installStoreApp();
+540:       return;
+541:     }
+542: 
+543:     const value = link.url || (link.type === 'phone' ? settings.phone : '') || (link.type === 'email' ? settings.email : '') || '';
+544:     let href = value;
+545: 
+546:     if (link.type === 'phone') href = `tel:${value}`;
+547:     if (link.type === 'email') href = `mailto:${value}`;
+548:     if (link.type === 'whatsapp') href = value.startsWith('http') ? value : `https://wa.me/${value.replace(/\D/g, '')}`;
+549:     if (!['phone', 'email'].includes(link.type) && href && !href.startsWith('http')) href = `https://${href}`;
+550: 
+551:     if (href) window.open(href, '_blank', 'noopener,noreferrer');
+552:   };
+553: 
+554:   const scrollToProducts = () => {
+555:     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+556:   };
+557: 
+558:   const focusSearch = () => {
+559:     scrollToProducts();
+560:     window.setTimeout(() => {
+561:       document.getElementById('store-search')?.focus();
+562:     }, 450);
+563:   };
+564: 
+565:   const quickLinks = (settings.quickLinks || []).filter(link => (
+566:     link.isActive !== false
+567:     && (link.url || link.type === 'install' || (link.type === 'phone' && settings.phone) || (link.type === 'email' && settings.email))
+568:   ));
+569:   const firstProductImage = products.find(product => product.image)?.image;
+570:   const heroBanner = activeBanners[activeBanner] || {
+571:     title: 'Fresh bakery favourites delivered today',
+572:     subtitle: 'Premium cakes, pastries, cookies and breads baked in small batches.',
+573:     image: firstProductImage
+574:   };
+575:   const bestSellers = products.slice(0, 3);
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

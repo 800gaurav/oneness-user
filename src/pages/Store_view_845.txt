@@ -1,0 +1,53 @@
+Created At: 2026-07-14T10:57:41Z
+Completed At: 2026-07-14T10:57:41Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1492
+Total Bytes: 78528
+Showing lines 1420 to 1479
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1420:                     <span className="flex items-center gap-2 text-sm font-black">Anniversary Date {fieldMarker('anniversaryDate')}</span>
+1421:                     <input type="date" required={isFieldRequired('anniversaryDate')} value={orderForm.anniversaryDate} onChange={(e) => updateForm('anniversaryDate', e.target.value)} className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 outline-none focus:ring-2 focus:ring-rose-400" />
+1422:                   </label>
+1423:                 )}
+1424:                 {showField('specialDate') && !hasSavedSpecialDate && (
+1425:                   <label className="space-y-2 md:col-span-2">
+1426:                     <span className="flex items-center gap-2 text-sm font-black">Other Special Date {fieldMarker('specialDate')}</span>
+1427:                     <input type="date" required={isFieldRequired('specialDate')} value={orderForm.specialDate} onChange={(e) => updateForm('specialDate', e.target.value)} className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 outline-none focus:ring-2 focus:ring-rose-400" />
+1428:                   </label>
+1429:                 )}
+1430:                 {showField('address') && (
+1431:                   <label className="space-y-2 md:col-span-2">
+1432:                     <span className="flex items-center gap-2 text-sm font-black">Delivery Address {fieldMarker('address')}</span>
+1433:                     <textarea required={isFieldRequired('address')} rows="3" value={orderForm.address} onChange={(e) => updateForm('address', e.target.value)} className="w-full resiz
+<truncated 1835 bytes>
+v className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+1451:                 <div className="space-y-2 text-sm font-semibold text-gray-600">
+1452:                   <div className="flex items-center justify-between">
+1453:                     <span>Item total</span>
+1454:                     <span>{currency}{totalAmount}</span>
+1455:                   </div>
+1456:                   {cartSavings > 0 && (
+1457:                     <div className="flex items-center justify-between text-[#0c7a35]">
+1458:                       <span>Discount saved</span>
+1459:                       <span>-{currency}{cartSavings}</span>
+1460:                     </div>
+1461:                   )}
+1462:                   {discountAmount > 0 && (
+1463:                     <div className="flex items-center justify-between text-[#0c7a35]">
+1464:                       <span>Coupon discount ({appliedCoupon?.code})</span>
+1465:                       <span>-{currency}{discountAmount}</span>
+1466:                     </div>
+1467:                   )}
+1468:                   <div className="flex items-center justify-between">
+1469:                     <span>Delivery charge</span>
+1470:                     <span className={deliveryCharge > 0 ? 'text-gray-900' : 'text-[#0c7a35]'}>{deliveryCharge > 0 ? `${currency}${deliveryCharge}` : 'FREE'}</span>
+1471:                   </div>
+1472:                 </div>
+1473:                 <div className="mt-3 flex items-center justify-between border-t pt-3 text-lg font-black">
+1474:                   <span>Total Amount</span>
+1475:                   <span>{currency}{finalAmount}</span>
+1476:                 </div>
+1477:               </div>
+1478: 
+1479:               <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#21170f] py-4 font-black text-white hover:bg-[#3c3028]">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

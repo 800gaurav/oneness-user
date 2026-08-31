@@ -1,0 +1,39 @@
+Created At: 2026-07-14T11:22:51Z
+Completed At: 2026-07-14T11:22:51Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1642
+Total Bytes: 88547
+Showing lines 1340 to 1370
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1340:                               <span className="text-[#92602f] text-sm">{currency}{order.totalAmount}</span>
+1341:                             </div>
+1342:                           </div>
+1343:                         );
+1344:                       })}
+1345:                     </div>
+1346:                   )}
+1347:                 </div>
+1348:               )}
+1349:             </div>
+1350:           </div>
+1351:         </div>
+1352:       )}
+1353: 
+1354:       {showCart && (
+1355:         <>
+1356:           <div className="fixed inset-0 z-40 bg-black/45 backdrop-blur-sm" onClick={() => setShowCart(false)} />
+1357:           <aside className="fixed right-0 top-0 z-50 flex h-full w-full flex-col bg-white shadow-2xl sm:w-[440px]">
+1358:             <div className="flex items-center justify-between border-b px-5 py-4">
+1359:               <div>
+1360:                 <h2 className="text-xl font-black">Your Order</h2>
+1361:                 <p className="text-sm text-gray-500">{totalQuantity} items selected</p>
+1362:               </div>
+1363:               <button onClick={() => setShowCart(false)} className="rounded-lg p-2 hover:bg-gray-100" aria-label="Close cart"><X className="h-6 w-6" /></button>
+1364:             </div>
+1365: 
+1366:             <div className="flex-1 space-y-3 overflow-y-auto p-4">
+1367:               {cart.length === 0 ? (
+1368:                 <div className="py-16 text-center">
+1369:                   <ShoppingCart className="mx-auto mb-4 h-16 w-16 text-gray-200" />
+1370:                   <p className="font-bold text-gray-500">Your cart is empty</p>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

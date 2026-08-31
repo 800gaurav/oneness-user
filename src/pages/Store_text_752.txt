@@ -1,0 +1,59 @@
+Created At: 2026-07-14T09:51:00Z
+Completed At: 2026-07-14T09:51:01Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1496
+Total Bytes: 79886
+Showing lines 665 to 715
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+665:             <button onClick={scrollToProducts} className="hidden h-11 rounded-full px-4 text-sm font-bold text-[#32251b] hover:bg-black/5 md:block">
+666:               Menu
+667:             </button>
+668:             <button onClick={() => setShowCart(true)} className="relative hidden h-11 items-center gap-2 rounded-full bg-[#21170f] px-5 text-sm font-black text-white shadow-lg shadow-black/10 md:flex">
+669:               <ShoppingBag className="h-4 w-4" />
+670:               Orders
+671:               {totalQuantity > 0 && <span className="ml-1 rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+672:             </button>
+673:           </div>
+674:         </div>
+675:       </header>
+676: 
+677:       <main className={`mx-auto max-w-7xl ${cart.length > 0 ? 'pb-28' : 'pb-12'}`}>
+678:         <section className="grid gap-5 px-4 pt-5 sm:px-6 lg:grid-cols-[1.35fr_0.65fr]">
+679:           <div className="relative min-h-[360px] overflow-hidden rounded-[28px] bg-[#25180f] text-white shadow-2xl shadow-[#3d2b1f]/15">
+680:             {heroBanner.image ? (
+681:               <img src={heroBanner.image} alt={heroBanner.title || 'Bakery offer'} className="absolute inset-0 h-full w-full object-cover" />
+682:             ) : (
+683:               <div className="absolute inset-0 bg-[linear-gradient(135deg,#2b1a10,#9b4d22_55%,#ffd166)]" />
+684:             )}
+685:             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/5" />
+686:             <div className="relative flex h-full min-h-[360px] flex-col justify-between p-6 sm:p-8">
+687:               <div className="flex flex-wrap gap-2">
+688:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-black text-[#24170e]">
+689:                   <BadgePercent className="h-4 w-4 text-[#e63946]" />
+690:                   Premium bakery
+691:                 </span>
+692:                 <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+693:                   <Timer className="h-4 w-4" />
+694:                   45-60 min
+695:                 </span>
+696:               </div>
+697:               <div className="max-w-xl">
+698:                 <h2 className="text-4xl font-black leading-tight sm:text-6xl">{heroBanner.title || 'Fresh bakery favourites'}</h2>
+699:                 <p className="mt-3 max-w-lg text-base font-medium text-white/85 sm:text-lg">{heroBanner.subtitle || 'Premium cakes, pastries, cookies and breads baked in small batches.'}</p>
+700:                 <div className="mt-6 flex flex-wrap gap-3">
+701:                   <button onClick={scrollToProducts} className="h-12 rounded-full bg-[#e63946] px-6 font-black text-white shadow-lg shadow-black/20">
+702:                     Order Now
+703:                   </button>
+704:                   <button onClick={() => setShowCart(true)} className="h-12 rounded-full bg-white px-6 font-black text-[#21170f]">
+705:                     View Cart
+706:                   </button>
+707:                 </div>
+708:               </div>
+709:             </div>
+710:           </div>
+711: 
+712:         </section>
+713: 
+714:         <section id="products" className="px-4 pt-8 sm:px-6">
+715:           <div className="sticky top-0 z-20 -mx-4 border-y border-black/5 bg-[#f7f2ec]/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6">
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

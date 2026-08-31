@@ -1,0 +1,34 @@
+Created At: 2026-07-14T11:13:14Z
+Completed At: 2026-07-14T11:13:14Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1532
+Total Bytes: 82046
+Showing lines 270 to 295
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+270:       setIsLoading(false);
+271:     }
+272:   };
+273: 
+274:   const fetchCustomerOrders = async (phoneStr) => {
+275:     const phone = phoneStr || orderForm.phone || savedCustomerProfile?.phone || '';
+276:     if (!phone) return;
+277:     setIsLoading(true);
+278:     try {
+279:       const { data } = await axios.get(`${API_URL}/store-orders/customer-orders`, {
+280:         params: { phone }
+281:       });
+282:       setCustomerOrders(data);
+283:     } catch {
+284:       toast.error('Orders load nahi ho paya');
+285:     } finally {
+286:       setIsLoading(false);
+287:     }
+288:   };
+289: 
+290:   const categories = useMemo(() => ['all', ...new Set(products.map(product => product.category).filter(Boolean))], [products]);
+291:   const checkoutFields = normalizeCheckoutFields(settings.checkoutFields);
+292:   const showField = (key) => checkoutFields[key]?.visible !== false;
+293:   const isFieldRequired = (key) => showField(key) && checkoutFields[key]?.required === true;
+294:   const fieldMarker = (key) => isFieldRequired(key) ? <span className="text-[#e63946]">*</span> : <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-black uppercase text-gray-500">Optional</span>;
+295:   const currency = settings.currency || 'Rs.';
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

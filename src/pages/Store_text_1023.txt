@@ -1,0 +1,58 @@
+Created At: 2026-07-14T11:29:20Z
+Completed At: 2026-07-14T11:29:20Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1548
+Total Bytes: 82536
+Showing lines 980 to 1050
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+980:               <div className="flex flex-col">
+981:                 <p className="text-sm font-black text-[#92602f]">{selectedProduct.category}</p>
+982:                 <h2 className="mt-1 text-3xl font-black leading-tight text-[#21170f]">{selectedProduct.name}</h2>
+983:                 <div className="mt-3 flex flex-wrap items-center gap-2 text-sm font-bold text-[#6f6258]">
+984:                   <span className="inline-flex items-center gap-1 rounded-full bg-[#f6f0e8] px-3 py-1">
+985:                     <Star className="h-4 w-4 fill-[#119744] text-[#119744]" />
+986:                     4.8
+987:                   </span>
+988:                   <span>{formatWeight(selectedProduct)}</span>
+989:                   <span>Fresh daily</span>
+990:                 </div>
+991:                 <p className="mt-4 text-sm leading-6 text-[#6f6258]">{selectedProduct.description || 'Freshly baked item from our bakery.'}</p>
+992: 
+993:                 <div className="mt-5 rounded-3xl border border-black/5 bg-[#f7f2ec] p-4">
+994:                   <div className="flex items-center justify-between gap-3">
+995:                     <div>
+996:                       <p className="text-xs font-black uppercase tracking-[0.16em] text-[#92602f]">Choose size</p>
+997:                       <p className="mt-1 text-xs font-semibold text-[#6f6258]">Prices change based on selected pack.</p>
+998:                     </div>
+999:                     {getProductVariants(selectedProduct).length > 0 && (
+1000:                       <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#2
+<truncated 2162 bytes>
+button onClick={() => addToCart(selectedProduct, variant)} className="h-11 rounded-xl border border-[#e63946] bg-white px-5 font-black text-[#e63946] shadow-sm">Add</button>
+1024:                           )}
+1025:                         </div>
+1026:                       );
+1027:                     }) : (
+1028:                       <div className="flex items-center justify-between gap-3 rounded-2xl border border-black/5 bg-white p-3 shadow-sm">
+1029:                         <div>
+1030:                           <p className="font-black text-[#21170f]">{formatWeight(selectedProduct)}</p>
+1031:                           <div className="mt-1 flex items-center gap-2">
+1032:                             <span className="text-lg font-black text-[#21170f]">{currency}{selectedProduct.price}</span>
+1033:                             {selectedProduct.originalPrice > selectedProduct.price && <span className="text-sm font-bold text-[#9d8371] line-through">{currency}{selectedProduct.originalPrice}</span>}
+1034:                           </div>
+1035:                         </div>
+1036:                         {renderCartControl(selectedProduct)}
+1037:                       </div>
+1038:                     )}
+1039:                   </div>
+1040:                 </div>
+1041:               </div>
+1042:             </div>
+1043: 
+1044:             {/* Related Products Panel */}
+1045:             <div className="border-t border-black/5 bg-[#fffdf9] p-5 sm:p-6">
+1046:               <h3 className="text-base font-black text-[#21170f] mb-3 tracking-wide uppercase">Related Products</h3>
+1047:               <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+1048:                 {products
+1049:                   .filter(p => p._id !== selectedProduct._id && p.category === selectedProduct.category)
+1050:                   .map(product => {
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,75 @@
+Created At: 2026-07-14T10:57:01Z
+Completed At: 2026-07-14T10:57:01Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1479
+Total Bytes: 78207
+Showing lines 261 to 350
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+261:         checkoutFields: normalizeCheckoutFields(publicSettings.checkoutFields)
+262:       });
+263:     } catch {
+264:       toast.error('Store load nahi ho paya');
+265:     }
+266:   };
+267: 
+268:   const categories = useMemo(() => ['all', ...new Set(products.map(product => product.category).filter(Boolean))], [products]);
+269:   const checkoutFields = normalizeCheckoutFields(settings.checkoutFields);
+270:   const showField = (key) => checkoutFields[key]?.visible !== false;
+271:   const isFieldRequired = (key) => showField(key) && checkoutFields[key]?.required === true;
+272:   const fieldMarker = (key) => isFieldRequired(key) ? <span className="text-[#e63946]">*</span> : <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-black uppercase text-gray-500">Optional</span>;
+273:   const currency = settings.currency || 'Rs.';
+274:   const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+275:   const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+276:   const originalTotal = cart.reduce((sum, item) => sum + ((item.originalPrice || item.price) * item.quantity), 0);
+277:   const cartSavings = Math.max(originalTotal - totalAmount, 0);
+278:   const deliveryCharge = totalAmount > 0 && totalAmount < FREE_DELIVERY_MINIMUM ? DELIVERY_CHARGE : 0;
+279:   const freeDeliveryBalance = Math.max(FREE_DELIVERY_MINIMUM - totalAmount, 0);
+280:   const discountAmount = appliedCoupon ? Math.round(totalAmount * (appliedCoupon.discountPercentage / 100)) : 0;
+281:   const finalAmount = Math.max(totalAmount - discountAmount + deliv
+<truncated 2092 bytes>
+ble.includes(query);
+307:     const matchesCategory = filterCategory === 'all' || product.category === filterCategory;
+308:     return matchesSearch && matchesCategory;
+309:   }), [filterCategory, products, searchTerm]);
+310: 
+311:   const addToCart = (product, variant = null) => {
+312:     const selectedVariant = variant || null;
+313:     const cartKey = getCartKey(product, selectedVariant);
+314:     const itemPrice = selectedVariant?.price ?? product.price;
+315:     const itemOriginalPrice = selectedVariant?.originalPrice ?? product.originalPrice;
+316:     const itemWeight = selectedVariant?.weight || product.weight;
+317:     const itemWeightUnit = selectedVariant?.weightUnit || product.weightUnit;
+318:     const itemLabel = selectedVariant?.label || [itemWeight, itemWeightUnit].filter(Boolean).join(' ').trim();
+319: 
+320:     setCart(prev => {
+321:       const existing = prev.find(item => item.cartKey === cartKey);
+322:       if (existing) {
+323:         return prev.map(item => item.cartKey === cartKey ? { ...item, quantity: item.quantity + 1 } : item);
+324:       }
+325:       return [...prev, {
+326:         ...product,
+327:         cartKey,
+328:         productId: product._id,
+329:         variantId: selectedVariant?._id,
+330:         variantLabel: itemLabel,
+331:         price: itemPrice,
+332:         originalPrice: itemOriginalPrice,
+333:         weight: itemWeight,
+334:         weightUnit: itemWeightUnit,
+335:         image: getDisplayImage(product),
+336:         quantity: 1
+337:       }];
+338:     });
+339:     toast.success('Cart mein add ho gaya');
+340:   };
+341: 
+342:   const handleAddClick = (product) => {
+343:     if (getProductVariants(product).length > 0) {
+344:       setVariantProduct(product);
+345:       return;
+346:     }
+347:     addToCart(product);
+348:   };
+349: 
+350:   const openProduct = async (product) => {
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

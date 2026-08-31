@@ -1,0 +1,29 @@
+Created At: 2026-07-14T11:29:30Z
+Completed At: 2026-07-14T11:29:30Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1548
+Total Bytes: 82536
+Showing lines 845 to 865
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+845:               <CakeSlice className="mx-auto mb-4 h-16 w-16 text-[#d6bdab]" />
+846:               <p className="font-black text-[#21170f]">No items found</p>
+847:               <p className="text-sm text-[#6f6258]">Try another search or category.</p>
+848:             </div>
+849:           )}
+850:         </section>
+851:       </main>
+852: 
+853:       <button
+854:         onClick={() => setShowCart(true)}
+855:         className={`fixed bottom-6 right-6 z-30 h-14 items-center gap-3 rounded-2xl bg-[#21170f] px-5 font-black text-white shadow-2xl shadow-black/20 ${cart.length > 0 ? 'hidden' : 'hidden md:flex'}`}
+856:         aria-label="Quick cart"
+857:       >
+858:         <ShoppingCart className="h-5 w-5" />
+859:         Cart
+860:         {totalQuantity > 0 && <span className="rounded-full bg-[#e63946] px-2 py-0.5 text-xs">{totalQuantity}</span>}
+861:       </button>
+862: 
+863:       {cart.length > 0 && !showCart && !showCheckout && !selectedProduct && !variantProduct && (
+864:         <div className="fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
+865:           <button
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

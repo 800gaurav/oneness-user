@@ -1,0 +1,67 @@
+Created At: 2026-07-14T07:14:54Z
+Completed At: 2026-07-14T07:14:54Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 800 to 900
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+800:                     <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+801:                       <div>
+802:                         {product.originalPrice > product.price && <p className="text-xs font-bold text-[#9d8371] line-through">{currency}{product.originalPrice}</p>}
+803:                         <p className="text-lg font-black text-[#21170f]">{currency}{product.price}</p>
+804:                         <p className="text-xs font-bold text-[#119744]">No preservatives</p>
+805:                       </div>
+806:                       {renderCartControl(product)}
+807:                     </div>
+808:                   </div>
+809:                 </article>
+810:               ))}
+811:             </div>
+812:           ) : (
+813:             <div className="mt-5 rounded-[24px] border border-black/5 bg-white py-16 text-center shadow-sm">
+814:               <CakeSlice className="mx-auto mb-4 h-16 w-16 text-[#d6bdab]" />
+815:               <p className="font-black text-[#21170f]">No items found</p>
+816:               <p className="text-sm text-[#6f6258]">Try another search or category.</p>
+817:             </div>
+818:           )}
+819:         </section>
+820:       </main>
+821: 
+822:       <button
+823:         onClick={() => setShowCart(true)}
+824:         className={`fixed bottom-6 right-6 z-30 h-14 items-center gap-3 rounded-2xl bg-[#21170f] px-5 font-black text-white shadow-2xl shadow-black/20 ${cart.length > 0 ? 'hidden' : 'hidden md:flex'}`}
+825:         aria-label="Quick cart"
+826:       >
+827:         <ShoppingCart className="h-5 w-5" />
+828:         C
+<truncated 2698 bytes>
+link.label || link.type}</span>
+873:               </button>
+874:             );
+875:           })}
+876:           <button
+877:             onClick={() => setShowQuickLinks(prev => !prev)}
+878:             className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e63946] text-white shadow-xl hover:bg-[#c92a2a]"
+879:             aria-label="Open contact links"
+880:           >
+881:             {showQuickLinks ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+882:           </button>
+883:         </div>
+884:       )}
+885: 
+886:       {selectedProduct && (
+887:         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/55 backdrop-blur-sm sm:items-center sm:p-4" onClick={() => setSelectedProduct(null)}>
+888:           <div className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl" onClick={(e) => e.stopPropagation()}>
+889:             <div className="grid gap-5 p-4 sm:grid-cols-[1.05fr_0.95fr] sm:p-6">
+890:               <div>
+891:                 <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-[#f1e4d8]">
+892:                   {activeImage ? (
+893:                     <img src={activeImage} alt={selectedProduct.name} className="h-full w-full object-cover" />
+894:                   ) : (
+895:                     <div className="flex h-full w-full items-center justify-center text-[#9d8371]"><CakeSlice className="h-16 w-16" /></div>
+896:                   )}
+897:                   <button onClick={() => setSelectedProduct(null)} className="absolute right-3 top-3 rounded-full bg-white/90 p-2 text-[#21170f] shadow" aria-label="Close product">
+898:                     <X className="h-5 w-5" />
+899:                   </button>
+900:                   {getDiscount(selectedProduct.price, selectedProduct.originalPrice) > 0 && (
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

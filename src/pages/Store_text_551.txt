@@ -1,0 +1,59 @@
+Created At: 2026-07-14T07:14:44Z
+Completed At: 2026-07-14T07:14:44Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1414
+Total Bytes: 74134
+Showing lines 100 to 150
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+100: };
+101: 
+102: const toDateInput = (value) => {
+103:   if (!value) return '';
+104:   const date = new Date(value);
+105:   if (Number.isNaN(date.getTime())) return '';
+106:   return date.toISOString().split('T')[0];
+107: };
+108: 
+109: const Store = () => {
+110:   const [products, setProducts] = useState([]);
+111:   const [settings, setSettings] = useState(defaultSettings);
+112:   const [cart, setCart] = useState([]);
+113:   const [searchTerm, setSearchTerm] = useState('');
+114:   const [filterCategory, setFilterCategory] = useState('all');
+115:   const [showCart, setShowCart] = useState(false);
+116:   const [showCheckout, setShowCheckout] = useState(false);
+117:   const [showQuickLinks, setShowQuickLinks] = useState(false);
+118:   const [showProfile, setShowProfile] = useState(false);
+119:   const [savedCustomerProfile, setSavedCustomerProfile] = useState(null);
+120:   const [customerToken, setCustomerToken] = useState('');
+121:   const [dismissedProfileFields, setDismissedProfileFields] = useState({});
+122:   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+123:   const [isStandaloneApp, setIsStandaloneApp] = useState(false);
+124:   const [selectedProduct, setSelectedProduct] = useState(null);
+125:   const [variantProduct, setVariantProduct] = useState(null);
+126:   const [activeImage, setActiveImage] = useState('');
+127:   const [activeBanner, setActiveBanner] = useState(0);
+128:   const [couponInput, setCouponInput] = useState('');
+129:   const [appliedCoupon, setAppliedCoupon] = useState(null);
+130:   const [orderForm, setOrderForm] = useState({
+131:     customerName: '',
+132:     phone: '',
+133:     email: '',
+134:     address: '',
+135:     deliveryDate: '',
+136:     dob: '',
+137:     anniversaryDate: '',
+138:     specialDate: '',
+139:     specialDateDescription: '',
+140:     notes: ''
+141:   });
+142: 
+143:   useEffect(() => {
+144:     fetchStoreData();
+145:     const storedProfile = localStorage.getItem(SAVED_CUSTOMER_KEY);
+146:     const storedToken = localStorage.getItem(CUSTOMER_TOKEN_KEY);
+147:     const storedDismissedFields = localStorage.getItem(DISMISSED_FIELDS_KEY);
+148:     if (storedToken) setCustomerToken(storedToken);
+149:     if (storedDismissedFields) {
+150:       try {
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

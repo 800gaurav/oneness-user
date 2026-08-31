@@ -1,0 +1,17 @@
+Created At: 2026-07-14T11:13:04Z
+Completed At: 2026-07-14T11:13:04Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1516
+Total Bytes: 81585
+Showing lines 268 to 276
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+268:       toast.error('Store load nahi ho paya');
+269:     } finally {
+270:       setIsLoading(false);
+271:     }
+272:   };
+273: 
+274:   const categories = useMemo(() => ['all', ...new Set(products.map(product => product.category).filter(Boolean))], [products]);
+275:   const checkoutFields = normalizeCheckoutFields(settings.checkoutFields);
+276:   const showField = (key) => checkoutFields[key]?.visible !== false;
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

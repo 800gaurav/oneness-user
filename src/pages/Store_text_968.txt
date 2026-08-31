@@ -1,0 +1,39 @@
+Created At: 2026-07-14T11:22:34Z
+Completed At: 2026-07-14T11:22:34Z
+File Path: `file:///d:/projects/whata%27app/frontend/src/pages/Store.jsx`
+Total Lines: 1636
+Total Bytes: 88196
+Showing lines 270 to 300
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+270:     } finally {
+271:       setIsLoading(false);
+272:     }
+273:   };
+274: 
+275:   const fetchCustomerOrders = async (phoneStr) => {
+276:     const phone = phoneStr || orderForm.phone || savedCustomerProfile?.phone || '';
+277:     if (!phone) return;
+278:     setIsLoading(true);
+279:     try {
+280:       const { data } = await axios.get(`${API_URL}/store-orders/customer-orders`, {
+281:         params: { phone }
+282:       });
+283:       setCustomerOrders(data);
+284:     } catch {
+285:       toast.error('Orders load nahi ho paya');
+286:     } finally {
+287:       setIsLoading(false);
+288:     }
+289:   };
+290: 
+291:   const handleProfileTabChange = (tab) => {
+292:     setActiveProfileTab(tab);
+293:     if (tab === 'orders') {
+294:       fetchCustomerOrders();
+295:     }
+296:   };
+297: 
+298:   const categories = useMemo(() => ['all', ...new Set(products.map(product => product.category).filter(Boolean))], [products]);
+299:   const checkoutFields = normalizeCheckoutFields(settings.checkoutFields);
+300:   const showField = (key) => checkoutFields[key]?.visible !== false;
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
