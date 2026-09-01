@@ -3785,9 +3785,9 @@ const Store = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               {settings.logo ? (
-                <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-12 w-auto max-w-[220px] object-contain" />
+                <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-14 sm:h-16 md:h-20 w-auto max-w-[300px] object-contain transition-all" />
               ) : (
-                <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-12 w-auto max-w-[220px] object-contain" />
+                <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-14 sm:h-16 md:h-20 w-auto max-w-[300px] object-contain transition-all" />
               )}
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-[#5c4a3e] font-semibold max-w-md">
@@ -4415,15 +4415,9 @@ const Store = () => {
                 <X className="h-4.5 w-4.5" />
               </button>
 
-              {/* Bakery Icon */}
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#d90429] to-[#9b0000] shadow-lg shadow-[#d90429]/30">
-                {authStep === 1 ? (
-                  <CakeSlice className="h-8 w-8 text-white" />
-                ) : authStep === 2 ? (
-                  <Mail className="h-8 w-8 text-white" />
-                ) : (
-                  <User className="h-8 w-8 text-white" />
-                )}
+              {/* Bakery Logo in Login/Signup Modal */}
+              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-amber-50/90 border border-amber-200 p-2 shadow-md">
+                <img src="/oneness_logo_1.png" alt="Oneness Bakery" className="h-full w-full object-contain" />
               </div>
 
               {/* Step dots */}
