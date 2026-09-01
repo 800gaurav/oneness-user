@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { X, Download, Printer, Building2, Phone, Mail, MapPin } from 'lucide-react';
-import { settingsAPI } from '../services/api';
+import { settingsAPI, getImageUrl } from '../services/api';
 import { downloadInvoicePdf } from '../utils/invoicePdf';
 
 const money = (v) => `₹${Number(v || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
@@ -133,8 +133,8 @@ const OrderBill = ({ order, onClose }) => {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 {settings.logo
-                  ? <img src={settings.logo} alt={businessName} className="w-10 h-10 rounded-lg object-contain border" />
-                  : <div className="w-10 h-10 rounded-lg bg-[rgb(var(--color-brown))] flex items-center justify-center text-white font-black text-sm">{businessName.charAt(0)}</div>
+                  ? <img src={getImageUrl(settings.logo)} alt={businessName} className="w-10 h-10 rounded-lg object-contain border" />
+                  : <img src="/oneness_logo_1.png" alt={businessName} className="w-10 h-10 rounded-lg object-contain border" />
                 }
                 <span className="text-xl font-black text-[rgb(var(--color-brown))]">{businessName}</span>
               </div>
