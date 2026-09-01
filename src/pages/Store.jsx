@@ -2340,15 +2340,10 @@ const Store = () => {
                 aria-label="Go to home"
               >
                 {settings.logo ? (
-                  <img src={settings.logo} alt={settings.bakeryName} className="h-8 w-8 rounded-lg border border-gray-100 bg-white object-contain p-0.5" />
+                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-8 w-auto max-w-[130px] object-contain" />
                 ) : (
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#d90429] text-white">
-                    <CakeSlice className="h-4.5 w-4.5" />
-                  </span>
+                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-8 w-auto max-w-[130px] object-contain" />
                 )}
-                <span className="text-lg font-black tracking-tight text-[#d90429]">
-                  {settings.bakeryName || 'Bakery'}
-                </span>
               </button>
 
               {/* Right: Search Icon */}
@@ -2371,15 +2366,10 @@ const Store = () => {
                 aria-label="Go to home"
               >
                 {settings.logo ? (
-                  <img src={settings.logo} alt={settings.bakeryName} className="h-10 w-10 rounded-xl border border-gray-100 bg-white object-contain p-0.5 shadow-sm" />
+                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-10 sm:h-11 w-auto max-w-[180px] object-contain" />
                 ) : (
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#d90429] text-white font-black shadow-sm">
-                    <CakeSlice className="h-5 w-5" />
-                  </span>
+                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-10 sm:h-11 w-auto max-w-[180px] object-contain" />
                 )}
-                <span className="text-xl font-black italic tracking-tight text-[#d90429]">
-                  {settings.bakeryName || 'Bakery'}
-                </span>
               </button>
 
               {/* Desktop: Search Bar */}
