@@ -2339,11 +2339,12 @@ const Store = () => {
                 className="flex items-center gap-2 cursor-pointer"
                 aria-label="Go to home"
               >
-                {settings.logo ? (
-                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-9 sm:h-11 w-auto max-w-[170px] object-contain transition-all" />
-                ) : (
-                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-9 sm:h-11 w-auto max-w-[170px] object-contain transition-all" />
-                )}
+                <img 
+                  src={getImageUrl(settings.logo) || '/oneness_logo_2.png'} 
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/oneness_logo_2.png'; }}
+                  alt={settings.bakeryName || 'Oneness Bakery'} 
+                  className="h-9 sm:h-11 w-auto max-w-[170px] object-contain transition-all" 
+                />
               </button>
 
               {/* Right: Search Icon */}
@@ -2365,11 +2366,12 @@ const Store = () => {
                 className="flex items-center gap-2.5 text-left cursor-pointer shrink-0"
                 aria-label="Go to home"
               >
-                {settings.logo ? (
-                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-12 sm:h-14 md:h-16 w-auto max-w-[240px] object-contain transition-all hover:scale-105" />
-                ) : (
-                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-12 sm:h-14 md:h-16 w-auto max-w-[240px] object-contain transition-all hover:scale-105" />
-                )}
+                <img 
+                  src={getImageUrl(settings.logo) || '/oneness_logo_2.png'} 
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/oneness_logo_2.png'; }}
+                  alt={settings.bakeryName || 'Oneness Bakery'} 
+                  className="h-12 sm:h-14 md:h-16 w-auto max-w-[240px] object-contain transition-all hover:scale-105" 
+                />
               </button>
 
               {/* Desktop: Search Bar */}
@@ -3784,11 +3786,12 @@ const Store = () => {
           {/* Col 1: Brand & About */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              {settings.logo ? (
-                <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-14 sm:h-16 md:h-20 w-auto max-w-[300px] object-contain transition-all" />
-              ) : (
-                <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-14 sm:h-16 md:h-20 w-auto max-w-[300px] object-contain transition-all" />
-              )}
+              <img 
+                src={getImageUrl(settings.logo) || '/oneness_logo_2.png'} 
+                onError={(e) => { e.target.onerror = null; e.target.src = '/oneness_logo_2.png'; }}
+                alt={settings.bakeryName || 'Oneness Bakery'} 
+                className="h-14 sm:h-16 md:h-20 w-auto max-w-[300px] object-contain transition-all" 
+              />
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-[#5c4a3e] font-semibold max-w-md">
               {settings.aboutText || "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses."}
@@ -4263,11 +4266,12 @@ const Store = () => {
                 <X className="h-5 w-5" />
               </button>
               <div className="flex items-center gap-4 pr-10">
-                {settings.logo ? (
-                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" />
-                ) : (
-                  <img src="/oneness_logo_1.png" alt="Oneness Bakery" className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" />
-                )}
+                <img 
+                  src={getImageUrl(settings.logo) || '/oneness_logo_1.png'} 
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/oneness_logo_1.png'; }}
+                  alt={settings.bakeryName || 'Oneness Bakery'} 
+                  className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" 
+                />
                 <div className="min-w-0">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffd6a5]">Store Profile</p>
                   <h2 className="mt-1 truncate text-2xl font-black tracking-tight">{settings.bakeryName || 'The Artisan Bakery'}</h2>
@@ -6097,11 +6101,12 @@ const Store = () => {
                 onClick={() => { setActiveView('store'); setFilterCategory('all'); setSubCategoryFilter('all'); setSearchTerm(''); setShowMobileCategoriesModal(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="flex items-center gap-1.5 cursor-pointer"
               >
-                {settings.logo ? (
-                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-8 w-auto max-w-[150px] object-contain" />
-                ) : (
-                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-8 w-auto max-w-[150px] object-contain" />
-                )}
+                <img 
+                  src={getImageUrl(settings.logo) || '/oneness_logo_2.png'} 
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/oneness_logo_2.png'; }}
+                  alt={settings.bakeryName || 'Oneness Bakery'} 
+                  className="h-8 w-auto max-w-[150px] object-contain" 
+                />
               </button>
 
               {/* Cart icon */}
