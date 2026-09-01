@@ -3793,14 +3793,39 @@ const Store = () => {
             <p className="text-xs sm:text-sm leading-relaxed text-[#5c4a3e] font-semibold max-w-md">
               {settings.aboutText || "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses."}
             </p>
-            <div className="flex items-center gap-2.5 pt-1">
+          </div>
+
+          {/* Col 2: Store Info */}
+          <div className="space-y-3">
+            <h3 className="text-sm sm:text-base font-black text-[#21170f] tracking-tight uppercase border-b border-black/[0.08] pb-1">Store Info</h3>
+            <div className="space-y-2 text-xs sm:text-sm font-bold text-[#5c4a3e]">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="h-4 w-4 text-[#d90429] shrink-0 mt-0.5" />
+                <span className="max-w-md leading-snug line-clamp-2">{settings.address || 'Ramnagar chowk, 617, Ambar Talab West, Ganeshpur, Roorkee, Shafipur, Uttarakhand 247667'}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 text-[#d90429] shrink-0" />
+                <span>{settings.phone || '079008 42550'}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 text-[#d90429] shrink-0" />
+                <span>{settings.email || 'onenessbakery@gmail.com'}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Timer className="h-4 w-4 text-[#d90429] shrink-0" />
+                <span>{settings.openingHours || 'Tuesday – Monday: 10:00 AM – 10:00 PM'}</span>
+              </div>
+            </div>
+
+            {/* Social Media & Contact Quick Links under Store Info */}
+            <div className="flex items-center gap-2.5 pt-2">
               {settings.whatsappNumber && (
-                <a href={`https://wa.me/${(settings.whatsappNumber || settings.phone || '').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25d366] text-white shadow-md hover:scale-110 transition-transform">
+                <a href={`https://wa.me/${(settings.whatsappNumber || settings.phone || '').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25d366] text-white shadow-md hover:scale-110 transition-transform" title="WhatsApp">
                   <MessageCircle className="h-4.5 w-4.5" />
                 </a>
               )}
               {settings.phone && (
-                <a href={`tel:${settings.phone}`} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d90429] text-white shadow-md hover:scale-110 transition-transform">
+                <a href={`tel:${settings.phone}`} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d90429] text-white shadow-md hover:scale-110 transition-transform" title="Call Us">
                   <Phone className="h-4.5 w-4.5" />
                 </a>
               )}
@@ -3820,33 +3845,10 @@ const Store = () => {
                 </a>
               )}
               {settings.email && (
-                <a href={`mailto:${settings.email}`} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#21170f] text-white shadow-md hover:scale-110 transition-transform">
+                <a href={`mailto:${settings.email}`} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#21170f] text-white shadow-md hover:scale-110 transition-transform" title="Email Us">
                   <Mail className="h-4.5 w-4.5" />
                 </a>
               )}
-            </div>
-          </div>
-
-          {/* Col 2: Store Info */}
-          <div className="space-y-2">
-            <h3 className="text-sm sm:text-base font-black text-[#21170f] tracking-tight uppercase border-b border-black/[0.08] pb-1">Store Info</h3>
-            <div className="space-y-2 text-xs sm:text-sm font-bold text-[#5c4a3e]">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 text-[#d90429] shrink-0 mt-0.5" />
-                <span>{settings.address || 'Ramnagar chowk, 617, Ambar Talab West, Ganeshpur, Roorkee, Shafipur, Uttarakhand 247667'}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>{settings.phone || '079008 42550'}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>{settings.email || 'onenessbakery@gmail.com'}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Timer className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>{settings.openingHours || 'Tuesday – Monday: 10:00 AM – 10:00 PM'}</span>
-              </div>
             </div>
           </div>
         </div>
