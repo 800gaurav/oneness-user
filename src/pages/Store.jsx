@@ -4416,8 +4416,8 @@ const Store = () => {
               </button>
 
               {/* Bakery Logo in Login/Signup Modal */}
-              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-amber-50/90 border border-amber-200 p-2 shadow-md">
-                <img src="/oneness_logo_1.png" alt="Oneness Bakery" className="h-full w-full object-contain" />
+              <div className="text-center mb-4">
+                <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="w-52 sm:w-60 h-auto max-h-20 object-contain mx-auto" />
               </div>
 
               {/* Step dots */}
