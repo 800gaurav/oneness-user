@@ -4264,11 +4264,9 @@ const Store = () => {
               </button>
               <div className="flex items-center gap-4 pr-10">
                 {settings.logo ? (
-                  <img src={settings.logo} alt={settings.bakeryName} className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" />
+                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" />
                 ) : (
-                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-[#ffd6a5] border border-white/5">
-                    <CakeSlice className="h-8 w-8 animate-pulse" />
-                  </span>
+                  <img src="/oneness_logo_1.png" alt="Oneness Bakery" className="h-16 w-16 rounded-2xl border border-white/15 bg-white object-contain p-1 shadow-lg shadow-black/25" />
                 )}
                 <div className="min-w-0">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffd6a5]">Store Profile</p>
@@ -6100,15 +6098,10 @@ const Store = () => {
                 className="flex items-center gap-1.5 cursor-pointer"
               >
                 {settings.logo ? (
-                  <img src={settings.logo} alt={settings.bakeryName} className="h-7 w-7 rounded-lg border border-gray-100 object-contain" />
+                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-8 w-auto max-w-[150px] object-contain" />
                 ) : (
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d90429] text-white">
-                    <CakeSlice className="h-4 w-4" />
-                  </span>
+                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-8 w-auto max-w-[150px] object-contain" />
                 )}
-                <span className="text-base font-black tracking-tight text-[#d90429] leading-tight">
-                  {settings.bakeryName || 'Bakery'}
-                </span>
               </button>
 
               {/* Cart icon */}
