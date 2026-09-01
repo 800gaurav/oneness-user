@@ -135,7 +135,7 @@ if (hStart !== -1 && hEnd !== -1) {
                   </span>
                 )}
                 <span className="text-sm sm:text-xl md:text-2xl font-black italic tracking-tight text-white drop-shadow-sm truncate max-w-[100px] xs:max-w-[140px] sm:max-w-none">
-                  {settings.bakeryName || 'bakingo'}
+                  {settings.bakeryName || 'Oneness Bakery'}
                 </span>
               </button>
             </div>

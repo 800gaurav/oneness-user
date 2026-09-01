@@ -54,6 +54,16 @@ import CategoryManager from '../components/admin/CategoryManager';
 import AddonManager from '../components/admin/AddonManager';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BACKEND_BASE_URL = API_URL.replace(/\/api\/?$/, '');
+
+const getImageUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+    return url;
+  }
+  const cleanPath = url.startsWith('/') ? url : `/${url}`;
+  return `${BACKEND_BASE_URL}${cleanPath}`;
+};
 
 const checkoutOptions = [
   { key: 'name', requiredByDefault: true },
@@ -88,10 +98,18 @@ const normalizeCheckoutFields = (fields = {}) => checkoutOptions.reduce((acc, it
 }, {});
 
 const defaultSettings = {
-  bakeryName: 'Sweet Bakery',
-  appName: 'Sweet Bakery',
+  bakeryName: 'Oneness Bakery',
+  appName: 'Oneness Bakery',
+  address: 'Ramnagar chowk, 617, Ambar Talab West, Ganeshpur, Roorkee, Shafipur, Uttarakhand 247667',
+  phone: '079008 42550',
+  whatsappNumber: '079008 42550',
+  instagram: 'https://www.instagram.com/onenessbakery/',
+  facebook: 'https://www.facebook.com/OnenessBakeryCafe/',
+  googleReviewUrl: 'https://share.google/CuRx6C3eNHDyasuC2',
+  openingHours: 'Tuesday – Monday: 10:00 AM – 10:00 PM',
+  aboutText: "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses. Visit us in the heart of Roorkee, Uttarakhand, and discover a world of eggless wonders. Treat yourself to a slice of heaven, and let us make your special moments unforgettable. Come, taste the difference, and experience the Oneness!",
   appIcon: '',
-  currency: 'Rs.',
+  currency: '₹',
   offerBanners: [],
   quickLinks: [],
   checkoutFields: defaultCheckoutFields
@@ -144,12 +162,10 @@ const toDateInput = (value) => {
 };
 
 const defaultBanners = [
-  { image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1200&auto=format&fit=crop', badge: 'Fresh Daily', title: 'Artisanal Bakery & Delights', description: 'Freshly baked breads, pastries, and custom cakes made with love.' },
-  { image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop', badge: 'Special Offers', title: 'Delicious Treats & Custom Cakes', description: 'Order online for quick local delivery and store pick-up.' },
-  { image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=1200&auto=format&fit=crop', badge: 'Sweet Perfection', title: 'Handcrafted Cakes & Desserts', description: 'Celebrate every special occasion with our handcrafted sweet creations.' },
-  { image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1200&auto=format&fit=crop', badge: 'Oven Fresh', title: 'Crispy Breads & Croissants', description: 'Made fresh every morning using traditional authentic recipes.' },
-  { image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=1200&auto=format&fit=crop', badge: 'Custom Order', title: 'Party & Birthday Delights', description: 'Make your celebrations unforgettable with custom designed cakes.' },
-  { image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=1200&auto=format&fit=crop', badge: 'Premium Quality', title: 'Sweet Memories Baked Fresh', description: 'Order your favorite treats & pastries online with instant delivery.' }
+  { image: '/upload/banners/hero_birthday.png', badge: 'Make Birthdays Magical', title: 'Handcrafted Fresh Eggless Cakes', description: 'Celebrate every birthday with custom baked eggless cakes.' },
+  { image: '/upload/banners/hero_designer.png', badge: 'Custom Designer Cakes', title: 'Made For Your Special Moments', description: 'Intricate 3D theme cakes, photo cakes, and designer creations.' },
+  { image: '/upload/banners/hero_anniversary.png', badge: 'Celebrate Love & Togetherness', title: 'Express Same Day Cake Delivery', description: 'Romantic anniversary cakes baked fresh & delivered fast.' },
+  { image: '/upload/banners/hero_hampers.png', badge: 'Sweet Delights & Gift Hampers', title: 'Share Happiness Every Day', description: 'Gourmet dessert hampers, brownies, macarons & jar cakes.' }
 ];
 
 const Store = () => {
@@ -1139,7 +1155,7 @@ const Store = () => {
 
       if (data.success) {
         persistCustomerSession(data.data, data.token);
-        toast.success(`Welcome to bakingo, ${data.data.customerName}!`);
+        toast.success(`Welcome to ${settings.bakeryName || 'Oneness Bakery'}, ${data.data.customerName}!`);
         setShowAuthModal(false);
 
         if (pendingCartAction) {
@@ -1420,21 +1436,22 @@ const Store = () => {
         const fLower = filterCategory.toLowerCase().trim();
         if (isBestsellerFilter) {
           matchesCategory = mostSellingProducts.some(mp => mp._id === product._id) || 
-            pCat.includes('cake') || product.isBestseller || product.isPopular;
-        } else if (fLower === 'desserts & hampers' || fLower === 'desserts') {
-          const dessertCats = ['pastries', 'cupcakes', 'cookies', 'breads', 'celebration hampers', 'desserts', 'tarts', 'mousse', 'donuts'];
-          matchesCategory = dessertCats.some(c => pCat.includes(c));
+            pCat.includes('cake') || pMain.includes('cake') || product.isBestseller || product.isPopular;
+        } else if (fLower === 'desserts & hampers' || fLower === 'desserts' || fLower === 'dessert') {
+          const dessertCats = ['pastries', 'cupcakes', 'cookies', 'breads', 'celebration hampers', 'desserts', 'dessert', 'tarts', 'mousse', 'donuts'];
+          matchesCategory = dessertCats.some(c => pCat.includes(c) || pMain.includes(c) || pSub.includes(c)) || pMain === 'dessert';
         } else if (fLower === 'occasions') {
           matchesCategory = true;
-        } else if (fLower === 'cakes') {
+        } else if (fLower === 'cakes' || fLower === 'cake') {
           matchesCategory = pCat.includes('cake') || pMain.includes('cake') || pName.includes('cake');
         } else {
           matchesCategory = 
             pCat === fLower ||
             pMain === fLower ||
             pSub === fLower ||
-            pCat.includes(fLower) ||
-            fLower.includes(pCat);
+            (fLower.length > 2 && pCat.includes(fLower)) ||
+            (fLower.length > 2 && pMain.includes(fLower)) ||
+            (pCat.length > 2 && fLower.includes(pCat));
         }
       }
 
@@ -2551,7 +2568,7 @@ const Store = () => {
                     isActive ? 'ring-4 ring-[#d90429] scale-105 shadow-md' : 'ring-2 ring-amber-200 group-hover:ring-amber-400 group-hover:scale-105 shadow-xs'
                   }`}>
                     <img
-                      src={catImg}
+                      src={getImageUrl(catImg)}
                       alt={cat.name}
                       className="w-full h-full object-cover rounded-full"
                     />
@@ -2578,7 +2595,7 @@ const Store = () => {
                     const isActive = index === activeBanner;
                     return (
                       <div key={banner._id || index} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
-                        <img src={banner.image} alt={`Bakery Banner ${index + 1}`} className="h-full w-full object-fill" />
+                        <img src={getImageUrl(banner.image)} alt={`Bakery Banner ${index + 1}`} className="h-full w-full object-cover object-center bg-amber-50" />
                       </div>
                     );
                   })}
@@ -3784,10 +3801,10 @@ const Store = () => {
                   <CakeSlice className="h-5 w-5" />
                 </span>
               )}
-              <span className="text-xl sm:text-2xl font-black italic tracking-tight text-[#d90429]">{settings.bakeryName || 'bakingo'}</span>
+              <span className="text-xl sm:text-2xl font-black italic tracking-tight text-[#d90429]">{settings.bakeryName || 'Oneness Bakery'}</span>
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-[#5c4a3e] font-semibold max-w-md">
-              Jaipur's premier artisanal cake studio. We turn your sweet celebrations into unforgettable memories with handcrafted cakes, bento treats, and gourmet pastries.
+              {settings.aboutText || "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses."}
             </p>
             <div className="flex items-center gap-2.5 pt-1">
               {settings.whatsappNumber && (
@@ -3798,6 +3815,21 @@ const Store = () => {
               {settings.phone && (
                 <a href={`tel:${settings.phone}`} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d90429] text-white shadow-md hover:scale-110 transition-transform">
                   <Phone className="h-4.5 w-4.5" />
+                </a>
+              )}
+              {(settings.instagram || 'https://www.instagram.com/onenessbakery/') && (
+                <a href={settings.instagram || 'https://www.instagram.com/onenessbakery/'} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e1306c] text-white shadow-md hover:scale-110 transition-transform" title="Instagram">
+                  <Instagram className="h-4.5 w-4.5" />
+                </a>
+              )}
+              {(settings.facebook || 'https://www.facebook.com/OnenessBakeryCafe/') && (
+                <a href={settings.facebook || 'https://www.facebook.com/OnenessBakeryCafe/'} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-md hover:scale-110 transition-transform" title="Facebook">
+                  <Facebook className="h-4.5 w-4.5" />
+                </a>
+              )}
+              {(settings.googleReviewUrl || 'https://share.google/CuRx6C3eNHDyasuC2') && (
+                <a href={settings.googleReviewUrl || 'https://share.google/CuRx6C3eNHDyasuC2'} target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#4285f4] text-white shadow-md hover:scale-110 transition-transform" title="Google Business">
+                  <MapPin className="h-4.5 w-4.5" />
                 </a>
               )}
               {settings.email && (
@@ -3814,19 +3846,19 @@ const Store = () => {
             <div className="space-y-2 text-xs sm:text-sm font-bold text-[#5c4a3e]">
               <div className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-[#d90429] shrink-0 mt-0.5" />
-                <span>{settings.address || 'Jaipur, Rajasthan'}</span>
+                <span>{settings.address || 'Ramnagar chowk, 617, Ambar Talab West, Ganeshpur, Roorkee, Shafipur, Uttarakhand 247667'}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>{settings.phone || '+91 98765 43210'}</span>
+                <span>{settings.phone || '079008 42550'}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>{settings.email || 'orders@bakery.com'}</span>
+                <span>{settings.email || 'onenessbakery@gmail.com'}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Timer className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>Open Everyday: 9:00 AM - 11:00 PM</span>
+                <span>{settings.openingHours || 'Tuesday – Monday: 10:00 AM – 10:00 PM'}</span>
               </div>
             </div>
           </div>
@@ -3835,7 +3867,7 @@ const Store = () => {
         {/* Bottom Copyright Strip with pb-20 for Mobile Bottom Navbar */}
         <div className="border-t border-black/[0.08] bg-[#f5efe6] pt-4 pb-20 sm:py-5 text-center text-xs sm:text-sm font-extrabold text-[#5c4a3e]">
           <div className="mx-auto max-w-[1440px] px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© {new Date().getFullYear()} {settings.bakeryName || 'Bakingo'}. All Rights Reserved.</p>
+            <p>© {new Date().getFullYear()} {settings.bakeryName || 'Oneness Bakery'}. All Rights Reserved.</p>
             <p className="flex items-center gap-1.5 flex-wrap justify-center">
               <span>Crafted with</span>
               <Heart className="h-4 w-4 fill-[#d90429] text-[#d90429] inline" />
@@ -3881,10 +3913,10 @@ const Store = () => {
             <div className="space-y-4 text-sm sm:text-base font-semibold text-[#21170f] leading-relaxed max-h-[60vh] overflow-y-auto pr-1">
               {infoModal === 'about_us' && (
                 <>
-                  <p>Welcome to <strong>{settings.bakeryName || 'Bakingo'}</strong>! We are Jaipur's leading artisanal bakery studio dedicated to baking fresh, delicious, and handcrafted cakes for every special occasion.</p>
-                  <p>From 250g mini bento cakes to 3D designer theme cakes and photo printed cakes, our master chefs use only 100% fresh, premium ingredients to deliver perfection in every single bite.</p>
+                  <p>Welcome to <strong>{settings.bakeryName || 'Oneness Bakery Cafe'}</strong>!</p>
+                  <p>{settings.aboutText || "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses. Visit us in the heart of Roorkee, Uttarakhand, and discover a world of eggless wonders. Treat yourself to a slice of heaven, and let us make your special moments unforgettable. Come, taste the difference, and experience the Oneness!"}</p>
                   <div className="rounded-2xl bg-[#fff0f1] p-4 border border-[#d90429]/20 text-[#d90429] font-bold">
-                    ✨ Over 50,000+ happy customers served with 4.9★ rating!
+                    ✨ Roorkee's Premier 100% Eggless Cake Shop & Cafe!
                   </div>
                 </>
               )}
@@ -3893,11 +3925,12 @@ const Store = () => {
                 <>
                   <p>Have a custom cake inquiry or order question? We are here to help!</p>
                   <div className="space-y-2.5 rounded-2xl bg-[#fffdf9] p-4 border border-black/10">
-                    <p>📍 <strong>Address:</strong> {settings.address || 'Jaipur, Rajasthan'}</p>
-                    <p>📞 <strong>Phone:</strong> {settings.phone || '+91 98765 43210'}</p>
-                    <p>💬 <strong>WhatsApp:</strong> {settings.whatsappNumber || settings.phone || '+91 98765 43210'}</p>
-                    <p>📧 <strong>Email:</strong> {settings.email || 'orders@bakery.com'}</p>
-                    <p>⏰ <strong>Working Hours:</strong> 9:00 AM - 11:00 PM (Everyday)</p>
+                    <p>📍 <strong>Address:</strong> {settings.address || 'Ramnagar chowk, 617, Ambar Talab West, Ganeshpur, Roorkee, Shafipur, Uttarakhand 247667'}</p>
+                    <p>📞 <strong>Phone:</strong> {settings.phone || '079008 42550'}</p>
+                    <p>💬 <strong>WhatsApp:</strong> {settings.whatsappNumber || settings.phone || '079008 42550'}</p>
+                    <p>📧 <strong>Email:</strong> {settings.email || 'onenessbakery@gmail.com'}</p>
+                    <p>⏰ <strong>Working Hours:</strong> {settings.openingHours || 'Tuesday – Monday: 10:00 AM – 10:00 PM'}</p>
+                    <p>📍 <strong>Google Business Page:</strong> <a href={settings.googleReviewUrl || 'https://share.google/CuRx6C3eNHDyasuC2'} target="_blank" rel="noopener noreferrer" className="text-[#d90429] underline font-bold">View Location & Reviews</a></p>
                   </div>
                 </>
               )}

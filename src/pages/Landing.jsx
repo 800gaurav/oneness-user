@@ -67,8 +67,8 @@ const Landing = () => {
                 <Cake className="w-6 h-6 text-[rgb(var(--color-brown))]" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-[rgb(var(--color-brown))]">BakeryCRM</h1>
-                <p className="text-xs text-[rgb(var(--color-text-secondary))]">Marketing Suite</p>
+                <h1 className="text-xl font-bold text-[rgb(var(--color-brown))]">Oneness Bakery</h1>
+                <p className="text-xs text-[rgb(var(--color-text-secondary))] font-semibold">Roorkee's Premier Eggless Bakery</p>
               </div>
             </div>
             <Link
@@ -224,10 +224,10 @@ const Landing = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-[rgb(var(--color-pink))] to-[rgb(var(--color-accent))] rounded-lg flex items-center justify-center">
                 <Cake className="w-5 h-5 text-[rgb(var(--color-brown))]" />
               </div>
-              <span className="font-semibold text-[rgb(var(--color-brown))]">BakeryCRM</span>
+              <span className="font-semibold text-[rgb(var(--color-brown))]">Oneness Bakery</span>
             </div>
             <p className="text-sm text-[rgb(var(--color-text-secondary))]">
-              © 2024 BakeryCRM. Built with ❤️ for Indian Bakeries.
+              © {new Date().getFullYear()} Oneness Bakery. All Rights Reserved.
             </p>
           </div>
         </div>
