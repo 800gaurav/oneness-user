@@ -3813,7 +3813,7 @@ const Store = () => {
               </div>
               <div className="flex items-center gap-2.5">
                 <Timer className="h-4 w-4 text-[#d90429] shrink-0" />
-                <span>{settings.openingHours || 'Tuesday – Monday: 10:00 AM – 10:00 PM'}</span>
+                <span>{settings.openingHours || 'All Days: 10:00 AM – 10:00 PM'}</span>
               </div>
             </div>
 
