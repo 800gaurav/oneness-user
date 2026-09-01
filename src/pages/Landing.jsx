@@ -221,10 +221,7 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-[rgb(var(--color-pink))] to-[rgb(var(--color-accent))] rounded-lg flex items-center justify-center">
-                <Cake className="w-5 h-5 text-[rgb(var(--color-brown))]" />
-              </div>
-              <span className="font-semibold text-[rgb(var(--color-brown))]">Oneness Bakery</span>
+              <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-10 w-auto object-contain" />
             </div>
             <p className="text-sm text-[rgb(var(--color-text-secondary))]">
               © {new Date().getFullYear()} Oneness Bakery. All Rights Reserved.

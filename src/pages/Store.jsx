@@ -2340,9 +2340,9 @@ const Store = () => {
                 aria-label="Go to home"
               >
                 {settings.logo ? (
-                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-8 w-auto max-w-[130px] object-contain" />
+                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-9 sm:h-11 w-auto max-w-[170px] object-contain transition-all" />
                 ) : (
-                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-8 w-auto max-w-[130px] object-contain" />
+                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-9 sm:h-11 w-auto max-w-[170px] object-contain transition-all" />
                 )}
               </button>
 
@@ -2366,9 +2366,9 @@ const Store = () => {
                 aria-label="Go to home"
               >
                 {settings.logo ? (
-                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-10 sm:h-11 w-auto max-w-[180px] object-contain" />
+                  <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-12 sm:h-14 md:h-16 w-auto max-w-[240px] object-contain transition-all hover:scale-105" />
                 ) : (
-                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-10 sm:h-11 w-auto max-w-[180px] object-contain" />
+                  <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-12 sm:h-14 md:h-16 w-auto max-w-[240px] object-contain transition-all hover:scale-105" />
                 )}
               </button>
 
@@ -3785,13 +3785,10 @@ const Store = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               {settings.logo ? (
-                <img src={settings.logo} alt={settings.bakeryName} className="h-10 w-10 rounded-2xl border border-black/10 bg-white object-contain p-1 shadow-md" />
+                <img src={getImageUrl(settings.logo)} alt={settings.bakeryName || 'Oneness Bakery'} className="h-12 w-auto max-w-[220px] object-contain" />
               ) : (
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#d90429] text-white font-black shadow-md">
-                  <CakeSlice className="h-5 w-5" />
-                </span>
+                <img src="/oneness_logo_2.png" alt="Oneness Bakery" className="h-12 w-auto max-w-[220px] object-contain" />
               )}
-              <span className="text-xl sm:text-2xl font-black italic tracking-tight text-[#d90429]">{settings.bakeryName || 'Oneness Bakery'}</span>
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-[#5c4a3e] font-semibold max-w-md">
               {settings.aboutText || "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses."}
