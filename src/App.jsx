@@ -6,6 +6,9 @@ import { ThemeProvider } from './context/ThemeContext'
 import Landing from './pages/Landing'
 import Store from './pages/Store'
 import NotFound from './pages/NotFound'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
+import BakeryDashboard from './pages/layout/BakeryDashboard'
 import './App.css'
 
 function App() {
@@ -17,6 +20,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Store />} />
               <Route path="/landing" element={<Landing />} />
+              <Route path="/admin/login" element={<Login />} />
+              <Route path="/admin/register" element={<Register />} />
+              <Route path="/admin/*" element={<BakeryDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AnimatePresence>

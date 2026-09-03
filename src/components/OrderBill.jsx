@@ -22,17 +22,38 @@ const normalize = (order) => {
         address: order.customerId?.address || order.customer?.address || '',
       };
 
-  const items = (order.items || []).map(item => ({
-    name: item.name,
-    quantity: Number(item.quantity || 0),
-    price: Number(item.price || 0),
-    total: Number(item.total ?? (item.price * item.quantity) ?? 0),
-    weight: item.weight ? `${item.weight} ${item.weightUnit || ''}`.trim() : '',
-  }));
+  const items = [];
+  (order.items || []).forEach(item => {
+    items.push({
+      name: item.name,
+      quantity: Number(item.quantity || 0),
+      price: Number(item.price || 0),
+      total: Number(item.total ?? (item.price * item.quantity) ?? 0),
+      weight: item.weight ? `${item.weight} ${item.weightUnit || ''}`.trim() : '',
+    });
+
+    if (Array.isArray(item.chosenAddons) && item.chosenAddons.length > 0) {
+      item.chosenAddons.forEach(addon => {
+        items.push({
+          name: `↳ 🎁 Add-on: ${addon.name}`,
+          quantity: Number(addon.quantity || 1),
+          price: Number(addon.price || 0),
+          total: Number((addon.price || 0) * (addon.quantity || 1)),
+          weight: '',
+          isAddon: true
+        });
+      });
+    }
+  });
 
   const subtotal = isStoreOrder
     ? Number(order.subtotal || items.reduce((s, i) => s + i.total, 0))
     : items.reduce((s, i) => s + i.total, 0);
+
+  const tax = Number(order.gstAmount || order.tax || order.taxAmount || 0);
+  const gstRate = Number(order.gstPercentage || order.gstRate || 0);
+  const taxLabel = order.taxLabel || (gstRate > 0 ? `GST (${gstRate}%)` : (order.gstPercentage ? `GST (${order.gstPercentage}%)` : 'GST'));
+  const gstEnabled = Boolean(order.gstEnabled || tax > 0);
 
   return {
     billNumber: order.orderNumber || `#${(order._id || '').slice(-6).toUpperCase()}`,
@@ -41,8 +62,10 @@ const normalize = (order) => {
     subtotal,
     discount: Number(order.discountAmount || order.discount || 0),
     deliveryCharge: Number(order.deliveryCharge || 0),
-    tax: 0,
-    gstEnabled: false,
+    tax,
+    taxLabel,
+    gstRate,
+    gstEnabled,
     total: Number(order.totalAmount || order.total || 0),
     paymentMethod: order.paymentMethod || 'cash',
     paymentStatus: order.paymentStatus || order.status || '',
@@ -202,6 +225,9 @@ const OrderBill = ({ order, onClose }) => {
               <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span className="font-semibold">{money(bill.subtotal)}</span></div>
               {bill.discount > 0 && <div className="flex justify-between text-emerald-700"><span>Discount</span><span>- {money(bill.discount)}</span></div>}
               {bill.deliveryCharge > 0 && <div className="flex justify-between"><span className="text-gray-500">Delivery</span><span className="font-semibold">{money(bill.deliveryCharge)}</span></div>}
+              {Number(bill.tax || 0) > 0 && (
+                <div className="flex justify-between"><span className="text-gray-500">{bill.taxLabel || (bill.gstRate ? `GST (${bill.gstRate}%)` : 'Tax/GST')}</span><span className="font-semibold">{money(bill.tax)}</span></div>
+              )}
               <div className="flex justify-between bg-[rgb(var(--color-brown))] text-white rounded-lg px-3 py-2 mt-2 font-black text-sm">
                 <span>Total</span><span>{money(bill.total)}</span>
               </div>

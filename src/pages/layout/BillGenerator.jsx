@@ -30,6 +30,11 @@ const BillGenerator = ({ embedded = false, onClose, onBillCreated }) => {
       const s = { ...defaultSettings, ...(r.data.data || {}) };
       setSettings(s);
       if (Number(s.defaultDiscount || 0) > 0) setDiscount(Number(s.defaultDiscount));
+      // Auto-populate GST from admin settings
+      if (s.gstEnabled) {
+        setGstEnabled(true);
+        setGstRate(Number(s.gstPercentage || 0));
+      }
     } catch {}
   }, []);
 

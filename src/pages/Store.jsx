@@ -46,7 +46,8 @@ import {
   Info,
   LogOut,
   Navigation,
-  RotateCcw
+  RotateCcw,
+  ShieldCheck
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -110,13 +111,15 @@ const defaultSettings = {
   aboutText: "Indulge in the sweetness of Oneness Bakery Cafe, Roorkee's premier eggless cake shop, where traditional baking meets innovative flavors. Our expert bakers craft delicious, allergy-friendly treats that will delight your senses. Visit us in the heart of Roorkee, Uttarakhand, and discover a world of eggless wonders. Treat yourself to a slice of heaven, and let us make your special moments unforgettable. Come, taste the difference, and experience the Oneness!",
   appIcon: '',
   currency: '₹',
+  gst: '',
+  gstEnabled: false,
+  gstPercentage: 0,
+  codEnabled: true,
   offerBanners: [],
   quickLinks: [],
   checkoutFields: defaultCheckoutFields
 };
 
-const FREE_DELIVERY_MINIMUM = 499;
-const DELIVERY_CHARGE = 35;
 const SAVED_CUSTOMER_KEY = 'bakeryStoreCustomerProfile';
 const CUSTOMER_TOKEN_KEY = 'bakeryStoreCustomerToken';
 const DISMISSED_FIELDS_KEY = 'bakeryStoreDismissedProfileFields';
@@ -171,7 +174,23 @@ const defaultBanners = [
 const Store = () => {
   const [products, setProducts] = useState([]);
   const [settings, setSettings] = useState(defaultSettings);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem('bakeryStoreCart');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+      const savedProfile = localStorage.getItem(SAVED_CUSTOMER_KEY);
+      if (savedProfile) {
+        const parsedProfile = JSON.parse(savedProfile);
+        if (Array.isArray(parsedProfile?.cart) && parsedProfile.cart.length > 0) return parsedProfile.cart;
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  });
   const [pendingCartAction, setPendingCartAction] = useState(null);
   const [authExists, setAuthExists] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -180,9 +199,22 @@ const Store = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showQuickLinks, setShowQuickLinks] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [savedCustomerProfile, setSavedCustomerProfile] = useState(null);
+  const [savedCustomerProfile, setSavedCustomerProfile] = useState(() => {
+    try {
+      const saved = localStorage.getItem(SAVED_CUSTOMER_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [showCustomerProfile, setShowCustomerProfile] = useState(false);
-  const [customerToken, setCustomerToken] = useState('');
+  const [customerToken, setCustomerToken] = useState(() => {
+    try {
+      return localStorage.getItem(CUSTOMER_TOKEN_KEY) || '';
+    } catch {
+      return '';
+    }
+  });
   const [dismissedProfileFields, setDismissedProfileFields] = useState({});
   const [wishlist, setWishlist] = useState(() => {
     try {
@@ -197,6 +229,9 @@ const Store = () => {
     setAuthCallback(() => callback);
     setAuthStep(1);
     setAuthTab('login');
+    setAuthMethod('email');
+    setAuthEmail('');
+    setAuthPhone('');
     setAuthIdentifier('');
     setAuthRegisterEmail('');
     setAuthRegisterPhone('');
@@ -274,9 +309,11 @@ const Store = () => {
   
   // Custom auth modal states
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authStep, setAuthStep] = useState(1); // 1: Identifier/Method, 2: Verify OTP, 3: Register details
+  const [authStep, setAuthStep] = useState(1); // 1: Input details, 2: Verify OTP, 3: Register details
   const [authTab, setAuthTab] = useState('login'); // 'login' or 'register'
-  const [authIdentifier, setAuthIdentifier] = useState(''); // email or phone for login
+  const [authIdentifier, setAuthIdentifier] = useState('');
+  const [authPhone, setAuthPhone] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
   const [authRegisterEmail, setAuthRegisterEmail] = useState('');
   const [authRegisterPhone, setAuthRegisterPhone] = useState('');
   const [authOtp, setAuthOtp] = useState('');
@@ -295,6 +332,31 @@ const Store = () => {
   const [authTargetEmail, setAuthTargetEmail] = useState('');
   const [authVerifiedProfile, setAuthVerifiedProfile] = useState(null);
   const [showProfilePreviewModal, setShowProfilePreviewModal] = useState(false);
+  const [showProfileOtpModal, setShowProfileOtpModal] = useState(false);
+  const [profileOtpInput, setProfileOtpInput] = useState('');
+  const [pendingProfileUpdate, setPendingProfileUpdate] = useState(null);
+  const [profileOtpTarget, setProfileOtpTarget] = useState('');
+
+  // Profile inline form state
+  const [profileFormName, setProfileFormName] = useState('');
+  const [profileFormPhone, setProfileFormPhone] = useState('');
+  const [profileFormEmail, setProfileFormEmail] = useState('');
+  const [profileFormDob, setProfileFormDob] = useState('');
+  const [profileFormAnniversary, setProfileFormAnniversary] = useState('');
+  const [profileFormAddress, setProfileFormAddress] = useState('');
+  const [profileFormSpecialDesc, setProfileFormSpecialDesc] = useState('');
+  const [profileFormSpecialDate, setProfileFormSpecialDate] = useState('');
+
+  // Contact verification states
+  const [phoneOtpSent, setPhoneOtpSent] = useState(false);
+  const [phoneOtpInput, setPhoneOtpInput] = useState('');
+  const [phoneVerified, setPhoneVerified] = useState(true);
+  const [phoneOtpLoading, setPhoneOtpLoading] = useState(false);
+
+  const [emailOtpSent, setEmailOtpSent] = useState(false);
+  const [emailOtpInput, setEmailOtpInput] = useState('');
+  const [emailVerified, setEmailVerified] = useState(true);
+  const [emailOtpLoading, setEmailOtpLoading] = useState(false);
 
   // Profile sidebar active tab state
   const [activeProfileTab, setActiveProfileTab] = useState('orders'); // 'orders', 'wishlist', 'wallet', 'address', 'upi', 'settings'
@@ -897,9 +959,37 @@ const Store = () => {
       if (savedCustomerProfile?.phone) {
         applyCustomerProfile(savedCustomerProfile, false);
       }
+      if (settings.codEnabled === false) {
+        setPaymentMethod(settings.upiId ? 'upi_qr' : (settings.razorpayEnabled ? 'online' : 'upi_qr'));
+      }
       setCheckoutStep(1);
     }
-  }, [showCheckout, savedCustomerProfile]);
+  }, [showCheckout, savedCustomerProfile, settings.codEnabled, settings.upiId, settings.razorpayEnabled]);
+
+  useEffect(() => {
+    if (settings.codEnabled === false && paymentMethod === 'cod') {
+      setPaymentMethod(settings.upiId ? 'upi_qr' : (settings.razorpayEnabled ? 'online' : 'upi_qr'));
+    }
+  }, [settings.codEnabled, paymentMethod, settings.upiId, settings.razorpayEnabled]);
+
+  useEffect(() => {
+    if (activeView !== 'tracking' || !trackingOrder?._id) return;
+    const timer = setInterval(() => {
+      axios.get(`${API_URL}/store-orders/customer-orders`, {
+        params: { phone: trackingOrder.phone }
+      }).then(({ data }) => {
+        const updated = (data || []).find(o => o._id === trackingOrder._id);
+        if (updated && (updated.status !== trackingOrder.status || updated.paymentStatus !== trackingOrder.paymentStatus)) {
+          setTrackingOrder(updated);
+          if (updated.status === 'preparing' && trackingOrder.status === 'payment_review') {
+            toast.success('🎉 Payment Verified! Your order is now preparing in bakery.');
+          }
+        }
+      }).catch(() => {});
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [activeView, trackingOrder?._id, trackingOrder?.status, trackingOrder?.paymentStatus, trackingOrder?.phone]);
 
   const fetchStoreData = async () => {
     setIsLoading(true);
@@ -1021,41 +1111,39 @@ const Store = () => {
 
   const handleSendOtp = async (e) => {
     if (e) e.preventDefault();
-    const val = authIdentifier.trim();
-    if (!val) {
-      toast.error('Please enter your Mobile number or Email address');
-      return;
-    }
+    const isEmail = authMethod === 'email';
+    const phoneVal = authPhone.replace(/\D/g, '');
+    const emailVal = authEmail.trim().toLowerCase();
 
-    const isEmail = val.includes('@');
-    if (isEmail && !val.includes('.')) {
-      toast.error('Please enter a valid email address');
-      return;
-    }
-    if (!isEmail && val.replace(/\D/g, '').length < 10) {
-      toast.error('Please enter a valid 10-digit mobile number');
-      return;
+    if (isEmail) {
+      if (!emailVal || !emailVal.includes('@') || !emailVal.includes('.')) {
+        toast.error('Please enter a valid email address');
+        return;
+      }
+    } else {
+      if (!phoneVal || phoneVal.length < 10) {
+        toast.error('Please enter a valid 10-digit mobile number');
+        return;
+      }
     }
 
     setIsLoading(true);
     try {
-      const recipient = isEmail ? val.toLowerCase() : val.replace(/\D/g, '');
-      const type = isEmail ? 'email' : 'whatsapp';
+      const recipientVal = isEmail ? emailVal : phoneVal;
+      const typeVal = isEmail ? 'email' : 'whatsapp';
 
       const { data } = await axios.post(`${API_URL}/store-orders/customer-send-otp`, {
-        recipient,
-        type
+        phone: phoneVal,
+        email: emailVal,
+        recipient: recipientVal,
+        type: typeVal
       });
 
       if (data.success) {
-        setAuthTargetEmail(recipient);
+        setAuthTargetEmail(data.fallbackEmail || recipientVal);
         setAuthExists(!!data.exists);
         setAuthStep(2);
-        if (data.type === 'email_fallback') {
-          toast.success(`WhatsApp unavailable — OTP sent to your registered email (${data.fallbackEmail})`);
-        } else {
-          toast.success(`Verification code sent via ${isEmail ? 'Email' : 'WhatsApp'}`);
-        }
+        toast.success(data.message || (isEmail ? `Verification code sent to ${emailVal}` : `Verification code sent to WhatsApp (+91 ${phoneVal})`));
       } else {
         toast.error(data.message || 'Failed to send OTP');
       }
@@ -1075,8 +1163,15 @@ const Store = () => {
 
     setIsLoading(true);
     try {
+      const isEmail = authMethod === 'email';
+      const phoneVal = authPhone.replace(/\D/g, '');
+      const emailVal = authEmail.trim().toLowerCase();
+      const recipientVal = isEmail ? (emailVal || authTargetEmail) : (phoneVal || authTargetEmail);
+
       const { data } = await axios.post(`${API_URL}/store-orders/customer-verify-otp`, {
-        recipient: authTargetEmail,
+        phone: phoneVal,
+        email: emailVal,
+        recipient: recipientVal,
         otp: authOtp.trim()
       });
 
@@ -1095,7 +1190,7 @@ const Store = () => {
             const action = pendingCartAction;
             setPendingCartAction(null);
             setTimeout(() => {
-              addToCart(action.product, action.variant, action.message, action.addQuantity, action.isBuyNow);
+              addToCart(action.product, action.variant, action.message, action.addQuantity, action.isBuyNow, action.chosenAddons);
             }, 100);
           }
 
@@ -1103,11 +1198,10 @@ const Store = () => {
             authCallback(data.data);
           }
         } else {
-          const isEmail = authTargetEmail.includes('@');
           setAuthProfileData(prev => ({
             ...prev,
-            phone: isEmail ? '' : authTargetEmail,
-            email: isEmail ? authTargetEmail : ''
+            phone: isEmail ? '' : phoneVal,
+            email: isEmail ? emailVal : ''
           }));
           setAuthStep(3);
         }
@@ -1127,16 +1221,15 @@ const Store = () => {
       return;
     }
 
-    const isTargetEmail = authTargetEmail.includes('@');
-    const finalPhone = phone.trim() || (isTargetEmail ? '' : authTargetEmail);
-    const finalEmail = email.trim().toLowerCase() || (isTargetEmail ? authTargetEmail : '');
+    const finalPhone = (phone || authPhone || '').replace(/\D/g, '');
+    const finalEmail = (email || authEmail || '').trim().toLowerCase();
 
-    if (!finalPhone) {
-      toast.error('Mobile number is required');
+    if (!finalPhone || finalPhone.length < 10) {
+      toast.error('Valid 10-digit mobile number is required');
       return;
     }
-    if (!finalEmail) {
-      toast.error('Email address is required');
+    if (!finalEmail || !finalEmail.includes('@')) {
+      toast.error('Valid email address is required');
       return;
     }
 
@@ -1162,7 +1255,7 @@ const Store = () => {
           const action = pendingCartAction;
           setPendingCartAction(null);
           setTimeout(() => {
-            addToCart(action.product, action.variant, action.message, action.addQuantity, action.isBuyNow);
+            addToCart(action.product, action.variant, action.message, action.addQuantity, action.isBuyNow, action.chosenAddons);
           }, 100);
         }
 
@@ -1177,31 +1270,258 @@ const Store = () => {
     }
   };
 
-  const handleUpdateProfileDetails = async (name, email, birthday, anniversary, address, specialDate, specialDateDescription) => {
-    if (!name.trim() || !email.trim()) {
-      toast.error('Name and Email are required');
+  // Sync profile form inputs with saved customer profile
+  useEffect(() => {
+    if (savedCustomerProfile) {
+      setProfileFormName(savedCustomerProfile.customerName || '');
+      setProfileFormPhone(savedCustomerProfile.phone || '');
+      setProfileFormEmail(savedCustomerProfile.email || '');
+      setProfileFormDob(savedCustomerProfile.dob ? savedCustomerProfile.dob.split('T')[0] : '');
+      setProfileFormAnniversary(savedCustomerProfile.anniversaryDate ? savedCustomerProfile.anniversaryDate.split('T')[0] : '');
+      setProfileFormAddress(savedCustomerProfile.address || '');
+      setProfileFormSpecialDesc(savedCustomerProfile.specialDateDescription || '');
+      setProfileFormSpecialDate(savedCustomerProfile.specialDate ? savedCustomerProfile.specialDate.split('T')[0] : '');
+      setPhoneVerified(true);
+      setEmailVerified(true);
+      setPhoneOtpSent(false);
+      setEmailOtpSent(false);
+      setPhoneOtpInput('');
+      setEmailOtpInput('');
+    }
+  }, [savedCustomerProfile]);
+
+  const handleSendPhoneOtp = async () => {
+    const clean = profileFormPhone.replace(/\D/g, '');
+    if (!clean || clean.length < 10) {
+      toast.error('Please enter a valid 10-digit mobile number first');
       return;
     }
+    setPhoneOtpLoading(true);
+    try {
+      const { data } = await axios.post(`${API_URL}/store-orders/customer-send-otp`, {
+        phone: clean,
+        recipient: clean,
+        type: 'whatsapp'
+      });
+      if (data.success) {
+        setPhoneOtpSent(true);
+        setPhoneOtpInput('');
+        toast.success(`WhatsApp verification code sent to +91 ${clean}!`);
+      } else {
+        toast.error(data.message || 'Failed to send WhatsApp OTP');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Error sending WhatsApp verification OTP');
+    } finally {
+      setPhoneOtpLoading(false);
+    }
+  };
+
+  const handleVerifyPhoneOtp = async () => {
+    if (phoneOtpInput.trim().length !== 6) {
+      toast.error('Please enter the 6-digit WhatsApp OTP');
+      return;
+    }
+    const clean = profileFormPhone.replace(/\D/g, '');
+    setPhoneOtpLoading(true);
+    try {
+      const { data } = await axios.post(`${API_URL}/store-orders/customer-verify-otp`, {
+        phone: clean,
+        recipient: clean,
+        otp: phoneOtpInput.trim()
+      });
+      if (data.success) {
+        setPhoneVerified(true);
+        setPhoneOtpSent(false);
+
+        // Auto-save verified mobile number to customer profile immediately!
+        const currentPhone = (savedCustomerProfile?.phone || '').replace(/\D/g, '');
+        const currentEmail = (savedCustomerProfile?.email || '').trim().toLowerCase();
+        const addressBox = document.getElementById('profile-address-box')?.value || profileFormAddress;
+
+        try {
+          const { data: updateRes } = await axios.post(`${API_URL}/store-orders/customer-register`, {
+            name: (profileFormName || savedCustomerProfile?.customerName || 'Customer').trim(),
+            phone: clean,
+            email: (profileFormEmail || currentEmail).trim().toLowerCase(),
+            oldPhone: currentPhone,
+            oldEmail: currentEmail,
+            birthday: profileFormDob || undefined,
+            anniversary: profileFormAnniversary || undefined,
+            specialDate: profileFormSpecialDate || undefined,
+            specialDateDescription: profileFormSpecialDesc || undefined,
+            address: addressBox || undefined
+          });
+
+          if (updateRes.success) {
+            const updatedProfile = {
+              ...updateRes.data,
+              address: addressBox !== undefined ? addressBox : savedCustomerProfile.address
+            };
+            persistCustomerSession(updatedProfile, customerToken);
+            toast.success('🎉 Mobile number verified & auto-saved to profile! ✓');
+          } else {
+            toast.success('Mobile number verified successfully! ✓');
+          }
+        } catch {
+          toast.success('Mobile number verified successfully! ✓');
+        }
+      } else {
+        toast.error(data.message || 'Invalid or expired OTP');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Invalid OTP code');
+    } finally {
+      setPhoneOtpLoading(false);
+    }
+  };
+
+  const handleSendEmailOtp = async () => {
+    const emailVal = profileFormEmail.trim().toLowerCase();
+    if (!emailVal || !emailVal.includes('@') || !emailVal.includes('.')) {
+      toast.error('Please enter a valid email address first');
+      return;
+    }
+    setEmailOtpLoading(true);
+    try {
+      const { data } = await axios.post(`${API_URL}/store-orders/customer-send-otp`, {
+        email: emailVal,
+        recipient: emailVal,
+        type: 'email'
+      });
+      if (data.success) {
+        setEmailOtpSent(true);
+        setEmailOtpInput('');
+        toast.success(`Verification OTP sent to ${emailVal}!`);
+      } else {
+        toast.error(data.message || 'Failed to send Email OTP');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Error sending Email OTP');
+    } finally {
+      setEmailOtpLoading(false);
+    }
+  };
+
+  const handleVerifyEmailOtp = async () => {
+    if (emailOtpInput.trim().length !== 6) {
+      toast.error('Please enter the 6-digit Email OTP');
+      return;
+    }
+    const emailVal = profileFormEmail.trim().toLowerCase();
+    setEmailOtpLoading(true);
+    try {
+      const { data } = await axios.post(`${API_URL}/store-orders/customer-verify-otp`, {
+        email: emailVal,
+        recipient: emailVal,
+        otp: emailOtpInput.trim()
+      });
+      if (data.success) {
+        setEmailVerified(true);
+        setEmailOtpSent(false);
+
+        // Auto-save verified email to customer profile immediately!
+        const currentPhone = (savedCustomerProfile?.phone || '').replace(/\D/g, '');
+        const currentEmail = (savedCustomerProfile?.email || '').trim().toLowerCase();
+        const addressBox = document.getElementById('profile-address-box')?.value || profileFormAddress;
+
+        try {
+          const { data: updateRes } = await axios.post(`${API_URL}/store-orders/customer-register`, {
+            name: (profileFormName || savedCustomerProfile?.customerName || 'Customer').trim(),
+            phone: (profileFormPhone || currentPhone).replace(/\D/g, ''),
+            email: emailVal,
+            oldPhone: currentPhone,
+            oldEmail: currentEmail,
+            birthday: profileFormDob || undefined,
+            anniversary: profileFormAnniversary || undefined,
+            specialDate: profileFormSpecialDate || undefined,
+            specialDateDescription: profileFormSpecialDesc || undefined,
+            address: addressBox || undefined
+          });
+
+          if (updateRes.success) {
+            const updatedProfile = {
+              ...updateRes.data,
+              address: addressBox !== undefined ? addressBox : savedCustomerProfile.address
+            };
+            persistCustomerSession(updatedProfile, customerToken);
+            toast.success('🎉 Email address verified & auto-saved to profile! ✓');
+          } else {
+            toast.success('Email address verified successfully! ✓');
+          }
+        } catch {
+          toast.success('Email address verified successfully! ✓');
+        }
+      } else {
+        toast.error(data.message || 'Invalid or expired OTP');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Invalid OTP code');
+    } finally {
+      setEmailOtpLoading(false);
+    }
+  };
+
+  const handleSaveProfileChanges = async () => {
+    if (!profileFormName.trim()) {
+      toast.error('Full Name is required');
+      return;
+    }
+
+    const cleanPhone = profileFormPhone.replace(/\D/g, '');
+    const cleanEmail = profileFormEmail.trim().toLowerCase();
+
+    if (!cleanPhone || cleanPhone.length < 10) {
+      toast.error('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    const currentPhone = (savedCustomerProfile?.phone || '').replace(/\D/g, '');
+    const currentEmail = (savedCustomerProfile?.email || '').trim().toLowerCase();
+
+    const isPhoneChanged = cleanPhone !== currentPhone;
+    const isEmailChanged = cleanEmail !== currentEmail;
+
+    if (isPhoneChanged && !phoneVerified) {
+      toast.error('Please verify your updated mobile number via WhatsApp OTP before saving!');
+      return;
+    }
+    if (isEmailChanged && !emailVerified) {
+      toast.error('Please verify your updated email address via OTP before saving!');
+      return;
+    }
+
     setIsLoading(true);
     try {
+      const addressBox = document.getElementById('profile-address-box')?.value || profileFormAddress;
       const { data } = await axios.post(`${API_URL}/store-orders/customer-register`, {
-        name: name.trim(),
-        phone: savedCustomerProfile.phone,
-        email: email.trim().toLowerCase(),
-        birthday: birthday || undefined,
-        anniversary: anniversary || undefined,
-        specialDate: specialDate || undefined,
-        specialDateDescription: specialDateDescription || undefined,
-        address: address || undefined
+        name: profileFormName.trim(),
+        phone: cleanPhone,
+        email: cleanEmail,
+        oldPhone: currentPhone,
+        oldEmail: currentEmail,
+        birthday: profileFormDob || undefined,
+        anniversary: profileFormAnniversary || undefined,
+        specialDate: profileFormSpecialDate || undefined,
+        specialDateDescription: profileFormSpecialDesc || undefined,
+        address: addressBox || undefined
       });
 
       if (data.success) {
         const updatedProfile = {
           ...data.data,
-          address: address !== undefined ? address : savedCustomerProfile.address
+          address: addressBox !== undefined ? addressBox : savedCustomerProfile.address
         };
         persistCustomerSession(updatedProfile, customerToken);
-        toast.success('Profile details updated successfully!');
+        setPhoneVerified(true);
+        setEmailVerified(true);
+        toast.success('🎉 Profile changes saved successfully!');
+      } else {
+        toast.error(data.message || 'Failed to update profile details');
       }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to update profile details');
@@ -1326,8 +1646,10 @@ const Store = () => {
   const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const originalTotal = cart.reduce((sum, item) => sum + ((item.originalPrice || item.price) * item.quantity), 0);
   const cartSavings = Math.max(originalTotal - totalAmount, 0);
-  const deliveryCharge = totalAmount > 0 && totalAmount < FREE_DELIVERY_MINIMUM ? DELIVERY_CHARGE : 0;
-  const freeDeliveryBalance = Math.max(FREE_DELIVERY_MINIMUM - totalAmount, 0);
+  const deliveryCharge = 0;
+  const freeDeliveryBalance = 0;
+  const gstEnabled = Boolean(settings.gstEnabled);
+  const gstPercentage = Number(settings.gstPercentage || 0);
   const discountAmount = useMemo(() => {
     if (!appliedCoupon) return 0;
     if (appliedCoupon.discountType === 'fixed') {
@@ -1350,7 +1672,9 @@ const Store = () => {
     return pointsToRedeem * (settings.loyaltyValuePerPoint || 1);
   }, [pointsToRedeem, settings.loyaltyValuePerPoint]);
 
-  const finalAmount = Math.max(totalAmount - discountAmount - discountFromPoints + deliveryCharge, 0);
+  const taxableAmount = Math.max(totalAmount - discountAmount - discountFromPoints, 0);
+  const gstAmount = gstEnabled && gstPercentage > 0 ? Math.round(taxableAmount * gstPercentage / 100) : 0;
+  const finalAmount = Math.max(taxableAmount + gstAmount, 0);
   const hasSavedDob = Boolean(savedCustomerProfile?.dob);
   const hasSavedAnniversary = Boolean(savedCustomerProfile?.anniversaryDate);
   const hasSavedSpecialDate = Boolean(savedCustomerProfile?.specialDate);
@@ -1369,22 +1693,7 @@ const Store = () => {
     return Math.round(((originalPrice - price) / originalPrice) * 100);
   };
   const getProductVariants = (product) => {
-    const vars = (product?.variants || []).filter(variant => variant.inStock !== false);
-    if (vars.length > 0) return vars;
-    
-    // Fallback: If it's a Cake and has no variants defined in DB
-    if (['Cakes', 'Theme Cakes', 'Photo Cakes'].includes(product?.category)) {
-      const fallbackBase = product?.price || 0;
-      const fallbackOriginal = product?.originalPrice || fallbackBase;
-      const unit = (product?.weightUnit && product?.weightUnit.toLowerCase() !== 'g') ? product.weightUnit : 'Kg';
-      return [
-        { id: 'v-500g', label: `500 g`, price: fallbackBase, originalPrice: fallbackOriginal, weight: 500, weightUnit: 'g' },
-        { id: 'v-1kg', label: `1 ${unit}`, price: Math.round(fallbackBase * 1.8), originalPrice: Math.round(fallbackOriginal * 1.8), weight: 1, weightUnit: unit },
-        { id: 'v-1.5kg', label: `1.5 ${unit}`, price: Math.round(fallbackBase * 2.7), originalPrice: Math.round(fallbackOriginal * 2.7), weight: 1.5, weightUnit: unit },
-        { id: 'v-2kg', label: `2 ${unit}`, price: Math.round(fallbackBase * 3.5), originalPrice: Math.round(fallbackOriginal * 3.5), weight: 2, weightUnit: unit }
-      ];
-    }
-    return [];
+    return (product?.variants || []).filter(variant => variant.inStock !== false);
   };
 
   const getServingSize = (label) => {
@@ -1748,7 +2057,7 @@ const Store = () => {
     const baseCartKey = getCartKey(product, selectedVariant);
     const cartKey = addonsKey ? `${baseCartKey}_addons_${addonsKey}` : baseCartKey;
     const basePrice = selectedVariant?.price ?? product.price;
-    const addonsTotal = (chosenAddons || []).reduce((sum, a) => sum + (a.price || 0), 0);
+    const addonsTotal = (chosenAddons || []).reduce((sum, a) => sum + ((a.price || 0) * (a.quantity || 1)), 0);
     const itemPrice = basePrice + addonsTotal;
     const itemOriginalPrice = (selectedVariant?.originalPrice ?? product.originalPrice) ? ((selectedVariant?.originalPrice ?? product.originalPrice) + addonsTotal) : undefined;
     const itemWeight = selectedVariant?.weight || product.weight;
@@ -1767,6 +2076,8 @@ const Store = () => {
           productId: product._id,
           variantId: selectedVariant?._id,
           variantLabel: itemLabel,
+          basePrice: basePrice,
+          addonsTotal: addonsTotal,
           price: itemPrice,
           originalPrice: itemOriginalPrice,
           weight: itemWeight,
@@ -1787,49 +2098,62 @@ const Store = () => {
   };
 
   const handleReorder = (order) => {
-    if (!order?.items || order.items.length === 0) return;
+    if (!order?.items || order.items.length === 0) {
+      toast.error('No items found in this order to reorder');
+      return;
+    }
+
     setCart(prev => {
       let nextCart = [...prev];
       order.items.forEach(orderItem => {
-        const cartKey = orderItem.variantId 
-          ? `${orderItem.productId}-${orderItem.variantId}` 
-          : `${orderItem.productId || orderItem._id}`;
-        
-        const existingIndex = nextCart.findIndex(item => item.cartKey === cartKey);
-        if (existingIndex > -1) {
-          nextCart[existingIndex] = {
-            ...nextCart[existingIndex],
-            quantity: nextCart[existingIndex].quantity + orderItem.quantity
-          };
-        } else {
-          const fullProduct = products.find(p => p._id === orderItem.productId) || {
-            _id: orderItem.productId,
-            name: orderItem.name,
-            category: orderItem.category || 'Cakes',
-            price: orderItem.price,
-            image: orderItem.image || ''
-          };
+        const prodId = orderItem.product?._id || orderItem.product || orderItem.productId || orderItem._id;
+        const matchedProduct = products.find(p => p._id === prodId || (p.name && orderItem.name && p.name.toLowerCase() === orderItem.name.toLowerCase())) || {
+          _id: prodId,
+          name: orderItem.name,
+          category: 'Cakes',
+          price: orderItem.price,
+          image: orderItem.image || ''
+        };
 
-          nextCart.push({
-            ...fullProduct,
-            cartKey,
-            productId: orderItem.productId,
-            variantId: orderItem.variantId,
-            variantLabel: orderItem.variantLabel || [orderItem.weight, orderItem.weightUnit].filter(Boolean).join(' ').trim(),
-            price: orderItem.price,
-            originalPrice: orderItem.originalPrice || orderItem.price,
-            weight: orderItem.weight,
-            weightUnit: orderItem.weightUnit,
-            image: orderItem.image || getDisplayImage(fullProduct),
-            quantity: orderItem.quantity
-          });
-        }
+        const chosenAddons = orderItem.chosenAddons || [];
+        const addonsKey = chosenAddons.map(a => a._id || a.name).sort().join('_');
+        const cartKey = `reorder-${prodId || Date.now()}-${orderItem.variantId || orderItem.weight || 'std'}${addonsKey ? `-${addonsKey}` : ''}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+
+        const basePrice = orderItem.price || matchedProduct.price || 0;
+        const qty = Math.max(1, Number(orderItem.quantity) || 1);
+
+        nextCart.push({
+          ...matchedProduct,
+          cartKey,
+          productId: matchedProduct._id,
+          name: orderItem.name || matchedProduct.name,
+          variantId: orderItem.variantId,
+          variantLabel: orderItem.variantLabel || [orderItem.weight, orderItem.weightUnit].filter(Boolean).join(' ').trim(),
+          basePrice: basePrice,
+          price: basePrice,
+          originalPrice: orderItem.originalPrice || basePrice,
+          weight: orderItem.weight || matchedProduct.weight,
+          weightUnit: orderItem.weightUnit || matchedProduct.weightUnit,
+          image: orderItem.image || getDisplayImage(matchedProduct),
+          quantity: qty,
+          cakeFlavour: orderItem.cakeFlavour,
+          cakeShape: orderItem.cakeShape,
+          cakeMessage: orderItem.cakeMessage,
+          cakeEggless: orderItem.cakeEggless,
+          cakeReferenceImage: orderItem.cakeReferenceImage,
+          chosenAddons: chosenAddons
+        });
       });
+
+      syncCartToBackend(nextCart);
       return nextCart;
     });
-    toast.success('Pehle order ke saare items Cart mein add ho gaye!');
+
+    toast.success('🎉 Reordered! Taking you to checkout...');
     setActiveView('store');
-    setShowCart(true);
+    setShowCustomerProfile(false);
+    setShowCart(false);
+    setShowCheckout(true);
   };
 
   const handleAddClick = (product) => {
@@ -1870,20 +2194,91 @@ const Store = () => {
   };
 
   const updateQuantity = (cartKey, delta) => {
-    setCart(prev => prev
-      .map(item => item.cartKey === cartKey ? { ...item, quantity: item.quantity + delta } : item)
-      .filter(item => item.quantity > 0));
+    setCart(prev => {
+      const updated = prev
+        .map(item => item.cartKey === cartKey ? { ...item, quantity: item.quantity + delta } : item)
+        .filter(item => item.quantity > 0);
+      syncCartToBackend(updated);
+      return updated;
+    });
   };
 
   const removeFromCart = (cartKey) => {
-    setCart(prev => prev.filter(item => item.cartKey !== cartKey));
+    setCart(prev => {
+      const updated = prev.filter(item => item.cartKey !== cartKey);
+      syncCartToBackend(updated);
+      return updated;
+    });
     toast.success('Cart se remove ho gaya');
+  };
+
+  const updateAddonQuantity = (cartKey, addonIdentifier, delta) => {
+    setCart(prev => {
+      const updated = prev.map(item => {
+        if (item.cartKey !== cartKey) return item;
+
+        const newAddons = (item.chosenAddons || []).map((addon, idx) => {
+          const isMatch = (addon._id && addon._id === addonIdentifier) || (addon.name && addon.name === addonIdentifier) || idx === addonIdentifier;
+          if (!isMatch) return addon;
+          const currentQty = addon.quantity || 1;
+          const newQty = currentQty + delta;
+          return { ...addon, quantity: newQty };
+        }).filter(addon => (addon.quantity || 0) > 0);
+
+        const basePrice = item.basePrice ?? (item.price - (item.addonsTotal || 0));
+        const newAddonsTotal = newAddons.reduce((sum, a) => sum + ((a.price || 0) * (a.quantity || 1)), 0);
+        const newPrice = basePrice + newAddonsTotal;
+        const newOriginalPrice = item.originalPrice ? ((item.originalPrice - (item.addonsTotal || 0)) + newAddonsTotal) : undefined;
+
+        return {
+          ...item,
+          chosenAddons: newAddons,
+          addonsTotal: newAddonsTotal,
+          price: newPrice,
+          originalPrice: newOriginalPrice
+        };
+      });
+      syncCartToBackend(updated);
+      return updated;
+    });
+  };
+
+  const removeAddonFromCart = (cartKey, addonIdentifier) => {
+    setCart(prev => {
+      const updated = prev.map(item => {
+        if (item.cartKey !== cartKey) return item;
+
+        const newAddons = (item.chosenAddons || []).filter((addon, idx) => {
+          const isMatch = (addon._id && addon._id === addonIdentifier) || (addon.name && addon.name === addonIdentifier) || idx === addonIdentifier;
+          return !isMatch;
+        });
+
+        const basePrice = item.basePrice ?? (item.price - (item.addonsTotal || 0));
+        const newAddonsTotal = newAddons.reduce((sum, a) => sum + ((a.price || 0) * (a.quantity || 1)), 0);
+        const newPrice = basePrice + newAddonsTotal;
+        const newOriginalPrice = item.originalPrice ? ((item.originalPrice - (item.addonsTotal || 0)) + newAddonsTotal) : undefined;
+
+        return {
+          ...item,
+          chosenAddons: newAddons,
+          addonsTotal: newAddonsTotal,
+          price: newPrice,
+          originalPrice: newOriginalPrice
+        };
+      });
+      syncCartToBackend(updated);
+      return updated;
+    });
+    toast.success('Add-on remove ho gaya');
   };
 
   const persistCustomerSession = (profile, token) => {
     if (profile) {
       localStorage.setItem(SAVED_CUSTOMER_KEY, JSON.stringify(profile));
       setSavedCustomerProfile(profile);
+      if (Array.isArray(profile.cart) && profile.cart.length > 0) {
+        setCart(prev => (prev.length === 0 ? profile.cart : prev));
+      }
     }
     if (token) {
       localStorage.setItem(CUSTOMER_TOKEN_KEY, token);
@@ -1932,9 +2327,10 @@ const Store = () => {
 
     setIsLoading(true);
     try {
-      const phone = orderForm.phone || '';
+      const phone = orderForm.phone || savedCustomerProfile?.phone || '';
+      const email = orderForm.email || savedCustomerProfile?.email || '';
       const { data } = await axios.get(`${API_URL}/campaigns/validate-coupon`, {
-        params: { code, phone }
+        params: { code, phone, email }
       });
       
       if (data.valid) {
@@ -1987,6 +2383,12 @@ const Store = () => {
   const handleCheckout = async (e) => {
     e.preventDefault();
     if (!cart.length) return;
+
+    if (paymentMethod === 'cod' && settings.codEnabled === false) {
+      toast.error('Cash on Delivery is currently disabled. Please choose UPI QR or Online Payment.');
+      if (settings.upiId) setPaymentMethod('upi_qr');
+      return;
+    }
 
     if (paymentMethod === 'upi_qr' && !showUpiModal) {
       setShowUpiModal(true);
@@ -2070,11 +2472,16 @@ const Store = () => {
           cakeShape: item.cakeShape,
           cakeMessage: item.cakeMessage,
           cakeEggless: item.cakeEggless,
-          cakeReferenceImage: item.cakeReferenceImage
+          cakeReferenceImage: item.cakeReferenceImage,
+          chosenAddons: item.chosenAddons || []
         })),
+        status: paymentDetails.paymentMethod === 'online' ? 'preparing' : 'pending',
         totalAmount: finalAmount,
         subtotal: totalAmount,
-        deliveryCharge,
+        deliveryCharge: 0,
+        gstEnabled,
+        gstPercentage: gstEnabled ? gstPercentage : 0,
+        gstAmount: gstEnabled ? gstAmount : 0,
         couponCode: appliedCoupon ? appliedCoupon.code : undefined,
         discountAmount: discountAmount,
         pointsRedeemed: redeemingPoints ? pointsToRedeem : 0,
@@ -2108,7 +2515,7 @@ const Store = () => {
       setAppliedCoupon(null);
       setCouponInput('');
       setRedeemingPoints(false);
-      setPaymentMethod('cod');
+      setPaymentMethod(settings.codEnabled !== false ? 'cod' : (settings.upiId ? 'upi_qr' : (settings.razorpayEnabled ? 'online' : 'upi_qr')));
       setShowUpiModal(false);
       setOrderForm({
         customerName: '',
@@ -2150,6 +2557,9 @@ const Store = () => {
   const applyCustomerProfile = (profile, notify = true) => {
     if (!profile) return;
     setSavedCustomerProfile(profile);
+    if (Array.isArray(profile.cart) && profile.cart.length > 0) {
+      setCart(prev => (prev.length === 0 ? profile.cart : prev));
+    }
     setOrderForm(prev => ({
       ...prev,
       customerName: prev.customerName || profile.customerName || '',
@@ -2441,13 +2851,15 @@ const Store = () => {
           <div className="flex items-center space-x-1 py-1.5 overflow-visible flex-wrap gap-y-1">
             <button
               onClick={() => {
+                setActiveView('store');
                 setFilterCategory('all');
                 setSubCategoryFilter('all');
                 setSubSubCategoryFilter('all');
                 setActiveNavPopover(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className={`px-3.5 py-1.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-                filterCategory === 'all' ? 'bg-[#d90429] text-white shadow-md' : 'text-amber-100 hover:bg-amber-800/60'
+                filterCategory === 'all' && activeView === 'store' ? 'bg-[#d90429] text-white shadow-md' : 'text-amber-100 hover:bg-amber-800/60'
               }`}
             >
               All Categories
@@ -2466,6 +2878,7 @@ const Store = () => {
                 >
                   <button
                     onClick={() => {
+                      setActiveView('store');
                       setFilterCategory(main.name);
                       setSubCategoryFilter('all');
                       setSubSubCategoryFilter('all');
@@ -2474,9 +2887,10 @@ const Store = () => {
                       } else {
                         setActiveNavPopover(null);
                       }
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className={`px-3.5 py-1.5 text-xs font-black uppercase tracking-wider rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer ${
-                      filterCategory === main.name || isPopoverOpen ? 'bg-[#d90429] text-white shadow-md' : 'text-amber-100 hover:bg-amber-800/60'
+                      (filterCategory === main.name && activeView === 'store') || isPopoverOpen ? 'bg-[#d90429] text-white shadow-md' : 'text-amber-100 hover:bg-amber-800/60'
                     }`}
                   >
                     <span>{main.name}</span>
@@ -2517,10 +2931,12 @@ const Store = () => {
                             key={sub._id}
                             onClick={(e) => {
                               e.stopPropagation();
+                              setActiveView('store');
                               setFilterCategory(main.name);
                               setSubCategoryFilter(sub.name);
                               setSubSubCategoryFilter('all');
                               setActiveNavPopover(null);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}
                             className="w-full text-left px-3 py-2 text-xs font-bold text-gray-800 hover:bg-amber-50 hover:text-[#d90429] rounded-xl transition-colors cursor-pointer"
                           >
@@ -2542,7 +2958,7 @@ const Store = () => {
         <div className="py-4 px-4 sm:px-6 bg-[#fffcf7] border-b border-amber-900/10 shadow-xs">
           <div className="max-w-[1440px] mx-auto flex items-center justify-start sm:justify-center gap-4 sm:gap-6 md:gap-8 overflow-x-auto scrollbar-hide py-1">
             {displayCategoryTree.map(cat => {
-              const isActive = filterCategory.toLowerCase() === cat.name.toLowerCase();
+              const isActive = filterCategory.toLowerCase() === cat.name.toLowerCase() && activeView === 'store';
               const catProduct = products.find(p => (p.category || p.mainCategory || '').toLowerCase() === cat.name.toLowerCase());
               const catImg = cat.image || (catProduct?.images && catProduct.images[0]) || catProduct?.image || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200&q=80';
 
@@ -2550,9 +2966,11 @@ const Store = () => {
                 <div
                   key={cat._id}
                   onClick={() => {
+                    setActiveView('store');
                     setFilterCategory(cat.name);
                     setSubCategoryFilter('all');
                     setSubSubCategoryFilter('all');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   className="flex flex-col items-center group cursor-pointer shrink-0 space-y-1.5 select-none"
                 >
@@ -2982,7 +3400,14 @@ const Store = () => {
                 }, 0);
                 const totalPrice = (displayPrice * detailQuantity) + addonsTotal;
                 const isWishlisted = wishlist.includes(selectedProduct._id);
-                const chosenAddonsList = Object.entries(selectedAddons).filter(([_, q]) => q > 0).map(([id]) => availableAddons.find(a => a._id === id)).filter(Boolean);
+                const chosenAddonsList = Object.entries(selectedAddons)
+                  .filter(([_, q]) => q > 0)
+                  .map(([id, q]) => {
+                    const addon = availableAddons.find(a => a._id === id);
+                    if (!addon) return null;
+                    return { ...addon, quantity: q };
+                  })
+                  .filter(Boolean);
 
                 return (
                   <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-100 pt-3 pb-safe space-y-2.5 -mx-4 sm:mx-0 px-4 sm:px-0 sm:static sm:border-0 sm:pt-0">
@@ -3096,6 +3521,12 @@ const Store = () => {
                 <p className="text-sm text-gray-500">Order ID: #{trackingOrder?._id?.toString().slice(-8).toUpperCase()}</p>
               </div>
 
+              {trackingOrder?.paymentMethod === 'upi' && trackingOrder?.paymentStatus === 'paid' && (
+                <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-3.5 text-center text-xs font-black text-emerald-800 flex items-center justify-center gap-2">
+                  <span>✅</span> UPI Payment Verified & Approved by Bakery!
+                </div>
+              )}
+
               {/* Stepper tracking visualization */}
               <div className="mt-10 relative">
                 <div className="absolute left-4 top-2 bottom-2 w-0.5 bg-gray-200 -translate-x-1/2" />
@@ -3138,9 +3569,21 @@ const Store = () => {
                 <h3 className="font-black text-sm uppercase tracking-wider text-[#92602f]">Order Details</h3>
                 <div className="rounded-2xl border border-gray-100 p-4 space-y-2.5">
                   {(trackingOrder?.items || []).map((item, idx) => (
-                    <div key={idx} className="flex justify-between text-sm font-bold text-[#6f6258]">
-                      <span>{item.name} x {item.quantity}</span>
-                      <span className="text-[#21170f]">{currency}{item.price * item.quantity}</span>
+                    <div key={idx} className="space-y-1">
+                      <div className="flex justify-between text-sm font-bold text-[#6f6258]">
+                        <span>{item.name} x {item.quantity}</span>
+                        <span className="text-[#21170f]">{currency}{item.price * item.quantity}</span>
+                      </div>
+                      {item.chosenAddons && item.chosenAddons.length > 0 && (
+                        <div className="ml-2 pl-2 border-l border-amber-300 space-y-0.5 text-xs text-amber-900 font-semibold">
+                          {item.chosenAddons.map((addon, aIdx) => (
+                            <div key={aIdx} className="flex justify-between text-[11px]">
+                              <span>• {addon.name} {addon.quantity > 1 ? `(${addon.quantity}x)` : ''}</span>
+                              <span className="text-[#92602f] font-bold">+{currency}{(addon.price || 0) * (addon.quantity || 1)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                   <div className="border-t pt-2.5 flex justify-between font-black text-base text-[#21170f]">
@@ -3295,17 +3738,30 @@ const Store = () => {
                             <span className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
                               order.status === 'completed' ? 'bg-green-100 text-green-800' :
                               order.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                              order.status === 'payment_review' ? 'bg-yellow-100 text-yellow-900 border border-yellow-300' :
                               'bg-amber-100 text-amber-800'
                             }`}>
-                              {order.status === 'pending' ? 'Placed' : order.status === 'preparing' ? 'Baking Fresh' : order.status === 'out_for_delivery' ? 'Out For Delivery' : order.status}
+                              {order.status === 'payment_review' ? '⏳ Payment Review' : order.status === 'pending' ? 'Placed' : order.status === 'preparing' ? 'Baking Fresh' : order.status === 'out_for_delivery' ? 'Out For Delivery' : order.status}
                             </span>
                           </div>
 
                           <div className="space-y-2">
                             {(order.items || []).map((item, index) => (
-                              <div key={index} className="flex justify-between text-xs font-bold text-[#6f6258]">
-                                <span>{item.name} x {item.quantity}</span>
-                                <span className="text-[#21170f]">{currency}{item.price * item.quantity}</span>
+                              <div key={index} className="space-y-1">
+                                <div className="flex justify-between text-xs font-bold text-[#6f6258]">
+                                  <span>{item.name} x {item.quantity}</span>
+                                  <span className="text-[#21170f]">{currency}{item.price * item.quantity}</span>
+                                </div>
+                                {item.chosenAddons && item.chosenAddons.length > 0 && (
+                                  <div className="ml-2 pl-2 border-l border-amber-300 space-y-0.5 text-[11px] text-amber-900 font-semibold">
+                                    {item.chosenAddons.map((addon, aIdx) => (
+                                      <div key={aIdx} className="flex justify-between text-[10px]">
+                                        <span>• {addon.name} {addon.quantity > 1 ? `(${addon.quantity}x)` : ''}</span>
+                                        <span className="text-[#92602f] font-bold">+{currency}{(addon.price || 0) * (addon.quantity || 1)}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
@@ -3318,13 +3774,7 @@ const Store = () => {
                           <div className="flex gap-2">
                             <button
                               type="button"
-                              onClick={() => {
-                                (order.items || []).forEach(item => {
-                                  const prod = products.find(p => p._id === item.productId || p.name === item.name);
-                                  if (prod) addToCart(prod, item.variant || null, item.customMessage || '', false);
-                                });
-                                toast.success('Items added to cart!');
-                              }}
+                              onClick={() => handleReorder(order)}
                               className="flex-1 flex h-10 items-center justify-center gap-1.5 rounded-xl bg-[#fff1e8] border border-[#f0e8de] text-xs font-black text-[#d90429] hover:bg-[#fde8df] transition cursor-pointer"
                             >
                               <RotateCcw className="h-3.5 w-3.5" />
@@ -3416,27 +3866,12 @@ const Store = () => {
                 </div>
               )}
 
-              {/* MY PROFILE TAB — edit info + address + loyalty wallet */}
+              {/* MY PROFILE TAB — edit info + address */}
               {activeProfileTab === 'settings' && (
                 <div className="space-y-6 max-w-3xl">
                   <div className="border-b pb-4">
                     <h3 className="text-xl font-black text-[#21170f]">My Profile</h3>
                     <p className="text-xs font-bold text-gray-400 mt-0.5">Manage your personal information and delivery details</p>
-                  </div>
-
-                  {/* Loyalty Wallet — compact inline card */}
-                  <div className="flex items-center justify-between rounded-2xl bg-gradient-to-r from-[#d90429] to-[#ef233c] p-3 sm:px-6 sm:py-4 text-white shadow-md shadow-[#d90429]/20">
-                    <div className="flex items-center gap-2">
-                      <Gift className="h-5 w-5 sm:h-6 sm:w-6 text-white/80 shrink-0" />
-                      <div>
-                        <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-white/70">Loyalty Points</p>
-                        <p className="text-lg sm:text-2xl font-black">{savedCustomerProfile?.loyaltyPoints || 0} Pts</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-white/70">Equivalent Value</p>
-                      <p className="text-base sm:text-lg font-black">{currency}{(savedCustomerProfile?.loyaltyPoints || 0) * (settings.loyaltyValuePerPoint || 1)}</p>
-                    </div>
                   </div>
 
                   {/* Personal Info */}
@@ -3445,30 +3880,155 @@ const Store = () => {
                       <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Full Name</label>
                       <input
                         type="text"
-                        defaultValue={savedCustomerProfile.customerName}
-                        id="profile-edit-name"
+                        value={profileFormName}
+                        onChange={(e) => setProfileFormName(e.target.value)}
+                        placeholder="Your full name"
                         className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Mobile Number Field */}
                       <div className="space-y-2">
-                        <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Mobile Number</label>
-                        <input
-                          type="text"
-                          value={savedCustomerProfile.phone}
-                          disabled
-                          className="h-12 w-full rounded-xl border border-black/5 bg-gray-100 px-4 text-sm font-semibold text-gray-500 cursor-not-allowed"
-                        />
+                        <div className="flex items-center justify-between">
+                          <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">
+                            Mobile Number
+                          </label>
+                          {profileFormPhone.replace(/\D/g, '') === (savedCustomerProfile?.phone || '').replace(/\D/g, '') || phoneVerified ? (
+                            <span className="flex items-center gap-1 text-[10px] font-black text-green-600 bg-green-50 border border-green-200/60 px-2 py-0.5 rounded-full">
+                              <Check className="h-2.5 w-2.5 stroke-[3]" /> Verified
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-black text-amber-600 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full">
+                              Unverified (WhatsApp OTP)
+                            </span>
+                          )}
+                        </div>
+                        <div className="relative flex items-center">
+                          <input
+                            type="tel"
+                            maxLength={10}
+                            value={profileFormPhone}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                              setProfileFormPhone(val);
+                              const isOrig = val === (savedCustomerProfile?.phone || '').replace(/\D/g, '');
+                              setPhoneVerified(isOrig);
+                              if (isOrig) setPhoneOtpSent(false);
+                            }}
+                            placeholder="10-digit mobile number"
+                            className="h-12 w-full rounded-xl border border-black/10 bg-white pl-4 pr-24 text-sm font-semibold outline-none focus:border-[#d90429]"
+                          />
+                          {profileFormPhone.replace(/\D/g, '') !== (savedCustomerProfile?.phone || '').replace(/\D/g, '') && !phoneVerified && (
+                            <button
+                              type="button"
+                              onClick={handleSendPhoneOtp}
+                              disabled={phoneOtpLoading || profileFormPhone.length < 10}
+                              className="absolute right-2 px-3 py-1.5 rounded-lg bg-[#d90429] text-white text-[11px] font-black uppercase tracking-wider hover:bg-[#c50323] transition disabled:opacity-50 cursor-pointer"
+                            >
+                              {phoneOtpLoading ? 'Sending...' : phoneOtpSent ? 'Resend' : 'Send OTP'}
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Inline Phone OTP verification */}
+                        {phoneOtpSent && !phoneVerified && (
+                          <div className="mt-2 p-3 rounded-xl bg-amber-50/80 border border-amber-200 space-y-2 animate-in fade-in duration-200">
+                            <p className="text-[11px] font-bold text-amber-800 flex items-center gap-1.5">
+                              <MessageCircle className="h-3.5 w-3.5 text-emerald-600" />
+                              WhatsApp OTP sent to <strong>+91 {profileFormPhone}</strong>
+                            </p>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                maxLength={6}
+                                placeholder="Enter 6-digit OTP"
+                                value={phoneOtpInput}
+                                onChange={(e) => setPhoneOtpInput(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                className="h-9 flex-1 rounded-lg border border-amber-300 bg-white px-3 text-center text-sm font-bold tracking-widest outline-none focus:border-[#d90429]"
+                              />
+                              <button
+                                type="button"
+                                onClick={handleVerifyPhoneOtp}
+                                disabled={phoneOtpLoading || phoneOtpInput.length < 6}
+                                className="h-9 px-4 rounded-lg bg-[#0c7a35] text-white text-xs font-black hover:bg-[#0a662c] transition disabled:opacity-50 cursor-pointer"
+                              >
+                                {phoneOtpLoading ? '...' : 'Verify'}
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
+
+                      {/* Email Address Field */}
                       <div className="space-y-2">
-                        <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Email ID</label>
-                        <input
-                          type="email"
-                          defaultValue={savedCustomerProfile.email}
-                          id="profile-edit-email"
-                          className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]"
-                        />
+                        <div className="flex items-center justify-between">
+                          <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">
+                            Email ID
+                          </label>
+                          {profileFormEmail.trim().toLowerCase() === (savedCustomerProfile?.email || '').trim().toLowerCase() || emailVerified ? (
+                            <span className="flex items-center gap-1 text-[10px] font-black text-green-600 bg-green-50 border border-green-200/60 px-2 py-0.5 rounded-full">
+                              <Check className="h-2.5 w-2.5 stroke-[3]" /> Verified
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-black text-amber-600 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full">
+                              Unverified (Email OTP)
+                            </span>
+                          )}
+                        </div>
+                        <div className="relative flex items-center">
+                          <input
+                            type="email"
+                            value={profileFormEmail}
+                            onChange={(e) => {
+                              const val = e.target.value.trim();
+                              setProfileFormEmail(val);
+                              const isOrig = val.toLowerCase() === (savedCustomerProfile?.email || '').trim().toLowerCase();
+                              setEmailVerified(isOrig);
+                              if (isOrig) setEmailOtpSent(false);
+                            }}
+                            placeholder="e.g. name@gmail.com"
+                            className="h-12 w-full rounded-xl border border-black/10 bg-white pl-4 pr-24 text-sm font-semibold outline-none focus:border-[#d90429]"
+                          />
+                          {profileFormEmail.trim().toLowerCase() !== (savedCustomerProfile?.email || '').trim().toLowerCase() && !emailVerified && (
+                            <button
+                              type="button"
+                              onClick={handleSendEmailOtp}
+                              disabled={emailOtpLoading || !profileFormEmail.includes('@')}
+                              className="absolute right-2 px-3 py-1.5 rounded-lg bg-[#d90429] text-white text-[11px] font-black uppercase tracking-wider hover:bg-[#c50323] transition disabled:opacity-50 cursor-pointer"
+                            >
+                              {emailOtpLoading ? 'Sending...' : emailOtpSent ? 'Resend' : 'Send OTP'}
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Inline Email OTP verification */}
+                        {emailOtpSent && !emailVerified && (
+                          <div className="mt-2 p-3 rounded-xl bg-amber-50/80 border border-amber-200 space-y-2 animate-in fade-in duration-200">
+                            <p className="text-[11px] font-bold text-amber-800 flex items-center gap-1.5">
+                              <Mail className="h-3.5 w-3.5 text-amber-600" />
+                              Email OTP sent to <strong>{profileFormEmail}</strong>
+                            </p>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                maxLength={6}
+                                placeholder="Enter 6-digit OTP"
+                                value={emailOtpInput}
+                                onChange={(e) => setEmailOtpInput(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                className="h-9 flex-1 rounded-lg border border-amber-300 bg-white px-3 text-center text-sm font-bold tracking-widest outline-none focus:border-[#d90429]"
+                              />
+                              <button
+                                type="button"
+                                onClick={handleVerifyEmailOtp}
+                                disabled={emailOtpLoading || emailOtpInput.length < 6}
+                                className="h-9 px-4 rounded-lg bg-[#0c7a35] text-white text-xs font-black hover:bg-[#0a662c] transition disabled:opacity-50 cursor-pointer"
+                              >
+                                {emailOtpLoading ? '...' : 'Verify'}
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -3477,18 +4037,18 @@ const Store = () => {
                         <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Birthday 🎂</label>
                         <input
                           type="date"
-                          defaultValue={savedCustomerProfile.dob ? savedCustomerProfile.dob.split('T')[0] : ''}
-                          id="profile-edit-dob"
-                          className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none"
+                          value={profileFormDob}
+                          onChange={(e) => setProfileFormDob(e.target.value)}
+                          className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]"
                         />
                       </div>
                       <div className="space-y-2">
                         <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Anniversary 💍</label>
                         <input
                           type="date"
-                          defaultValue={savedCustomerProfile.anniversaryDate ? savedCustomerProfile.anniversaryDate.split('T')[0] : ''}
-                          id="profile-edit-anniversary"
-                          className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none"
+                          value={profileFormAnniversary}
+                          onChange={(e) => setProfileFormAnniversary(e.target.value)}
+                          className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]"
                         />
                       </div>
                     </div>
@@ -3529,7 +4089,8 @@ const Store = () => {
                         </div>
                         <textarea
                           rows="2"
-                          defaultValue={savedCustomerProfile.address}
+                          value={profileFormAddress}
+                          onChange={(e) => setProfileFormAddress(e.target.value)}
                           id="profile-address-box"
                           className="w-full resize-none rounded-2xl border border-[#d90429]/30 bg-white px-4 py-3 text-sm font-semibold outline-none focus:border-[#d90429] focus:shadow-md transition"
                           placeholder="House/Flat No., Building, Street, Landmark, Pincode"
@@ -3598,35 +4159,26 @@ const Store = () => {
                       </div>
                       <div
                         id="profile-edit-other-group"
-                        className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${savedCustomerProfile.specialDate || savedCustomerProfile.specialDateDescription ? '' : 'hidden'}`}
+                        className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${profileFormSpecialDate || profileFormSpecialDesc ? '' : 'hidden'}`}
                       >
                         <div className="space-y-2">
                           <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Occasion Name</label>
-                          <input type="text" defaultValue={savedCustomerProfile.specialDateDescription || ''} id="profile-edit-special-desc" placeholder="e.g. Baby Shower, Graduation" className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]" />
+                          <input type="text" value={profileFormSpecialDesc} onChange={(e) => setProfileFormSpecialDesc(e.target.value)} placeholder="e.g. Baby Shower, Graduation" className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]" />
                         </div>
                         <div className="space-y-2">
                           <label className="block text-xs font-black uppercase tracking-wider text-[#6f6258]">Occasion Date</label>
-                          <input type="date" defaultValue={savedCustomerProfile.specialDate ? savedCustomerProfile.specialDate.split('T')[0] : ''} id="profile-edit-special-date" className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]" />
+                          <input type="date" value={profileFormSpecialDate} onChange={(e) => setProfileFormSpecialDate(e.target.value)} className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold outline-none focus:border-[#d90429]" />
                         </div>
                       </div>
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => {
-                        const name = document.getElementById('profile-edit-name')?.value || '';
-                        const email = document.getElementById('profile-edit-email')?.value || '';
-                        const dob = document.getElementById('profile-edit-dob')?.value || '';
-                        const anniversary = document.getElementById('profile-edit-anniversary')?.value || '';
-                        const address = document.getElementById('profile-address-box')?.value || '';
-                        const specialDesc = document.getElementById('profile-edit-special-desc')?.value || '';
-                        const specialDate = document.getElementById('profile-edit-special-date')?.value || '';
-                        handleUpdateProfileDetails(name, email, dob, anniversary, address, specialDate, specialDesc);
-                      }}
+                      onClick={handleSaveProfileChanges}
                       disabled={isLoading}
                       className="w-full h-12 rounded-xl bg-[#d90429] font-black text-xs uppercase tracking-wider text-white hover:bg-[#c50323] transition duration-200 cursor-pointer shadow-md shadow-[#d90429]/20"
                     >
-                      {isLoading ? 'Saving...' : 'Save All Changes'}
+                      {isLoading ? 'Saving Changes...' : 'Save All Changes'}
                     </button>
                   </div>
                 </div>
@@ -4442,49 +4994,113 @@ const Store = () => {
 
               <h2 className="text-2xl font-black tracking-tight text-[#21170f] leading-tight">
                 {authStep === 1
-                  ? 'Login or Sign Up'
+                  ? (authMethod === 'email' ? 'Sign in with Email' : 'Sign in with Mobile')
                   : authStep === 2
-                  ? (authExists ? 'Enter Verification Code' : 'Complete Your Profile')
+                  ? (authExists ? 'Enter Verification Code' : 'Verify Your Account')
                   : 'Almost Done!'}
               </h2>
               <p className="mt-2 text-sm text-gray-500 font-medium leading-relaxed">
                 {authStep === 1
-                  ? 'Enter your mobile number or email address to continue.'
+                  ? (authMethod === 'email'
+                      ? 'Enter your email address to receive a 6-digit login OTP.'
+                      : 'Enter your 10-digit mobile number to receive a WhatsApp OTP.')
                   : authStep === 2
-                  ? `Enter the 6-digit verification code sent to ${authTargetEmail}.`
-                  : 'Tell us your name to complete setting up your account.'}
+                  ? (authTargetEmail.includes('@')
+                      ? `Enter the 6-digit verification code sent to ${authTargetEmail}.`
+                      : `Enter the 6-digit verification code sent via WhatsApp to +91 ${authTargetEmail}.`)
+                  : (authMethod === 'email'
+                      ? 'Enter your Full Name & Mobile Number to complete registration.'
+                      : 'Enter your Full Name & Email Address to complete registration.')}
               </p>
             </div>
 
             {/* Form Body */}
             <div className="px-7 pb-8 space-y-5">
 
-              {/* ── Step 1: Unified Single Input ── */}
+              {/* ── Step 1: Single Input (Email by default, with Mobile toggle) ── */}
               {authStep === 1 && (
                 <div className="space-y-5">
                   <form onSubmit={handleSendOtp} className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="block text-xs font-black uppercase tracking-widest text-gray-400">
-                        Mobile Number or Email Address
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Enter 10-digit mobile or email address"
-                        value={authIdentifier}
-                        onChange={(e) => setAuthIdentifier(e.target.value)}
-                        className="h-14 w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-5 text-base font-semibold text-[#21170f] outline-none transition-all focus:border-[#d90429] focus:bg-white focus:shadow-[0_0_0_4px_rgba(217,4,41,0.06)]"
-                        autoComplete="username"
-                        required
-                      />
+                    {authMethod === 'email' ? (
+                      /* Email Address Input */
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <label className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-gray-500">
+                            <Mail className="h-3.5 w-3.5 text-[#d90429]" />
+                            Email Address
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => { setAuthMethod('mobile'); setAuthEmail(''); }}
+                            className="text-xs font-bold text-[#d90429] hover:text-[#b80320] hover:underline flex items-center gap-1 cursor-pointer transition"
+                          >
+                            <Smartphone className="h-3.5 w-3.5" />
+                            Sign in with Mobile
+                          </button>
+                        </div>
+                        <input
+                          type="email"
+                          placeholder="Enter your email address (e.g. name@gmail.com)"
+                          value={authEmail}
+                          onChange={(e) => setAuthEmail(e.target.value.trim())}
+                          className="h-13 w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-4 text-base font-semibold text-[#21170f] outline-none transition-all focus:border-[#d90429] focus:bg-white focus:shadow-[0_0_0_4px_rgba(217,4,41,0.06)]"
+                          autoComplete="email"
+                          autoFocus
+                          required
+                        />
+                      </div>
+                    ) : (
+                      /* Mobile Number Input */
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <label className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-gray-500">
+                            <Smartphone className="h-3.5 w-3.5 text-[#d90429]" />
+                            Mobile Number
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => { setAuthMethod('email'); setAuthPhone(''); }}
+                            className="text-xs font-bold text-[#d90429] hover:text-[#b80320] hover:underline flex items-center gap-1 cursor-pointer transition"
+                          >
+                            <Mail className="h-3.5 w-3.5" />
+                            Sign in with Email
+                          </button>
+                        </div>
+                        <div className="relative flex items-center">
+                          <span className="absolute left-4 text-sm font-bold text-gray-400">+91</span>
+                          <input
+                            type="tel"
+                            maxLength={10}
+                            placeholder="10-digit mobile number"
+                            value={authPhone}
+                            onChange={(e) => setAuthPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                            className="h-13 w-full rounded-2xl border-2 border-gray-100 bg-gray-50 pl-14 pr-4 text-base font-semibold text-[#21170f] outline-none transition-all focus:border-[#d90429] focus:bg-white focus:shadow-[0_0_0_4px_rgba(217,4,41,0.06)]"
+                            autoComplete="tel"
+                            autoFocus
+                            required
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Info Notice */}
+                    <div className="flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-200/80 px-3.5 py-2.5 text-xs text-amber-800">
+                      {authMethod === 'email' ? <Mail className="h-4 w-4 text-amber-600 shrink-0" /> : <Smartphone className="h-4 w-4 text-amber-600 shrink-0" />}
+                      <p className="font-medium">
+                        {authMethod === 'email'
+                          ? <span>A 6-digit OTP will be sent to your <strong>Email Address</strong>.</span>
+                          : <span>A 6-digit OTP will be sent to your <strong>WhatsApp</strong>.</span>}
+                      </p>
                     </div>
+
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[#d90429] text-sm font-black uppercase tracking-wider text-white shadow-lg shadow-[#d90429]/30 transition-all hover:bg-[#c50323] hover:shadow-xl hover:shadow-[#d90429]/40 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
+                      className="flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-[#d90429] text-sm font-black uppercase tracking-wider text-white shadow-lg shadow-[#d90429]/30 transition-all hover:bg-[#c50323] hover:shadow-xl hover:shadow-[#d90429]/40 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
                     >
                       {isLoading
-                        ? <span className="flex items-center gap-2"><span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />Sending…</span>
-                        : 'Continue →'
+                        ? <span className="flex items-center gap-2"><span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />Sending OTP…</span>
+                        : 'Send Verification Code →'
                       }
                     </button>
                   </form>
@@ -4558,7 +5174,7 @@ const Store = () => {
                 </form>
               )}
 
-              {/* ── Step 3: Profile completion ── */}
+              {/* ── Step 3: Profile completion (New Customer) ── */}
               {authStep === 3 && (
                 <form onSubmit={handleRegisterCustomer} className="space-y-5 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
                   {/* Name */}
@@ -4577,27 +5193,30 @@ const Store = () => {
                     />
                   </div>
 
-                  {/* Mobile input if verified with email */}
+                  {/* If user logged in with Email, prompt for Mobile Number */}
                   {!authProfileData.phone && (
-                    <div className="space-y-2 sm:col-span-1">
+                    <div className="space-y-2 sm:col-span-2">
                       <label className="block text-xs font-black uppercase tracking-widest text-gray-400">
                         Mobile Number <span className="text-[#d90429]">*</span>
                       </label>
-                      <input
-                        type="tel"
-                        maxLength={10}
-                        placeholder="10-digit mobile number"
-                        value={authProfileData.phone}
-                        onChange={(e) => setAuthProfileData(prev => ({ ...prev, phone: e.target.value.replace(/\D/g, '') }))}
-                        className="h-14 w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-5 text-base font-semibold text-[#21170f] outline-none transition-all focus:border-[#d90429] focus:bg-white focus:shadow-[0_0_0_4px_rgba(217,4,41,0.06)]"
-                        required
-                      />
+                      <div className="relative flex items-center">
+                        <span className="absolute left-4 text-sm font-bold text-gray-400">+91</span>
+                        <input
+                          type="tel"
+                          maxLength={10}
+                          placeholder="10-digit mobile number"
+                          value={authProfileData.phone}
+                          onChange={(e) => setAuthProfileData(prev => ({ ...prev, phone: e.target.value.replace(/\D/g, '').slice(0, 10) }))}
+                          className="h-14 w-full rounded-2xl border-2 border-gray-100 bg-gray-50 pl-14 pr-4 text-base font-semibold text-[#21170f] outline-none transition-all focus:border-[#d90429] focus:bg-white focus:shadow-[0_0_0_4px_rgba(217,4,41,0.06)]"
+                          required
+                        />
+                      </div>
                     </div>
                   )}
 
-                  {/* Email input if verified with phone */}
+                  {/* If user logged in with Mobile, prompt for Email Address */}
                   {!authProfileData.email && (
-                    <div className="space-y-2 sm:col-span-1">
+                    <div className="space-y-2 sm:col-span-2">
                       <label className="block text-xs font-black uppercase tracking-widest text-gray-400">
                         Email Address <span className="text-[#d90429]">*</span>
                       </label>
@@ -4605,7 +5224,7 @@ const Store = () => {
                         type="email"
                         placeholder="e.g. sharma@gmail.com"
                         value={authProfileData.email}
-                        onChange={(e) => setAuthProfileData(prev => ({ ...prev, email: e.target.value }))}
+                        onChange={(e) => setAuthProfileData(prev => ({ ...prev, email: e.target.value.trim() }))}
                         className="h-14 w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-5 text-base font-semibold text-[#21170f] outline-none transition-all focus:border-[#d90429] focus:bg-white focus:shadow-[0_0_0_4px_rgba(217,4,41,0.06)]"
                         required
                       />
@@ -4619,7 +5238,7 @@ const Store = () => {
                         <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-500">
                           <Check className="h-3 w-3 text-white stroke-[3]" />
                         </div>
-                        <span className="truncate text-xs font-black text-green-700">{authProfileData.phone}</span>
+                        <span className="truncate text-xs font-black text-green-700">+91 {authProfileData.phone}</span>
                       </div>
                     )}
                     {authProfileData.email && (
@@ -4763,9 +5382,86 @@ const Store = () => {
                         <div className="min-w-0 flex-1">
                           <h3 className="line-clamp-1 font-black text-[#21170f]">{item.name}</h3>
                           {item.variantLabel && <p className="text-xs font-bold text-[#92602f]">{item.variantLabel}</p>}
-                          <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-500 mt-1">
-                            <span>{currency}{item.price} x {item.quantity}</span>
-                            {item.originalPrice > item.price && <span className="text-xs line-through">{currency}{item.originalPrice}</span>}
+                          {item.cakeMessage && (
+                            <p className="text-[11px] font-bold text-gray-500 italic mt-0.5 truncate">
+                              "{item.cakeMessage}"
+                            </p>
+                          )}
+
+                          {/* Itemized Add-on Products Display with + / - and Delete controls */}
+                          {item.chosenAddons && item.chosenAddons.length > 0 && (
+                            <div className="mt-2 rounded-xl bg-amber-50/90 border border-amber-200/70 p-2.5 space-y-2">
+                              <p className="text-[10px] font-black uppercase tracking-wider text-amber-900 flex items-center justify-between">
+                                <span>🎁 Included Add-ons</span>
+                                <span className="text-[9px] font-bold text-amber-700">({item.chosenAddons.length})</span>
+                              </p>
+                              <div className="space-y-1.5">
+                                {item.chosenAddons.map((addon, aIdx) => {
+                                  const aKey = addon._id || addon.name || aIdx;
+                                  const aQty = addon.quantity || 1;
+                                  const aPrice = (addon.price || 0) * aQty;
+                                  return (
+                                    <div key={aKey} className="flex items-center justify-between gap-2 bg-white rounded-lg p-2 border border-amber-200/60 shadow-xs">
+                                      <div className="min-w-0 flex-1">
+                                        <p className="truncate text-xs font-bold text-[#21170f] leading-tight">
+                                          {addon.name}
+                                        </p>
+                                        <p className="text-[10px] font-black text-[#d90429] mt-0.5">
+                                          +{currency}{aPrice} {aQty > 1 && <span className="text-gray-400 font-normal">({currency}{addon.price} ea)</span>}
+                                        </p>
+                                      </div>
+
+                                      {/* Addon Qty + / - and Trash */}
+                                      <div className="flex items-center gap-1.5 shrink-0">
+                                        <div className="flex items-center rounded-lg border border-amber-300 bg-amber-50/40 overflow-hidden shadow-xs">
+                                          <button
+                                            type="button"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              updateAddonQuantity(item.cartKey, aKey, -1);
+                                            }}
+                                            className="flex h-6 w-6 items-center justify-center font-black text-xs text-amber-900 hover:bg-amber-200 transition cursor-pointer"
+                                            title="Decrease addon"
+                                          >
+                                            -
+                                          </button>
+                                          <span className="w-5 text-center text-xs font-black text-amber-950">
+                                            {aQty}
+                                          </span>
+                                          <button
+                                            type="button"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              updateAddonQuantity(item.cartKey, aKey, 1);
+                                            }}
+                                            className="flex h-6 w-6 items-center justify-center font-black text-xs text-amber-900 hover:bg-amber-200 transition cursor-pointer"
+                                            title="Increase addon"
+                                          >
+                                            +
+                                          </button>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            removeAddonFromCart(item.cartKey, aKey);
+                                          }}
+                                          className="flex h-6 w-6 items-center justify-center rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer"
+                                          title="Remove addon"
+                                        >
+                                          <Trash2 className="h-3.5 w-3.5" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-500 mt-2">
+                            <span className="font-black text-[#21170f]">{currency}{item.price} x {item.quantity}</span>
+                            {item.originalPrice > item.price && <span className="text-xs line-through text-gray-400">{currency}{item.originalPrice}</span>}
                           </div>
                           <div className="mt-3 flex items-center gap-2">
                             <button onClick={() => updateQuantity(item.cartKey, -1)} className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100" aria-label="Decrease quantity"><Minus className="h-4 w-4" /></button>
@@ -4823,17 +5519,6 @@ const Store = () => {
                       </div>
                     );
                   })()}
-
-                  {/* Delivery banner */}
-                  {deliveryCharge > 0 ? (
-                    <div className="rounded-2xl bg-[#fff7e6] px-4 py-3 text-sm font-bold text-[#8a5a00]">
-                      Add {currency}{freeDeliveryBalance} more to unlock free delivery
-                    </div>
-                  ) : (
-                    <div className="rounded-2xl bg-[#e9f8ef] px-4 py-3 text-sm font-bold text-[#0c7a35]">
-                      Free delivery unlocked 🎉
-                    </div>
-                  )}
 
                   {/* + Add More Items Button before Apply Coupon */}
                   <button
@@ -4944,12 +5629,12 @@ const Store = () => {
                           <span>-{currency}{discountAmount}</span>
                         </div>
                       )}
-                      <div className="flex justify-between">
-                        <span>Delivery charge</span>
-                        <span className={deliveryCharge > 0 ? 'text-[#21170f]' : 'text-[#0c7a35]'}>
-                          {deliveryCharge > 0 ? `${currency}${deliveryCharge}` : 'FREE'}
-                        </span>
-                      </div>
+                      {gstEnabled && gstAmount > 0 && (
+                        <div className="flex justify-between text-[#6f6258]">
+                          <span>GST ({gstPercentage}%)</span>
+                          <span>+{currency}{gstAmount}</span>
+                        </div>
+                      )}
                     </div>
                     <div className="mt-4 border-t border-dashed pt-3">
                       <div className="flex items-center justify-between">
@@ -5194,12 +5879,32 @@ const Store = () => {
                     </span>
                     <div className="space-y-2 divide-y divide-gray-100">
                       {cart.map((item) => (
-                        <div key={item.cartKey} className="flex justify-between items-center pt-2 first:pt-0 text-xs font-bold text-[#6f6258]">
-                          <div className="min-w-0 flex-1 pr-4">
-                            <span className="block truncate text-xs font-black text-[#21170f]">{item.name}</span>
-                            <span className="block text-[11px] text-gray-400">{item.variantLabel || item.weightLabel || formatWeight(item)} x {item.quantity}</span>
+                        <div key={item.cartKey} className="pt-2 first:pt-0 text-xs font-bold text-[#6f6258] space-y-1">
+                          <div className="flex justify-between items-start">
+                            <div className="min-w-0 flex-1 pr-4">
+                              <span className="block truncate text-xs font-black text-[#21170f]">{item.name}</span>
+                              <span className="block text-[11px] text-gray-400">{item.variantLabel || item.weightLabel || formatWeight(item)} x {item.quantity}</span>
+                              {item.cakeMessage && (
+                                <span className="block text-[10px] text-gray-500 italic mt-0.5">"{item.cakeMessage}"</span>
+                              )}
+                            </div>
+                            <span className="font-black text-xs text-[#21170f] shrink-0">{currency}{item.price * item.quantity}</span>
                           </div>
-                          <span className="font-black text-xs text-[#21170f] shrink-0">{currency}{item.price * item.quantity}</span>
+
+                          {/* Itemized Addons in Checkout */}
+                          {item.chosenAddons && item.chosenAddons.length > 0 && (
+                            <div className="ml-2 pl-2 border-l-2 border-amber-300 bg-amber-50/50 rounded-r-lg p-1.5 space-y-0.5 text-[11px] text-[#4a3e35]">
+                              <p className="text-[9px] font-black uppercase tracking-wider text-amber-800">
+                                🎁 Add-ons Included:
+                              </p>
+                              {item.chosenAddons.map((addon, aIdx) => (
+                                <div key={aIdx} className="flex justify-between items-center text-[10px] font-semibold">
+                                  <span>• {addon.name} {addon.quantity > 1 ? `(${addon.quantity}x)` : ''}</span>
+                                  <span className="font-bold text-[#92602f]">+{currency}{(addon.price || 0) * (addon.quantity || 1)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -5253,10 +5958,12 @@ const Store = () => {
                   <div className="space-y-2">
                     <span className="text-xs font-black uppercase tracking-wider text-[#6f6258]">3. Select Payment Method</span>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-                      <label className={`flex items-center gap-2 rounded-xl border p-3 cursor-pointer transition ${paymentMethod === 'cod' ? 'border-[#d90429] bg-[#fff0f1]' : 'border-black/5 bg-[#fffdf9]'}`}>
-                        <input type="radio" name="paymentType" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="accent-[#d90429]" />
-                        <span className="text-xs font-black text-[#21170f]">Cash on Delivery</span>
-                      </label>
+                      {settings.codEnabled !== false && (
+                        <label className={`flex items-center gap-2 rounded-xl border p-3 cursor-pointer transition ${paymentMethod === 'cod' ? 'border-[#d90429] bg-[#fff0f1]' : 'border-black/5 bg-[#fffdf9]'}`}>
+                          <input type="radio" name="paymentType" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="accent-[#d90429]" />
+                          <span className="text-xs font-black text-[#21170f]">Cash on Delivery</span>
+                        </label>
+                      )}
                       {settings.upiId && (
                         <label className={`flex items-center gap-2 rounded-xl border p-3 cursor-pointer transition ${paymentMethod === 'upi_qr' ? 'border-[#d90429] bg-[#fff0f1]' : 'border-black/5 bg-[#fffdf9]'}`}>
                           <input type="radio" name="paymentType" value="upi_qr" checked={paymentMethod === 'upi_qr'} onChange={() => setPaymentMethod('upi_qr')} className="accent-[#d90429]" />
@@ -5296,12 +6003,12 @@ const Store = () => {
                         <span>-{currency}{discountFromPoints}</span>
                       </div>
                     )}
-                    <div className="flex justify-between">
-                      <span>Delivery charges</span>
-                      <span className={deliveryCharge > 0 ? 'text-[#21170f]' : 'text-green-700 font-black'}>
-                        {deliveryCharge > 0 ? `${currency}${deliveryCharge}` : 'FREE'}
-                      </span>
-                    </div>
+                    {gstEnabled && gstAmount > 0 && (
+                      <div className="flex justify-between">
+                        <span>GST ({gstPercentage}%)</span>
+                        <span>+{currency}{gstAmount}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between items-center text-sm font-black text-[#21170f] border-t border-dashed pt-2.5">
                       <span>Total Amount Payable</span>
                       <span className="text-[#d90429] text-base font-black">{currency}{finalAmount}</span>
@@ -6138,10 +6845,12 @@ const Store = () => {
                       <button
                         onClick={() => {
                           if (!hasSub) {
+                            setActiveView('store');
                             setFilterCategory(main.name);
                             setSubCategoryFilter('all');
                             setSubSubCategoryFilter('all');
                             setShowMobileCategoriesModal(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           } else {
                             // Toggle expand when has subcategories
                             setExpandedMobileCategories(prev =>
@@ -6171,10 +6880,12 @@ const Store = () => {
                             <button
                               key={sub._id}
                               onClick={() => {
+                                setActiveView('store');
                                 setFilterCategory(main.name);
                                 setSubCategoryFilter(sub.name);
                                 setSubSubCategoryFilter('all');
                                 setShowMobileCategoriesModal(false);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
                               }}
                               className={`w-full flex items-center justify-between pl-8 pr-5 py-3 text-left border-b border-gray-100/70 last:border-0 cursor-pointer transition-colors ${
                                 isSubActive ? 'bg-red-50 text-[#d90429]' : 'text-gray-600 hover:bg-white hover:text-[#d90429]'
